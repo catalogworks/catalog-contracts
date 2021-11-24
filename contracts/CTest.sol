@@ -71,7 +71,6 @@ contract CTest is
         address _owner,
         string memory _name,
         string memory _symbol
-
     ) public initializer {
 
         __ERC721_init(_name, _symbol);
@@ -176,7 +175,7 @@ contract CTest is
         uint16 _royaltyBPS,
         bytes32[] calldata _proof
     ) external {
-        
+
         /// call angela
         require(verify(leaf(_creator), _proof), "invalid proof");
 

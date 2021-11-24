@@ -6,6 +6,10 @@ import { ethers, deployments, getUnnamedAccounts, getNamedAccounts} from 'hardha
 import { CTest as CTestType,  ERC721,  IERC721 } from '../types/typechain';
 import { setupUser, setupUsers } from './utils';
 
+// Tree shit
+import { MerkleTree } from 'merkletreejs';
+import keccak256 from 'keccak256';
+
 
 // CTest Test Setup
 const setupCTest = deployments.createFixture(async () => {
@@ -111,6 +115,38 @@ describe('CTest', function() {
         await expect(
             (await (CTest.royaltyPayoutAddress(1))).toString()
         ).to.equal(users[6].address);
+
+    });
+
+
+    // 05 
+    it ('can allow merkle root updating ', async function() {
+
+        const {tokenOwner, users, CTest} = await setupCTest();
+
+
+        // make a tree 
+        const leaves = [
+            users[0].address,
+            users[1].address,
+            users[2].address,
+            users[3].address,
+            users[4].address,
+            users[5].address,
+            users[7].address,
+            users[8].address,
+            users[9].address,
+        ].map((x) => keccak256(x));
+
+        const tree = new MerkleTree(leaves, keccak256, { sortPairs: true});
+        const root = tree.getHexRoot();
+
+        await tokenOwner.CTest.updateMerkleRoot(root);
+
+
+        await expect(
+            tokenOwner.CTest.updateMerkleRoot(root)
+        ).to.emit(CTest, 'merkleRootUpdated')
 
     });
 

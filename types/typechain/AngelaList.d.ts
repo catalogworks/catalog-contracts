@@ -21,7 +21,6 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface AngelaListInterface extends ethers.utils.Interface {
   functions: {
-    "initialize(bytes32)": FunctionFragment;
     "merkleRoot()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -29,10 +28,6 @@ interface AngelaListInterface extends ethers.utils.Interface {
     "updateMerkleRoot(bytes32)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "initialize",
-    values: [BytesLike]
-  ): string;
   encodeFunctionData(
     functionFragment: "merkleRoot",
     values?: undefined
@@ -51,7 +46,6 @@ interface AngelaListInterface extends ethers.utils.Interface {
     values: [BytesLike]
   ): string;
 
-  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "merkleRoot", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
@@ -128,11 +122,6 @@ export class AngelaList extends BaseContract {
   interface: AngelaListInterface;
 
   functions: {
-    initialize(
-      _merkleRoot: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     merkleRoot(overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
@@ -151,11 +140,6 @@ export class AngelaList extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
-
-  initialize(
-    _merkleRoot: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   merkleRoot(overrides?: CallOverrides): Promise<string>;
 
@@ -176,11 +160,6 @@ export class AngelaList extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    initialize(
-      _merkleRoot: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     merkleRoot(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
@@ -225,11 +204,6 @@ export class AngelaList extends BaseContract {
   };
 
   estimateGas: {
-    initialize(
-      _merkleRoot: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     merkleRoot(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -250,11 +224,6 @@ export class AngelaList extends BaseContract {
   };
 
   populateTransaction: {
-    initialize(
-      _merkleRoot: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     merkleRoot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;

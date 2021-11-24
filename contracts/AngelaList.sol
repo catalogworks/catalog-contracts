@@ -35,10 +35,6 @@ contract AngelaList is IAngelaList, OwnableUpgradeable {
     /// Events
     event merkleRootUpdated(bytes32 _merkleRoot);
 
-    /// Constructor
-    function initialize(bytes32 _merkleRoot) initializer public  {
-        merkleRoot = _merkleRoot;
-    }
 
 
     /// update merkle root

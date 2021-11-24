@@ -359,15 +359,10 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string, string]>;
 
-    "initialize(address,string,string)"(
+    initialize(
       _owner: string,
       _name: string,
       _symbol: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "initialize(bytes32)"(
-      _merkleRoot: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -525,15 +520,10 @@ export class CTest extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[string, string]>;
 
-  "initialize(address,string,string)"(
+  initialize(
     _owner: string,
     _name: string,
     _symbol: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "initialize(bytes32)"(
-    _merkleRoot: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -682,15 +672,10 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string, string]>;
 
-    "initialize(address,string,string)"(
+    initialize(
       _owner: string,
       _name: string,
       _symbol: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "initialize(bytes32)"(
-      _merkleRoot: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -961,15 +946,10 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "initialize(address,string,string)"(
+    initialize(
       _owner: string,
       _name: string,
       _symbol: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "initialize(bytes32)"(
-      _merkleRoot: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1132,15 +1112,10 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "initialize(address,string,string)"(
+    initialize(
       _owner: string,
       _name: string,
       _symbol: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "initialize(bytes32)"(
-      _merkleRoot: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
