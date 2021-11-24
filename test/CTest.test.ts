@@ -141,6 +141,7 @@ describe('CTest', function() {
         const tree = new MerkleTree(leaves, keccak256, { sortPairs: true});
         const root = tree.getHexRoot();
 
+        // Update tree with newly generated root
         await tokenOwner.CTest.updateMerkleRoot(root);
 
 
@@ -148,6 +149,40 @@ describe('CTest', function() {
             tokenOwner.CTest.updateMerkleRoot(root)
         ).to.emit(CTest, 'merkleRootUpdated')
 
+    });
+
+    it ('can allow whitelisted users to mint', async function() {
+
+        const {tokenOwner, users, CTest} = await setupCTest();
+
+        // make a tree 
+        const leaves = [
+            users[0].address,
+            users[1].address,
+            users[2].address,
+            users[3].address,
+            users[4].address,
+            users[5].address,
+            users[7].address,
+            users[8].address,
+            users[9].address,
+        ].map((x) => keccak256(x));
+
+        const tree = new MerkleTree(leaves, keccak256, { sortPairs: true});
+        const root = tree.getHexRoot();
+
+        // Update tree with newly generated root
+        await tokenOwner.CTest.updateMerkleRoot(root);
+
+        const leaf = keccak256(users[4].address);
+        const proof = tree.getHexProof(leaf);
+
+        // get a BPS value
+        const BPS = ethers.BigNumber.from(1200);
+
+        await expect(
+            users[4].CTest.mintWhitelist(users[4].address, 'oh boy this better work', 'please mr compiler please', users[4].address, users[4].address, BPS, proof)
+        ).to.emit(CTest, 'Mint')
     });
 
 });
