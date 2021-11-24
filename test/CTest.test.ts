@@ -151,6 +151,7 @@ describe('CTest', function() {
 
     });
 
+    // 06
     it ('can allow whitelisted users to mint', async function() {
 
         const {tokenOwner, users, CTest} = await setupCTest();
