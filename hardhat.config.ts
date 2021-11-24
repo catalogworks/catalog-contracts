@@ -67,13 +67,22 @@ const config: HardhatUserConfig = {
       // process.env.HARDHAT_FORK specifies the network that the fork is made from.
       // ensures usage of corresponding accounts
       accounts: accounts(process.env.HARDHAT_FORK),
-      forking: process.env.HARDHAT_FORK 
-        ? {
-          // once PR is merged: network: process.env.HARDHAT_FORK,
-          url: node_url(process.env.HARDHAT_FORK),
-          blockNumber: process.env.HARDHAT_FORK_NUMBER ? parseInt(process.env.HARDHAT_FORK_NUMBER) : undefined,
-        }
-        : undefined,
+      
+      // temp setup, easier for now
+      forking: {
+        url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
+        // DISABLE IF NO ALCHEMY
+        enabled: true,
+        blockNumber: 13674612,
+      },
+
+      // forking: process.env.HARDHAT_FORK 
+      //   ? {
+      //     // once PR is merged: network: process.env.HARDHAT_FORK,
+      //     url: node_url(process.env.HARDHAT_FORK),
+      //     blockNumber: process.env.HARDHAT_FORK_NUMBER ? parseInt(process.env.HARDHAT_FORK_NUMBER) : undefined,
+      //   }
+      //   : undefined,
       
       mining: process.env.MINING_INTERVAL 
         ? {

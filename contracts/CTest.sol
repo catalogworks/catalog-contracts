@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-
 pragma solidity ^0.8.6;
-
-
 
 import {ERC721Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import {IERC2981Upgradeable, IERC165Upgradeable} from "@openzeppelin/contracts-upgradeable/interfaces/IERC2981Upgradeable.sol";
@@ -13,6 +10,24 @@ import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Addr
 
 import {ICTest} from "./interfaces/ICTest.sol";
 
+/**
+--------------------------------------------------------------------------------------------------------------------
+                                                                                        
+  _____   _______     _____  ______   _______   
+ /\ __/\/\_______)\ /\_____\/ ____/\/\_______)\ 
+ ) )__\/\(___  __\/( (_____/) ) __\/\(___  __\/ 
+/ / /     / / /     \ \__\   \ \ \    / / /     
+\ \ \_   ( ( (      / /__/_  _\ \ \  ( ( (      
+ ) )__/\  \ \ \    ( (_____\)____) )  \ \ \     
+ \/___\/  /_/_/     \/_____/\____\/   /_/_/     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
+TESTNET V0
+"CTest"                     :   WIP starting ground for cNFT's
+@author                     :   @bretth18 (computerdata) 
+@title                      :   CTest
+@dev                        :   n/a
+ */
 
 /// TODO:
 /// use ext calls for updating content to reduce opsize 
@@ -23,7 +38,7 @@ contract CTest is
     IERC2981Upgradeable,
     OwnableUpgradeable
 {
-    
+
 
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
@@ -39,7 +54,7 @@ contract CTest is
 
 
     /// typehashes
-    // bytes32 public constant PERMIT_TYPEHASH = 5;
+    // bytes32 public constant PERMIT_TYPEHASH = keccack256 blah blah blah;
 
     // Tracking token Id
     CountersUpgradeable.Counter private _tokenIdCounter;
@@ -105,7 +120,6 @@ contract CTest is
 
 
     /// MINT FUNCTION
-    /// TODO: docs my dude
     /// params should be calldata in  implementation w/ accesscontrol etc. etc. this just test
     function mint(
         address to,
@@ -196,10 +210,6 @@ contract CTest is
             ERC721Upgradeable.supportsInterface(interfaceId);
     
     }
-
-
-    
-
 
 }
 

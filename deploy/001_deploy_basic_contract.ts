@@ -23,7 +23,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     if (deployBasicContract.newlyDeployed) {
         log('\x1b[36m%s\x1b[0m',
             `
-            contract: TestToken deployed at ${deployBasicContract.address} 
+            contract: BasicContract deployed at ${deployBasicContract.address} 
             using ${deployBasicContract.receipt?.gasUsed} gas. 
             Owner (to): ${deployBasicContract.receipt?.to}
             Signed from    : ${deployBasicContract.receipt?.from}
