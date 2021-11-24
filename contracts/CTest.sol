@@ -22,7 +22,7 @@ import {ICTest} from "./interfaces/ICTest.sol";
  \/___\/  /_/_/     \/_____/\____\/   /_/_/     
                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
-TESTNET V0
+TESTNET WIP
 "CTest"                     :   WIP starting ground for cNFT's
 @author                     :   @bretth18 (computerdata) 
 @title                      :   CTest
@@ -31,6 +31,7 @@ TESTNET V0
 
 /// TODO:
 /// use ext calls for updating content to reduce opsize 
+/// add merkle proof, access control
 
 contract CTest is
     ICTest,

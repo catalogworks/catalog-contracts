@@ -79,6 +79,10 @@ tests are written with mocha + chai.
 tests use deployment fixtures from `hardhat-deploy` 
 
 
+### TODO
+- linting/prettier setup
+
+
 
 ## License
 
