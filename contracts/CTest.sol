@@ -9,6 +9,7 @@ import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Cou
 import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 
 import {ICTest} from "./interfaces/ICTest.sol";
+import {AngelaList} from "./AngelaList.sol";
 
 /**
 --------------------------------------------------------------------------------------------------------------------
@@ -37,7 +38,8 @@ contract CTest is
     ICTest,
     ERC721Upgradeable,
     IERC2981Upgradeable,
-    OwnableUpgradeable
+    OwnableUpgradeable,
+    AngelaList
 {
 
 
@@ -81,6 +83,7 @@ contract CTest is
 
         // Set tokenId to start @ 1
         _tokenIdCounter.increment();
+
     }
 
 
@@ -140,6 +143,7 @@ contract CTest is
 
         require(_royaltyBPS < 10000, "royalty too high! calm down!");
 
+
         uint256 tokenId = _tokenIdCounter.current();
         _safeMint(to, tokenId);
 
@@ -160,6 +164,43 @@ contract CTest is
         _tokenIdCounter.increment();
         
 
+    }
+
+    /// Test function to attempt merkle proof whitelisting
+    function mintWhitelist(
+        address to,
+        string memory _metadataURI,
+        string memory _contentURI,
+        address _creator,
+        address _royaltyPayoutAddress,
+        uint16 _royaltyBPS,
+        bytes32[] calldata _proof
+    ) external {
+        
+        /// call angela
+        require(verify(leaf(_creator), _proof), "invalid proof");
+
+        require(_royaltyBPS < 10000, "royalty too high! calm down!");
+
+        uint256 tokenId = _tokenIdCounter.current();
+        _safeMint(to, tokenId);
+
+        tokenData[tokenId] = TokenData({
+            metadataURI: _metadataURI,
+            contentURI: _contentURI,
+            creator: _creator,
+            royaltyPayout: _royaltyPayoutAddress,
+            royaltyBPS: _royaltyBPS
+        });
+
+        // event time 
+        emit Mint(_msgSender(), tokenId,  _creator, _metadataURI, _contentURI);
+
+        /// todo: set royalty type function here
+
+        /// increase tokenid
+        _tokenIdCounter.increment();
+    
     }
 
     /// update tokenURIs 

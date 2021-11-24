@@ -29,7 +29,9 @@ interface CTestInterface extends ethers.utils.Interface {
     "getURIs(uint256)": FunctionFragment;
     "initialize(address,string,string)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "merkleRoot()": FunctionFragment;
     "mint(address,string,string,address,address,uint16)": FunctionFragment;
+    "mintWhitelist(address,string,string,address,address,uint16,bytes32[])": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -45,6 +47,7 @@ interface CTestInterface extends ethers.utils.Interface {
     "tokenURI(uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "updateMerkleRoot(bytes32)": FunctionFragment;
     "updateRoyaltyInfo(uint256,address)": FunctionFragment;
     "updateTokenURIs(uint256,string,string)": FunctionFragment;
   };
@@ -76,8 +79,16 @@ interface CTestInterface extends ethers.utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "merkleRoot",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "mint",
     values: [string, string, string, string, string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "mintWhitelist",
+    values: [string, string, string, string, string, BigNumberish, BytesLike[]]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -131,6 +142,10 @@ interface CTestInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "updateMerkleRoot",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "updateRoyaltyInfo",
     values: [BigNumberish, string]
   ): string;
@@ -153,7 +168,12 @@ interface CTestInterface extends ethers.utils.Interface {
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "merkleRoot", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "mintWhitelist",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
@@ -200,6 +220,10 @@ interface CTestInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "updateMerkleRoot",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "updateRoyaltyInfo",
     data: BytesLike
   ): Result;
@@ -214,6 +238,7 @@ interface CTestInterface extends ethers.utils.Interface {
     "Mint(address,uint256,address,string,string)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
+    "merkleRootUpdated(bytes32)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
@@ -221,6 +246,7 @@ interface CTestInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "merkleRootUpdated"): EventFragment;
 }
 
 export type ApprovalEvent = TypedEvent<
@@ -255,6 +281,10 @@ export type OwnershipTransferredEvent = TypedEvent<
 
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber] & { from: string; to: string; tokenId: BigNumber }
+>;
+
+export type merkleRootUpdatedEvent = TypedEvent<
+  [string] & { _merkleRoot: string }
 >;
 
 export class CTest extends BaseContract {
@@ -329,10 +359,15 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string, string]>;
 
-    initialize(
+    "initialize(address,string,string)"(
       _owner: string,
       _name: string,
       _symbol: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "initialize(bytes32)"(
+      _merkleRoot: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -342,6 +377,8 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    merkleRoot(overrides?: CallOverrides): Promise<[string]>;
+
     mint(
       to: string,
       _metadataURI: string,
@@ -349,6 +386,17 @@ export class CTest extends BaseContract {
       _creator: string,
       _royaltyPayoutAddress: string,
       _royaltyBPS: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    mintWhitelist(
+      to: string,
+      _metadataURI: string,
+      _contentURI: string,
+      _creator: string,
+      _royaltyPayoutAddress: string,
+      _royaltyBPS: BigNumberish,
+      _proof: BytesLike[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -433,6 +481,11 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    updateMerkleRoot(
+      _newRoot: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     updateRoyaltyInfo(
       _tokenId: BigNumberish,
       _royaltyPayoutAddress: string,
@@ -472,10 +525,15 @@ export class CTest extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[string, string]>;
 
-  initialize(
+  "initialize(address,string,string)"(
     _owner: string,
     _name: string,
     _symbol: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "initialize(bytes32)"(
+    _merkleRoot: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -485,6 +543,8 @@ export class CTest extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  merkleRoot(overrides?: CallOverrides): Promise<string>;
+
   mint(
     to: string,
     _metadataURI: string,
@@ -492,6 +552,17 @@ export class CTest extends BaseContract {
     _creator: string,
     _royaltyPayoutAddress: string,
     _royaltyBPS: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  mintWhitelist(
+    to: string,
+    _metadataURI: string,
+    _contentURI: string,
+    _creator: string,
+    _royaltyPayoutAddress: string,
+    _royaltyBPS: BigNumberish,
+    _proof: BytesLike[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -570,6 +641,11 @@ export class CTest extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  updateMerkleRoot(
+    _newRoot: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   updateRoyaltyInfo(
     _tokenId: BigNumberish,
     _royaltyPayoutAddress: string,
@@ -606,10 +682,15 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string, string]>;
 
-    initialize(
+    "initialize(address,string,string)"(
       _owner: string,
       _name: string,
       _symbol: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "initialize(bytes32)"(
+      _merkleRoot: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -619,6 +700,8 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    merkleRoot(overrides?: CallOverrides): Promise<string>;
+
     mint(
       to: string,
       _metadataURI: string,
@@ -626,6 +709,17 @@ export class CTest extends BaseContract {
       _creator: string,
       _royaltyPayoutAddress: string,
       _royaltyBPS: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    mintWhitelist(
+      to: string,
+      _metadataURI: string,
+      _contentURI: string,
+      _creator: string,
+      _royaltyPayoutAddress: string,
+      _royaltyBPS: BigNumberish,
+      _proof: BytesLike[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -702,6 +796,11 @@ export class CTest extends BaseContract {
 
     transferOwnership(
       newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    updateMerkleRoot(
+      _newRoot: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -823,6 +922,14 @@ export class CTest extends BaseContract {
       [string, string, BigNumber],
       { from: string; to: string; tokenId: BigNumber }
     >;
+
+    "merkleRootUpdated(bytes32)"(
+      _merkleRoot?: null
+    ): TypedEventFilter<[string], { _merkleRoot: string }>;
+
+    merkleRootUpdated(
+      _merkleRoot?: null
+    ): TypedEventFilter<[string], { _merkleRoot: string }>;
   };
 
   estimateGas: {
@@ -854,10 +961,15 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    initialize(
+    "initialize(address,string,string)"(
       _owner: string,
       _name: string,
       _symbol: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "initialize(bytes32)"(
+      _merkleRoot: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -867,6 +979,8 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    merkleRoot(overrides?: CallOverrides): Promise<BigNumber>;
+
     mint(
       to: string,
       _metadataURI: string,
@@ -874,6 +988,17 @@ export class CTest extends BaseContract {
       _creator: string,
       _royaltyPayoutAddress: string,
       _royaltyBPS: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    mintWhitelist(
+      to: string,
+      _metadataURI: string,
+      _contentURI: string,
+      _creator: string,
+      _royaltyPayoutAddress: string,
+      _royaltyBPS: BigNumberish,
+      _proof: BytesLike[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -956,6 +1081,11 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    updateMerkleRoot(
+      _newRoot: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     updateRoyaltyInfo(
       _tokenId: BigNumberish,
       _royaltyPayoutAddress: string,
@@ -1002,10 +1132,15 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    initialize(
+    "initialize(address,string,string)"(
       _owner: string,
       _name: string,
       _symbol: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "initialize(bytes32)"(
+      _merkleRoot: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1015,6 +1150,8 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    merkleRoot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     mint(
       to: string,
       _metadataURI: string,
@@ -1022,6 +1159,17 @@ export class CTest extends BaseContract {
       _creator: string,
       _royaltyPayoutAddress: string,
       _royaltyBPS: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    mintWhitelist(
+      to: string,
+      _metadataURI: string,
+      _contentURI: string,
+      _creator: string,
+      _royaltyPayoutAddress: string,
+      _royaltyBPS: BigNumberish,
+      _proof: BytesLike[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1101,6 +1249,11 @@ export class CTest extends BaseContract {
 
     transferOwnership(
       newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updateMerkleRoot(
+      _newRoot: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
