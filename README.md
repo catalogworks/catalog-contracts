@@ -4,7 +4,7 @@ EVM hardhat environment smart contract development project.
 
 
 
-## installation
+## Install
 
 1. git clone the repository on your local machine:
 
@@ -22,7 +22,7 @@ yarn install
 
 
 
-## usage
+## Usage
 
 ```bash
 npx hardhat 
@@ -56,7 +56,7 @@ npx hardhat coverage
 
 
 
-### deploying contracts
+### Deploying
 
 this repository is configured for use with `hardhat-deploy`.
 see the deploy scripts in [./deploy](./deploy) for examples.
@@ -71,7 +71,7 @@ npx hardhat deploy [--tags DEPLOY_SCRIPT_TAG] --network [hardhat || localhost]
 
 
 
-### tests
+### Tests
 
 unit tests are located in [./test](./test)
 tests are written with mocha + chai.
@@ -80,6 +80,6 @@ tests use deployment fixtures from `hardhat-deploy`
 
 
 
-## license
+## License
 
 [MIT](LICENSE)
