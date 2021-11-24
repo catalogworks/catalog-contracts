@@ -35,6 +35,7 @@ interface CTestInterface extends ethers.utils.Interface {
     "ownerOf(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "royaltyInfo(uint256,uint256)": FunctionFragment;
+    "royaltyPayoutAddress(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -91,6 +92,10 @@ interface CTestInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "royaltyInfo",
     values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "royaltyPayoutAddress",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom",
@@ -158,6 +163,10 @@ interface CTestInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "royaltyInfo",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "royaltyPayoutAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -364,6 +373,11 @@ export class CTest extends BaseContract {
       [string, BigNumber] & { receiver: string; royaltyAmount: BigNumber }
     >;
 
+    royaltyPayoutAddress(
+      _tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
@@ -499,6 +513,11 @@ export class CTest extends BaseContract {
     [string, BigNumber] & { receiver: string; royaltyAmount: BigNumber }
   >;
 
+  royaltyPayoutAddress(
+    _tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   "safeTransferFrom(address,address,uint256)"(
     from: string,
     to: string,
@@ -625,6 +644,11 @@ export class CTest extends BaseContract {
     ): Promise<
       [string, BigNumber] & { receiver: string; royaltyAmount: BigNumber }
     >;
+
+    royaltyPayoutAddress(
+      _tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -872,6 +896,11 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    royaltyPayoutAddress(
+      _tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
@@ -1012,6 +1041,11 @@ export class CTest extends BaseContract {
     royaltyInfo(
       _tokenId: BigNumberish,
       _salePrice: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    royaltyPayoutAddress(
+      _tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

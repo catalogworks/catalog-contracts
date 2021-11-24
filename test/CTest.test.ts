@@ -58,6 +58,60 @@ describe('CTest', function() {
 
     });
 
+    // 03 
+    it ('returns the correct token creators address', async function() {
 
+        const {users, CTest} = await setupCTest();
+
+        // get a BPS value
+        const BPS = ethers.BigNumber.from(2500);
+
+        // mint token
+        await users[0].CTest.mint(users[0].address, 'computer', 'data', users[0].address, users[1].address, BPS);
+
+        await expect(
+            (await CTest.creator(1)).toString()
+        ).to.equal(users[0].address);
+
+    });
+
+    // 04
+    it ('can have tokenURIs updated by an access controlled account', async function() {
+
+        const {tokenOwner, users, CTest} = await setupCTest();
+
+        // get a BPS value
+        const BPS = ethers.BigNumber.from(1200);
+
+        // mint token   
+        await users[1].CTest.mint(users[1].address, 'awoooga', 'bazooka', users[1].address, users[2].address, BPS);
+
+        // update tokenURIs from tokenOwner
+        await tokenOwner.CTest.updateTokenURIs(1, 'soup', 'foods');
+
+        await expect(
+            (await (CTest.tokenURI(1))).toString()
+        ).to.equal('soup');
+
+    });
+
+    // 05 
+    it ('can have the royalty payout address changed by an admin', async function() {
+
+        const {tokenOwner, users, CTest} = await setupCTest();
+
+        // get a BPS value
+        const BPS = ethers.BigNumber.from(1200);
+        // mint token   
+        await users[2].CTest.mint(users[2].address, 'synthesizer', 'moog', users[2].address, users[4].address, BPS);
+
+        // update royalty payout address with admin role
+        await tokenOwner.CTest.updateRoyaltyInfo(1, users[6].address);
+
+        await expect(
+            (await (CTest.royaltyPayoutAddress(1))).toString()
+        ).to.equal(users[6].address);
+
+    });
 
 });

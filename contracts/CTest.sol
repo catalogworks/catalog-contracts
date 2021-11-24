@@ -119,6 +119,13 @@ contract CTest is
         return tokenData[_tokenId].creator;
     }
 
+    /// returns royalty payout address for token id
+    function royaltyPayoutAddress(uint256 _tokenId) public view returns (address) {
+        require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
+
+        return tokenData[_tokenId].royaltyPayout;
+    }
+
 
     /// MINT FUNCTION
     /// params should be calldata in  implementation w/ accesscontrol etc. etc. this just test
