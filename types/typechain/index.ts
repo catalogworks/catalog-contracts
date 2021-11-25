@@ -23,6 +23,8 @@ export type { BasicContract } from "./BasicContract";
 export type { CTest } from "./CTest";
 export type { IAngelaList } from "./IAngelaList";
 export type { ICTest } from "./ICTest";
+export type { IERC2981 } from "./IERC2981";
+export type { Royalties } from "./Royalties";
 
 export { OwnableUpgradeable__factory } from "./factories/OwnableUpgradeable__factory";
 export { IERC2981Upgradeable__factory } from "./factories/IERC2981Upgradeable__factory";
@@ -46,3 +48,5 @@ export { BasicContract__factory } from "./factories/BasicContract__factory";
 export { CTest__factory } from "./factories/CTest__factory";
 export { IAngelaList__factory } from "./factories/IAngelaList__factory";
 export { ICTest__factory } from "./factories/ICTest__factory";
+export { IERC2981__factory } from "./factories/IERC2981__factory";
+export { Royalties__factory } from "./factories/Royalties__factory";

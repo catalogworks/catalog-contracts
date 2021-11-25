@@ -227,7 +227,7 @@ describe('CTest', function() {
         await expect (
             tokenOwner.CTest.getURIs(1)
         ).to.equal('test');
-    })
+    });
 
 
 

@@ -10,6 +10,7 @@ import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Addr
 
 import {ICTest} from "./interfaces/ICTest.sol";
 import {AngelaList} from "./AngelaList.sol";
+// import {Royalties} from "./Royalties.sol";
 
 /**
 --------------------------------------------------------------------------------------------------------------------
@@ -40,6 +41,8 @@ contract CTest is
     IERC2981Upgradeable,
     OwnableUpgradeable,
     AngelaList
+    // Royalties
+    
 {
 
 
@@ -158,6 +161,8 @@ contract CTest is
         emit Mint(_msgSender(), tokenId,  _creator, _metadataURI, _contentURI);
 
         /// todo: set royalty type function here
+
+    
 
         /// increase tokenid
         _tokenIdCounter.increment();
