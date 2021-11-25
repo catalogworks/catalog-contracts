@@ -186,4 +186,49 @@ describe('CTest', function() {
         ).to.emit(CTest, 'Mint')
     });
 
+
+    // 07
+    it ('burns tokens (no access control)', async function() {
+
+        const {tokenOwner, users, CTest} = await setupCTest();
+
+        // get a BPS value
+        const BPS = ethers.BigNumber.from(1200);
+        // mint token   
+        await users[2].CTest.mint(users[2].address, 'synthesizer', 'rolandtb303', users[2].address, users[2].address, BPS);
+
+
+        // burn token
+        await tokenOwner.CTest.burn(1);
+
+        // Should not exist
+        await expect(
+            tokenOwner.CTest.royaltyPayoutAddress(1)
+        ).to.be.revertedWith('ERC721Metadata: URI query for nonexistent token');
+
+    });
+
+
+    // 08
+    it ('properly stores and retrieves metadata and content URIs', async function() {
+
+        const {tokenOwner, users, CTest} = await setupCTest();
+
+
+        const BPS = ethers.BigNumber.from(1800);
+
+        // testing size
+        const tempMetadataURI = 'bafybeihy7yq7voxzn7wfoqrje3yzsnfkl73s2nsvev5wp6x2hikcjf7vfi';
+        const tempContentURI = 'bafybeib7nvvvqwyqm3ujmehqphoctqaxvrzyblfnk5eqewmzuhx7g5cvuy';
+
+
+        await users[1].CTest.mint(users[1].address, 'test', 'shoes', users[1].address, users[1].address, BPS);
+
+        await expect (
+            tokenOwner.CTest.getURIs(1)
+        ).to.equal('test');
+    })
+
+
+
 });

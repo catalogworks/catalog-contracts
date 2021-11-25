@@ -93,9 +93,9 @@ contract CTest is
     }
 
     /// Basic burn function
-    function burn(uint256 _tokenId) public {
+    function burn(uint256 _tokenId) public onlyOwner {
         require(_exists(_tokenId));
-        require(_isApprovedOrOwner(_msgSender(), _tokenId), "Not Approved!");
+        // require(_isApprovedOrOwner(_msgSender(), _tokenId), "Not Approved!");
         _burn(_tokenId);
     }
 
