@@ -222,11 +222,12 @@ describe('CTest', function() {
         const tempContentURI = 'bafybeib7nvvvqwyqm3ujmehqphoctqaxvrzyblfnk5eqewmzuhx7g5cvuy';
 
 
-        await users[1].CTest.mint(users[1].address, 'test', 'shoes', users[1].address, users[1].address, BPS);
+        await users[1].CTest.mint(users[1].address, tempMetadataURI, tempContentURI, users[1].address, users[1].address, BPS);
 
         await expect (
-            tokenOwner.CTest.getURIs(1)
-        ).to.equal('test');
+            (await tokenOwner.CTest.getURIs(1)).toString()
+            // wtf is up with all this garbage i had to write to get this to assert correctly?
+        ).to.equal([tempMetadataURI, tempContentURI].join(','));
     });
 
 

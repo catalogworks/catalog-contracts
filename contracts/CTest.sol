@@ -28,7 +28,8 @@ TESTNET WIP
 "CTest"                     :   WIP starting ground for cNFT's
 @author                     :   @bretth18 (computerdata) 
 @title                      :   CTest
-@dev                        :   n/a
+@dev                        :   currently setup w/ minimal access control and upgraeability. 
+                                does not implement market level functionality via zora v3 modules (TBD)
  */
 
 /// TODO:

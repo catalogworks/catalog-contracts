@@ -29,6 +29,8 @@ TESTNET WIP
 
 contract AngelaList is IAngelaList, OwnableUpgradeable {
 
+    /// State variable containing merkle root 
+    /// see {IAngelaList}
     bytes32 public override merkleRoot;
 
     /// Events
