@@ -6,19 +6,14 @@ EVM hardhat environment smart contract development project.
 
 ## Install
 
-1. git clone the repository on your local machine:
 
-```bash
-git clone https://github.com/catalogworks/catalog-contracts
-```
-
-2. install dependencies
+1. install dependencies
 
 ```bash
 yarn install
 ```
 
-3. create a ```.env``` file in your root directory. an example is located at [.env-example](.env-example)
+2. create a ```.env``` file in your root directory. an example is located at [.env-example](.env-example)
 
 
 

@@ -23,6 +23,23 @@ interface ICTest {
         uint16 royaltyBPS;
     }
 
+    /// EIP-712
+    function mintWithSig(
+        address _to,
+        string memory _metadataURI,
+        string memory _contentURI,
+        address _creator,
+        address _royaltyPayoutAddress,
+        uint16 _royaltyBPS,
+        EIP712Signature calldata _signature
+
+    ) external;
+
+    function permit(
+        address spender,
+        uint256 _tokenId,
+        EIP712Signature calldata _signature
+    ) external;
 
     // function mint(TokenData calldata data) external; /// market shit needs to go here
 

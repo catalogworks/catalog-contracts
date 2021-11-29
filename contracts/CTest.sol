@@ -59,9 +59,16 @@ contract CTest is
     /// mappy the token data to the token id yeah oh yeah
     mapping(uint256 => TokenData) private tokenData;
 
+    /// EIP712 shit
+    mapping(address => mapping(uint256 => uint256)) public permitNonces;
+
+    mapping(address => uint256) public mintWithSigNonces;
+
 
     /// typehashes
     // bytes32 public constant PERMIT_TYPEHASH = keccack256 blah blah blah;
+
+
 
     // Tracking token Id
     CountersUpgradeable.Counter private _tokenIdCounter;
@@ -206,6 +213,72 @@ contract CTest is
         /// increase tokenid
         _tokenIdCounter.increment();
     
+    }
+
+
+    /// mint with sig (EIP712)
+    function mintWithSig(
+        address to,
+        string memory _metadataURI,
+        string memory _contentURI,
+        address _creator,
+        address _royaltyPayoutAddress,
+        uint16 _royaltyBps,
+        EIP712Signature memory _sig
+    ) public {
+
+        require(_sig.deadline == 0 || _sig.deadline > block.timestamp, "mintWithSig expired");
+
+        bytes32 domainSeparator = _calculateDomainSeparator();
+
+        bytes32 digest = keccak256(
+            abi.encodePacked(
+                "\x19\x01",
+                domainSeparator,
+                keccak256(
+                    abi.encode(
+                        MINT_WITH_SIG_TYPEHASH,
+                        _royaltyBps,
+                        mintWithSigNonces[_creator]++,
+                        _sig.deadline
+                    )
+                )
+            )
+        );
+        /// elyptic curve baby
+        address recoveredAddress = ecrecover(digest, _sig.v, _sig.r, _sig.s);
+
+
+        require(
+            recoveredAddress != address(0) && _creator == recoveredAddress,
+            "Invalid Signature! wyd!!!"
+        );
+
+
+
+    }
+
+
+
+    function _calculateDomainSeparator() internal view returns (bytes32) {
+        /// lifted from zora wtf,
+        uint256 chainID;
+        
+        assembly {
+            chainID := chainid()
+        }
+        /// yeah yeah yeah 
+        return keccak256(
+            abi.encode(
+                keccak256(
+                    "EIP712Domain(string name, string version, uint256 chainId, address verifiyingContract)"
+                ),
+                keccak256(bytes("Catalog")),
+                keccak256(bytes("1")),
+                chainID,
+                address(this)
+            )
+        );
     }
 
     /// update tokenURIs 
