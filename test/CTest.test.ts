@@ -14,7 +14,7 @@ import keccak256 from 'keccak256';
 // CTest Test Setup
 const setupCTest = deployments.createFixture(async () => {
 
-    await deployments.fixture('CTest');
+    await deployments.fixture();
 
     const {tokenOwner} = await getNamedAccounts();
 
