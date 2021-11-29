@@ -67,7 +67,8 @@ contract CTest is
 
     /// typehashes
     // bytes32 public constant PERMIT_TYPEHASH = keccack256 blah blah blah;
-
+    bytes32 public constant PERMIT_TYPEHASH = keccak256('Permit(address, uint256, uint256, uint256)');
+    bytes32 public constant MINT_WITH_SIG_TYPEHASH = keccak256('MintWithSig(address, uint256, address, string, string)');
 
 
     // Tracking token Id
@@ -280,6 +281,51 @@ contract CTest is
             )
         );
     }
+
+
+    /// permit modified for ERC-721, based on EIP2612 (zora)
+    function permit(
+        address _to, 
+        uint256 _tokenId, 
+        EIP712Signature memory _sig
+    ) public override {
+        require(
+            _sig.deadline == 0 || _sig.deadline >= block.timestamp,
+            "Permit expired!"
+        );
+        /// check if black hole
+        require(_to != address(0), "Recipient cannot be 0x0");
+
+        bytes32 domainSeparator = _calculateDomainSeparator();
+
+        bytes32 digest = keccak256(
+            abi.encodePacked(
+                "\x19\x01",
+                domainSeparator,
+                keccak256(
+                    abi.encode(
+                        PERMIT_TYPEHASH,
+                        _to,
+                        _tokenId,
+                        permitNonces[ownerOf(_tokenId)][_tokenId]++,
+                        _sig.deadline
+                    )
+                )
+            )
+        );
+
+        /// recover ecdsa
+        address recoveredAddress = ecrecover(digest, _sig.v, _sig.r, _sig.s);
+
+
+        require(
+            recoveredAddress != address(0) && ownerOf(_tokenId) == recoveredAddress,
+            "Invalid Signature! hey!!"
+        );
+
+        _approve(_to, _tokenId);
+    }
+
 
     /// update tokenURIs 
     function updateTokenURIs(

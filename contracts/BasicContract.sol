@@ -5,6 +5,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+
+/// @title BasicContract
+/// @dev Basic Contract is a simple ERC721 (OZ) contract for testing purposes
 contract BasicContract is ERC721, ERC721Enumerable {
     using Counters for Counters.Counter;
 

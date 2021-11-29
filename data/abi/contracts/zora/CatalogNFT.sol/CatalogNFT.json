@@ -1,10 +1,5 @@
 [
   {
-    "inputs": [],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
@@ -59,36 +54,18 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "indexed": true,
         "internalType": "uint256",
-        "name": "",
+        "name": "tokenId",
         "type": "uint256"
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
         "indexed": false,
         "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "",
+        "name": "metadataUri",
         "type": "string"
       }
     ],
-    "name": "Mint",
+    "name": "MetadataUpdated",
     "type": "event"
   },
   {
@@ -115,6 +92,25 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "payout",
+        "type": "address"
+      }
+    ],
+    "name": "RoyaltyUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
         "internalType": "address",
         "name": "from",
         "type": "address"
@@ -134,45 +130,6 @@
     ],
     "name": "Transfer",
     "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "_merkleRoot",
-        "type": "bytes32"
-      }
-    ],
-    "name": "merkleRootUpdated",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "MINT_WITH_SIG_TYPEHASH",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "PERMIT_TYPEHASH",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
   },
   {
     "inputs": [
@@ -215,7 +172,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_tokenId",
+        "name": "tokenId",
         "type": "uint256"
       }
     ],
@@ -228,19 +185,41 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_tokenId",
+        "name": "tokenId",
         "type": "uint256"
       }
     ],
-    "name": "creator",
+    "name": "content",
     "outputs": [
       {
-        "internalType": "address",
+        "components": [
+          {
+            "internalType": "string",
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "hash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "string",
+            "name": "mime",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "content",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct ContentData",
         "name": "",
-        "type": "address"
+        "type": "tuple"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -264,35 +243,6 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getURIs",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_owner",
-        "type": "address"
-      },
       {
         "internalType": "string",
         "name": "_name",
@@ -334,173 +284,44 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "merkleRoot",
-    "outputs": [
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "contentUri",
+        "type": "string"
+      },
       {
         "internalType": "bytes32",
-        "name": "",
+        "name": "_contentHash",
         "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
       },
       {
         "internalType": "string",
-        "name": "_metadataURI",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_contentURI",
+        "name": "metadataUri",
         "type": "string"
       },
       {
         "internalType": "address",
-        "name": "_creator",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_royaltyPayoutAddress",
+        "name": "payout",
         "type": "address"
       },
       {
         "internalType": "uint16",
-        "name": "_royaltyBPS",
-        "type": "uint16"
-      }
-    ],
-    "name": "mint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "_metadataURI",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_contentURI",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "_creator",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_royaltyPayoutAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint16",
-        "name": "_royaltyBPS",
+        "name": "royaltyBps",
         "type": "uint16"
       },
       {
         "internalType": "bytes32[]",
-        "name": "_proof",
+        "name": "merkleProof",
         "type": "bytes32[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "creators",
+        "type": "address[]"
       }
     ],
-    "name": "mintWhitelist",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "_metadataURI",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_contentURI",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "_creator",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_royaltyPayoutAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint16",
-        "name": "_royaltyBps",
-        "type": "uint16"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "deadline",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint8",
-            "name": "v",
-            "type": "uint8"
-          },
-          {
-            "internalType": "bytes32",
-            "name": "r",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "bytes32",
-            "name": "s",
-            "type": "bytes32"
-          }
-        ],
-        "internalType": "struct ICTest.EIP712Signature",
-        "name": "_sig",
-        "type": "tuple"
-      }
-    ],
-    "name": "mintWithSig",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "mintWithSigNonces",
+    "name": "mint",
     "outputs": [
       {
         "internalType": "uint256",
@@ -508,7 +329,7 @@
         "type": "uint256"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -557,75 +378,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "deadline",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint8",
-            "name": "v",
-            "type": "uint8"
-          },
-          {
-            "internalType": "bytes32",
-            "name": "r",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "bytes32",
-            "name": "s",
-            "type": "bytes32"
-          }
-        ],
-        "internalType": "struct ICTest.EIP712Signature",
-        "name": "_sig",
-        "type": "tuple"
-      }
-    ],
-    "name": "permit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "permitNonces",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "renounceOwnership",
     "outputs": [],
@@ -636,12 +388,12 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_tokenId",
+        "name": "tokenId",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "_salePrice",
+        "name": "salePrice",
         "type": "uint256"
       }
     ],
@@ -656,25 +408,6 @@
         "internalType": "uint256",
         "name": "royaltyAmount",
         "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "royaltyPayoutAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -734,6 +467,19 @@
   {
     "inputs": [
       {
+        "internalType": "bytes32",
+        "name": "root",
+        "type": "bytes32"
+      }
+    ],
+    "name": "setAllowedMintersRoot",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "operator",
         "type": "address"
@@ -745,6 +491,24 @@
       }
     ],
     "name": "setApprovalForAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "newReceiver",
+        "type": "address"
+      }
+    ],
+    "name": "setTokenPayoutAdmin",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -785,45 +549,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "tokenContentURI",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "tokenMetadataURIs",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
+        "name": "tokenId",
         "type": "uint256"
       }
     ],
@@ -877,53 +603,17 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "_newRoot",
-        "type": "bytes32"
-      }
-    ],
-    "name": "updateMerkleRoot",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "_royaltyPayoutAddress",
-        "type": "address"
-      }
-    ],
-    "name": "updateRoyaltyInfo",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
+        "name": "tokenId",
         "type": "uint256"
       },
       {
         "internalType": "string",
-        "name": "_metadataURI",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_contentURI",
+        "name": "newMetadataUri",
         "type": "string"
       }
     ],
-    "name": "updateTokenURIs",
+    "name": "updateMetadataUri",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
