@@ -54,7 +54,6 @@ contract CTest is
 
     /// Mappings
     mapping(uint256 => string) public tokenMetadataURIs;
-    /// TODO: add a bunch of mapping types
 
     /// mappy the token data to the token id yeah oh yeah
     mapping(uint256 => TokenData) private tokenData;
@@ -65,8 +64,7 @@ contract CTest is
     mapping(address => uint256) public mintWithSigNonces;
 
 
-    /// typehashes
-    // bytes32 public constant PERMIT_TYPEHASH = keccack256 blah blah blah;
+    /// Typehashes
     bytes32 public constant PERMIT_TYPEHASH = keccak256('Permit(address, uint256, uint256, uint256)');
     bytes32 public constant MINT_WITH_SIG_TYPEHASH = keccak256('MintWithSig(address, uint256, address, string, string)');
 
@@ -82,7 +80,7 @@ contract CTest is
         require(_exists(_tokenId), "Token does not exist");
         _;
     }
-
+    /// Check if whitelisted
     modifier onlyAllowedMinter(bytes32[] calldata _proof) {
         // verify proof of current caller
         require(verify(leaf(msg.sender), _proof), "Only approved artists can mint");
@@ -90,10 +88,15 @@ contract CTest is
     }
 
 
-    /// ooz upgradeable constructor thingy
     constructor() initializer{}
 
-
+    /**
+        initialize Function
+        @param _owner address of the owner of the contract
+        @param _name string name of the contract
+        @param _symbol string symbol of the contract
+        @dev initializes the ERC721 contract, acts as a constructor. we use this for proxied contracts
+     */
     function initialize(
         address _owner,
         string memory _name,
@@ -111,7 +114,6 @@ contract CTest is
         _tokenIdCounter.increment();
 
     }
-
 
 
     /// Basic override for owner interface
@@ -145,6 +147,7 @@ contract CTest is
         return (data.metadataURI, data.contentURI);
     }
 
+
     /**
         tokenContentURI Function
         @param _tokenId uint256 identifier of token to get content URI for
@@ -155,6 +158,7 @@ contract CTest is
         return tokenData[_tokenId].contentURI;
     }
     
+
     /**
         creator Function
         @param _tokenId uint256 identifier of token to get creator for
@@ -166,6 +170,7 @@ contract CTest is
 
         return tokenData[_tokenId].creator;
     }
+
 
     /**
         royaltyPayoutAddress Function
@@ -224,6 +229,7 @@ contract CTest is
         _tokenIdCounter.increment();
         
     }
+
 
     /**
         mintWhitelist Function
@@ -487,5 +493,3 @@ contract CTest is
     }
 
 }
-
-
