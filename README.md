@@ -13,7 +13,7 @@ EVM hardhat environment smart contract development project.
 yarn install
 ```
 
-2. create a ```.env``` file in your root directory. an example is located at [.env-example](.env-example)
+2. create a ```.env``` file in your root directory. an example is located at [.env-example](.env-example), the proper file is available internally. (vault) 
 
 
 
@@ -51,7 +51,7 @@ npx hardhat coverage
 
 
 
-### Deploying
+## Deploying
 
 this repository is configured for use with `hardhat-deploy`.
 see the deploy scripts in [./deploy](./deploy) for examples.
@@ -66,7 +66,7 @@ npx hardhat deploy [--tags DEPLOY_SCRIPT_TAG] --network [hardhat || localhost]
 
 
 
-### Tests
+## Tests
 
 unit tests are located in [./test](./test)
 tests are written with mocha + chai.
@@ -74,7 +74,7 @@ tests are written with mocha + chai.
 tests use deployment fixtures from `hardhat-deploy` 
 
 
-### TODO
+## TODO
 - linting/prettier setup
 
 

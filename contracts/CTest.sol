@@ -119,7 +119,12 @@ contract CTest is
         return super.owner();
     }
 
-    /// Basic burn function
+
+    /**
+        Burn Function
+        @param _tokenId uint256 identifier of token to burn
+        @dev burns given tokenId, restrited to owner (approved artists should burn?)
+     */
     function burn(uint256 _tokenId) public onlyOwner {
         require(_exists(_tokenId));
         // require(_isApprovedOrOwner(msg.sender, _tokenId), "Not Approved!");
@@ -127,7 +132,12 @@ contract CTest is
     }
 
 
-    /// get token URIs
+    /**
+        getURIs Function
+        @param _tokenId uint256 identifier of token to get URIs for
+        @return string[] URIs for metadata and content of given tokenId
+        @dev non standard  
+     */
     function getURIs(uint256 _tokenId) public view returns (string memory, string memory) {
 
         TokenData memory data = tokenData[_tokenId];
@@ -135,20 +145,34 @@ contract CTest is
         return (data.metadataURI, data.contentURI);
     }
 
-
-    /// token content URI
+    /**
+        tokenContentURI Function
+        @param _tokenId uint256 identifier of token to get content URI for
+        @return string content URI for given tokenId
+        @dev basic public getter method for content URI 
+     */
     function tokenContentURI(uint256 _tokenId) public view returns (string memory) {
         return tokenData[_tokenId].contentURI;
     }
     
-    /// returns creator address of token id
+    /**
+        creator Function
+        @param _tokenId uint256 identifier of token to get creator for
+        @return address creator of given tokenId
+        @dev idk what this should be called, and do we need?
+     */
     function creator(uint256 _tokenId) public view  returns (address) {
         require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
 
         return tokenData[_tokenId].creator;
     }
 
-    /// returns royalty payout address for token id
+    /**
+        royaltyPayoutAddress Function
+        @param _tokenId uint256 identifier of token to get royalty payout address for
+        @return address royalty payout address of given tokenId
+        @dev not part of EIP2981, but useful 
+     */
     function royaltyPayoutAddress(uint256 _tokenId) public view returns (address) {
         require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
 
@@ -156,10 +180,18 @@ contract CTest is
     }
 
 
-    /// MINT FUNCTION
-    /// params should be calldata in  implementation w/ accesscontrol etc. etc. this just test
+    /**
+        mint Function
+        @param _to address to mint to
+        @param _metadataURI string containing metadata (e.g IPFS URI pointing to metadata.json)
+        @param _contentURI string containing media content (subject to change, new EIP) 
+        @param _creator address of creator of token
+        @param _royaltyPayoutAddress address of royalty payout address
+        @param _royaltyBPS uint256 royalty percentage of creator. must be less than 10_000
+        @dev mints a new token with input data, no access control. this function is for testing purposes
+     */
     function mint(
-        address to,
+        address _to,
         string memory _metadataURI,
         string memory _contentURI,
         address _creator,
@@ -171,7 +203,7 @@ contract CTest is
 
 
         uint256 tokenId = _tokenIdCounter.current();
-        _safeMint(to, tokenId);
+        _safeMint(_to, tokenId);
 
         tokenData[tokenId] = TokenData({
             metadataURI: _metadataURI,
@@ -191,12 +223,21 @@ contract CTest is
         /// increase tokenid
         _tokenIdCounter.increment();
         
-
     }
 
-    /// Test function to attempt merkle proof whitelisting
+    /**
+        mintWhitelist Function
+        @param _to address to mint to
+        @param _metadataURI string containing metadata (e.g IPFS URI pointing to metadata.json)
+        @param _contentURI string containing media content (subject to change, new EIP)
+        @param _creator address of creator of token
+        @param _royaltyPayoutAddress address of royalty payout address
+        @param _royaltyBPS uint256 royalty percentage of creator. must be less than 10_000
+        @param _proof bytes32[] merkle proof of artist wallet. this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
+        @dev mints a new token to whitelisted users with a valid merkle proof
+     */
     function mintWhitelist(
-        address to,
+        address _to,
         string memory _metadataURI,
         string memory _contentURI,
         address _creator,
@@ -211,7 +252,7 @@ contract CTest is
         require(_royaltyBPS < 10000, "royalty too high! calm down!");
 
         uint256 tokenId = _tokenIdCounter.current();
-        _safeMint(to, tokenId);
+        _safeMint(_to, tokenId);
 
         tokenData[tokenId] = TokenData({
             metadataURI: _metadataURI,
@@ -232,14 +273,24 @@ contract CTest is
     }
 
 
-    /// mint with sig (EIP712)
+    /**
+        mintWithSig Function
+        @param _to address to mint to
+        @param _metadataURI string containing metadata (e.g IPFS URI pointing to metadata.json)
+        @param _contentURI string containing media content (subject to change, new EIP)
+        @param _creator address of creator of token
+        @param _royaltyPayoutAddress address of royalty payout address
+        @param _royaltyBPS uint256 royalty percentage of creator. must be less than 10_000
+        @param _sig EIP712Signature allowing for valid signature of creator
+        @dev lifted EIP712 implementation from zora v1 contracts, subject to change. testing.
+     */
     function mintWithSig(
-        address to,
+        address _to,
         string memory _metadataURI,
         string memory _contentURI,
         address _creator,
         address _royaltyPayoutAddress,
-        uint16 _royaltyBps,
+        uint16 _royaltyBPS,
         EIP712Signature memory _sig
     ) public {
 
@@ -254,7 +305,7 @@ contract CTest is
                 keccak256(
                     abi.encode(
                         MINT_WITH_SIG_TYPEHASH,
-                        _royaltyBps,
+                        _royaltyBPS,
                         mintWithSigNonces[_creator]++,
                         _sig.deadline
                     )
@@ -270,12 +321,14 @@ contract CTest is
             "Invalid Signature! wyd!!!"
         );
 
-
-
     }
 
 
-
+    /**
+        _calculateDomainSeparator Function
+        @dev calculates domain separator for EIP712 signature
+        @return bytes32 domain separator
+     */
     function _calculateDomainSeparator() internal view returns (bytes32) {
         /// lifted from zora wtf,
         uint256 chainID;
@@ -298,7 +351,13 @@ contract CTest is
     }
 
 
-    /// permit modified for ERC-721, based on EIP2612 (zora)
+    /**
+        permit Function
+        @param _to address to permit to
+        @param _tokenId uint256 token id for permit
+        @param _sig EIP712Signature allowing for valid signature of creator for permit
+        @dev override function, lifted from zora v1 for EIP712 implementation. original based on EIP2612
+     */
     function permit(
         address _to, 
         uint256 _tokenId, 
@@ -342,7 +401,13 @@ contract CTest is
     }
 
 
-    /// update tokenURIs 
+    /**
+        updateTokenURIs Function
+        @param _tokenId uint256 token id corresponding to the token to update
+        @param _metadataURI string containing new/updated metadata (e.g IPFS URI pointing to metadata.json)
+        @param _contentURI string containing new/updated media content (subject to change, new EIP)
+        @dev access controlled function, restricted to owner/admim. subject to change.
+     */
     function updateTokenURIs(
         uint256 _tokenId,
         string memory _metadataURI,
@@ -356,13 +421,25 @@ contract CTest is
         // event heree!
     }
 
+    /**
+        tokenURI Function
+        @param _tokenId uint256 token id corresponding to the token of which to get metadata from
+        @return string containing metadata URI
+        @dev override function, returns metadataURI of token stored in tokenData
+     */
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
         require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
 
         return tokenData[_tokenId].metadataURI;
     }
 
-    /// update royalty info 
+
+    /**
+        updateRoyaltyInfo Function
+        @param _tokenId uint256 token id corresponding to the token of which to update royalty payout
+        @param _royaltyPayoutAddress address of new royalty payout address
+        @dev access controlled to owner only, subject to change. this function allows for emergency royalty control (i.e compromised wallet)
+     */
     function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) public onlyOwner {
         /// TODO make ext call to royalty contract to handle changes
         tokenData[_tokenId].royaltyPayout = _royaltyPayoutAddress;
@@ -370,7 +447,13 @@ contract CTest is
         // this should broadcast an event!
     }
 
-    /// royalty function, EIP-2981
+
+    /**
+        royaltyInfo Function
+        @param _tokenId uint256 token id corresponding to the token of which to get royalty information
+        @param _salePrice uint256 final sale price of token used to calculate royalty payout
+        @dev override, conforms to EIP-2981
+     */
     function royaltyInfo(uint256 _tokenId, uint256 _salePrice) 
         external 
         view 
@@ -386,7 +469,11 @@ contract CTest is
     }
     
 
-    /// supports interface
+    /**
+        supportsInterface Function
+        @param interfaceId bytes4 id of interface to check
+        @dev override 
+     */
     function supportsInterface(bytes4 interfaceId)
         public 
         view
