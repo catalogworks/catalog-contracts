@@ -75,6 +75,21 @@ contract CTest is
     CountersUpgradeable.Counter private _tokenIdCounter;
 
 
+    /// Modifiers
+
+    /// Check if token exists
+    modifier tokenExists(uint256 _tokenId) {
+        require(_exists(_tokenId), "Token does not exist");
+        _;
+    }
+
+    modifier onlyAllowedMinter(bytes32[] calldata _proof) {
+        // verify proof of current caller
+        require(verify(leaf(msg.sender), _proof), "Only approved artists can mint");
+        _;
+    }
+
+
     /// ooz upgradeable constructor thingy
     constructor() initializer{}
 
@@ -107,7 +122,7 @@ contract CTest is
     /// Basic burn function
     function burn(uint256 _tokenId) public onlyOwner {
         require(_exists(_tokenId));
-        // require(_isApprovedOrOwner(_msgSender(), _tokenId), "Not Approved!");
+        // require(_isApprovedOrOwner(msg.sender, _tokenId), "Not Approved!");
         _burn(_tokenId);
     }
 

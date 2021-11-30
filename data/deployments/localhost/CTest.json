@@ -243,6 +243,45 @@
       "type": "event"
     },
     {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "_merkleRoot",
+          "type": "bytes32"
+        }
+      ],
+      "name": "merkleRootUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "MINT_WITH_SIG_TYPEHASH",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PERMIT_TYPEHASH",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -402,6 +441,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "merkleRoot",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -437,6 +489,133 @@
       "name": "mint",
       "outputs": [],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_metadataURI",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_contentURI",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_creator",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_royaltyPayoutAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint16",
+          "name": "_royaltyBPS",
+          "type": "uint16"
+        },
+        {
+          "internalType": "bytes32[]",
+          "name": "_proof",
+          "type": "bytes32[]"
+        }
+      ],
+      "name": "mintWhitelist",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_metadataURI",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_contentURI",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_creator",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_royaltyPayoutAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint16",
+          "name": "_royaltyBps",
+          "type": "uint16"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "deadline",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "v",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "r",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "s",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct ICTest.EIP712Signature",
+          "name": "_sig",
+          "type": "tuple"
+        }
+      ],
+      "name": "mintWithSig",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "mintWithSigNonces",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -485,6 +664,75 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "deadline",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "v",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "r",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "s",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct ICTest.EIP712Signature",
+          "name": "_sig",
+          "type": "tuple"
+        }
+      ],
+      "name": "permit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "permitNonces",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "renounceOwnership",
       "outputs": [],
@@ -515,6 +763,25 @@
           "internalType": "uint256",
           "name": "royaltyAmount",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "royaltyPayoutAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -717,6 +984,19 @@
     {
       "inputs": [
         {
+          "internalType": "bytes32",
+          "name": "_newRoot",
+          "type": "bytes32"
+        }
+      ],
+      "name": "updateMerkleRoot",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "_tokenId",
           "type": "uint256"
@@ -777,21 +1057,21 @@
       "type": "constructor"
     }
   ],
-  "transactionHash": "0x2fd6ae4e67aa1038969b26c3f9ad88059b918d376669f5bad765a97f907c7361",
+  "transactionHash": "0xa4c307d64a0b67c96df743daa744e3b9f2f09012d15d4f8a7d62b7cc1ac7ac36",
   "receipt": {
     "to": null,
     "from": "0x17ff474427dd67E58d3FB785F00200AD8883c31E",
     "contractAddress": "0x231aD9901e91719d0CD04492584E8D57A2406B60",
     "transactionIndex": 0,
-    "gasUsed": "667070",
+    "gasUsed": "667026",
     "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000020000000000000000000000000000000000000000200000000000000000000001000000000000000000000000000000000000020000000000000000000800000000000000000000000800800000400000000000000000000000000000000000000000000000000000000000000000000800000000000000000002000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000020000000000000800000000000000000000100000000000000000000000000000000",
-    "blockHash": "0x03694b623382160f7d7fbd8875f3d444dd03240e3fc1d88f76fa715f1de8f5bb",
-    "transactionHash": "0x2fd6ae4e67aa1038969b26c3f9ad88059b918d376669f5bad765a97f907c7361",
+    "blockHash": "0x306ec253e20ca3adfb7c26abe06df92a039849963d8a8141d841c5ae865f5045",
+    "transactionHash": "0xa4c307d64a0b67c96df743daa744e3b9f2f09012d15d4f8a7d62b7cc1ac7ac36",
     "logs": [
       {
         "transactionIndex": 0,
         "blockNumber": 13674619,
-        "transactionHash": "0x2fd6ae4e67aa1038969b26c3f9ad88059b918d376669f5bad765a97f907c7361",
+        "transactionHash": "0xa4c307d64a0b67c96df743daa744e3b9f2f09012d15d4f8a7d62b7cc1ac7ac36",
         "address": "0x231aD9901e91719d0CD04492584E8D57A2406B60",
         "topics": [
           "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
@@ -800,12 +1080,12 @@
         ],
         "data": "0x",
         "logIndex": 0,
-        "blockHash": "0x03694b623382160f7d7fbd8875f3d444dd03240e3fc1d88f76fa715f1de8f5bb"
+        "blockHash": "0x306ec253e20ca3adfb7c26abe06df92a039849963d8a8141d841c5ae865f5045"
       },
       {
         "transactionIndex": 0,
         "blockNumber": 13674619,
-        "transactionHash": "0x2fd6ae4e67aa1038969b26c3f9ad88059b918d376669f5bad765a97f907c7361",
+        "transactionHash": "0xa4c307d64a0b67c96df743daa744e3b9f2f09012d15d4f8a7d62b7cc1ac7ac36",
         "address": "0x231aD9901e91719d0CD04492584E8D57A2406B60",
         "topics": [
           "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
@@ -814,11 +1094,11 @@
         ],
         "data": "0x",
         "logIndex": 1,
-        "blockHash": "0x03694b623382160f7d7fbd8875f3d444dd03240e3fc1d88f76fa715f1de8f5bb"
+        "blockHash": "0x306ec253e20ca3adfb7c26abe06df92a039849963d8a8141d841c5ae865f5045"
       }
     ],
     "blockNumber": 13674619,
-    "cumulativeGasUsed": "667070",
+    "cumulativeGasUsed": "667026",
     "status": 1,
     "byzantium": true
   },

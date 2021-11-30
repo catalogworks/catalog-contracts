@@ -1,7 +1,7 @@
 
 // Sample test 
 
-import { expect } from './ChaiSetup';
+import { expect } from './utils/ChaiSetup';
 import { ethers, deployments, getUnnamedAccounts, getNamedAccounts } from 'hardhat';
 import { BasicContract, IERC721 } from '../types/typechain';
 import { setupUser, setupUsers } from './utils';

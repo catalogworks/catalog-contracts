@@ -1,7 +1,7 @@
 // CTest.test.ts
 // mocha unit tests for CTest contract
 
-import { expect } from './ChaiSetup';
+import { expect } from './utils/ChaiSetup';
 import { ethers, deployments, getUnnamedAccounts, getNamedAccounts} from 'hardhat';
 import { CTest as CTestType,  ERC721,  IERC721 } from '../types/typechain';
 import { setupUser, setupUsers } from './utils';
