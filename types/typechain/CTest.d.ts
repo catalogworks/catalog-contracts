@@ -442,7 +442,7 @@ export class CTest extends BaseContract {
     merkleRoot(overrides?: CallOverrides): Promise<[string]>;
 
     mint(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
@@ -452,7 +452,7 @@ export class CTest extends BaseContract {
     ): Promise<ContractTransaction>;
 
     mintWhitelist(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
@@ -463,12 +463,12 @@ export class CTest extends BaseContract {
     ): Promise<ContractTransaction>;
 
     mintWithSig(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
       _royaltyPayoutAddress: string,
-      _royaltyBps: BigNumberish,
+      _royaltyBPS: BigNumberish,
       _sig: {
         deadline: BigNumberish;
         v: BigNumberish;
@@ -646,7 +646,7 @@ export class CTest extends BaseContract {
   merkleRoot(overrides?: CallOverrides): Promise<string>;
 
   mint(
-    to: string,
+    _to: string,
     _metadataURI: string,
     _contentURI: string,
     _creator: string,
@@ -656,7 +656,7 @@ export class CTest extends BaseContract {
   ): Promise<ContractTransaction>;
 
   mintWhitelist(
-    to: string,
+    _to: string,
     _metadataURI: string,
     _contentURI: string,
     _creator: string,
@@ -667,12 +667,12 @@ export class CTest extends BaseContract {
   ): Promise<ContractTransaction>;
 
   mintWithSig(
-    to: string,
+    _to: string,
     _metadataURI: string,
     _contentURI: string,
     _creator: string,
     _royaltyPayoutAddress: string,
-    _royaltyBps: BigNumberish,
+    _royaltyBPS: BigNumberish,
     _sig: {
       deadline: BigNumberish;
       v: BigNumberish;
@@ -841,7 +841,7 @@ export class CTest extends BaseContract {
     merkleRoot(overrides?: CallOverrides): Promise<string>;
 
     mint(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
@@ -851,7 +851,7 @@ export class CTest extends BaseContract {
     ): Promise<void>;
 
     mintWhitelist(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
@@ -862,12 +862,12 @@ export class CTest extends BaseContract {
     ): Promise<void>;
 
     mintWithSig(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
       _royaltyPayoutAddress: string,
-      _royaltyBps: BigNumberish,
+      _royaltyBPS: BigNumberish,
       _sig: {
         deadline: BigNumberish;
         v: BigNumberish;
@@ -1158,7 +1158,7 @@ export class CTest extends BaseContract {
     merkleRoot(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
@@ -1168,7 +1168,7 @@ export class CTest extends BaseContract {
     ): Promise<BigNumber>;
 
     mintWhitelist(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
@@ -1179,12 +1179,12 @@ export class CTest extends BaseContract {
     ): Promise<BigNumber>;
 
     mintWithSig(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
       _royaltyPayoutAddress: string,
-      _royaltyBps: BigNumberish,
+      _royaltyBPS: BigNumberish,
       _sig: {
         deadline: BigNumberish;
         v: BigNumberish;
@@ -1369,7 +1369,7 @@ export class CTest extends BaseContract {
     merkleRoot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     mint(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
@@ -1379,7 +1379,7 @@ export class CTest extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mintWhitelist(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
@@ -1390,12 +1390,12 @@ export class CTest extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mintWithSig(
-      to: string,
+      _to: string,
       _metadataURI: string,
       _contentURI: string,
       _creator: string,
       _royaltyPayoutAddress: string,
-      _royaltyBps: BigNumberish,
+      _royaltyBPS: BigNumberish,
       _sig: {
         deadline: BigNumberish;
         v: BigNumberish;

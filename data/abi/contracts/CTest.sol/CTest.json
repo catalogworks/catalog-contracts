@@ -350,7 +350,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "to",
+        "name": "_to",
         "type": "address"
       },
       {
@@ -388,7 +388,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "to",
+        "name": "_to",
         "type": "address"
       },
       {
@@ -431,7 +431,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "to",
+        "name": "_to",
         "type": "address"
       },
       {
@@ -456,7 +456,7 @@
       },
       {
         "internalType": "uint16",
-        "name": "_royaltyBps",
+        "name": "_royaltyBPS",
         "type": "uint16"
       },
       {

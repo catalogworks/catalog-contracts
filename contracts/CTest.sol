@@ -327,6 +327,10 @@ contract CTest is
             "Invalid Signature! wyd!!!"
         );
 
+        // Mint token to valid signer
+        mint(_to, _metadataURI, _contentURI, _creator, _royaltyPayoutAddress, _royaltyBPS);
+
+
     }
 
 
@@ -402,7 +406,7 @@ contract CTest is
             recoveredAddress != address(0) && ownerOf(_tokenId) == recoveredAddress,
             "Invalid Signature! hey!!"
         );
-
+        // approve token
         _approve(_to, _tokenId);
     }
 
@@ -483,12 +487,14 @@ contract CTest is
     function supportsInterface(bytes4 interfaceId)
         public 
         view
+        virtual
         override(ERC721Upgradeable, IERC165Upgradeable)
         returns (bool) {
         
         return 
             type(IERC2981Upgradeable).interfaceId == interfaceId ||
             ERC721Upgradeable.supportsInterface(interfaceId);
+            // || type(ITokenContent).interfaceId == intefaceId;
     
     }
 
