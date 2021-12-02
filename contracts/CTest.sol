@@ -97,10 +97,6 @@ contract CTest is
         __ERC721_init(_name, _symbol);
         __Ownable_init();
 
-        // Set ownership to the og sender
-        transferOwnership(_owner);
-
-
         // Set tokenId to start @ 1
         _tokenIdCounter.increment();
 

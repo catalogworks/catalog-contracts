@@ -14,7 +14,7 @@ import keccak256 from 'keccak256';
 // CTest Test Setup
 const setupCTest = deployments.createFixture(async () => {
 
-    await deployments.fixture();
+    await deployments.fixture('CTest');
 
     const {tokenOwner, deployer} = await getNamedAccounts();
 
@@ -23,6 +23,10 @@ const setupCTest = deployments.createFixture(async () => {
     };
 
     const users = await setupUsers(await getUnnamedAccounts(), contracts);
+
+
+    // Transfer ownership (idk why proxy behaving poorly. behave. behave. behave.)
+    await contracts.CTest.transferOwnership(tokenOwner);
 
     return {
         ...contracts,
@@ -35,6 +39,7 @@ const setupCTest = deployments.createFixture(async () => {
 
 // Tests
 describe('CTest', function() {
+
 
     // 01
     it('transfer fails', async function() {
@@ -235,7 +240,6 @@ describe('CTest', function() {
 
         const {tokenOwner, users, CTest, deployer} = await setupCTest();
 
-
         const BPS = ethers.BigNumber.from(1800);
 
         // testing size
@@ -245,7 +249,7 @@ describe('CTest', function() {
         await users[1].CTest.mint(users[1].address, tempMetadataURI, tempContentURI, users[1].address, users[1].address, BPS);
 
         await expect(
-            await(users[1].CTest.updateMetadataURI(1, 'new metadata'))
+            (tokenOwner.CTest.updateMetadataURI(1, 'new metadata'))
         ).to.emit(CTest, 'MetadataUpdated')
         .withArgs(1, 'new metadata');
 

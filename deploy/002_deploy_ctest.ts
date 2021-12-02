@@ -15,6 +15,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     // Proxy deploy for OZ 
     const deployCTest = await deploy('CTest', {
         from: deployer,
+        to: tokenOwner,
         proxy: {
             proxyContract: 'OpenZeppelinTransparentProxy',
             execute: {
