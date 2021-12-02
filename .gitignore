@@ -6,3 +6,4 @@ artifacts
 coverage
 .env
 coverage.json
+gasReporterOutput.json

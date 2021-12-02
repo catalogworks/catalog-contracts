@@ -64,11 +64,6 @@ contract CTest is
     mapping(address => uint256) public mintWithSigNonces;
 
 
-    /// Typehashes
-    bytes32 public constant PERMIT_TYPEHASH = keccak256('Permit(address, uint256, uint256, uint256)');
-    bytes32 public constant MINT_WITH_SIG_TYPEHASH = keccak256('MintWithSig(address, uint256, address, string, string)');
-
-
     // Tracking token Id
     CountersUpgradeable.Counter private _tokenIdCounter;
 
@@ -280,138 +275,6 @@ contract CTest is
 
 
     /**
-        mintWithSig Function
-        @param _to address to mint to
-        @param _metadataURI string containing metadata (e.g IPFS URI pointing to metadata.json)
-        @param _contentURI string containing media content (subject to change, new EIP)
-        @param _creator address of creator of token
-        @param _royaltyPayoutAddress address of royalty payout address
-        @param _royaltyBPS uint256 royalty percentage of creator. must be less than 10_000
-        @param _sig EIP712Signature allowing for valid signature of creator
-        @dev lifted EIP712 implementation from zora v1 contracts, subject to change. testing.
-     */
-    function mintWithSig(
-        address _to,
-        string memory _metadataURI,
-        string memory _contentURI,
-        address _creator,
-        address _royaltyPayoutAddress,
-        uint16 _royaltyBPS,
-        EIP712Signature memory _sig
-    ) public {
-
-        require(_sig.deadline == 0 || _sig.deadline > block.timestamp, "mintWithSig expired");
-
-        bytes32 domainSeparator = _calculateDomainSeparator();
-
-        bytes32 digest = keccak256(
-            abi.encodePacked(
-                "\x19\x01",
-                domainSeparator,
-                keccak256(
-                    abi.encode(
-                        MINT_WITH_SIG_TYPEHASH,
-                        _royaltyBPS,
-                        mintWithSigNonces[_creator]++,
-                        _sig.deadline
-                    )
-                )
-            )
-        );
-        /// elyptic curve baby
-        address recoveredAddress = ecrecover(digest, _sig.v, _sig.r, _sig.s);
-
-
-        require(
-            recoveredAddress != address(0) && _creator == recoveredAddress,
-            "Invalid Signature! wyd!!!"
-        );
-
-        // Mint token to valid signer
-        mint(_to, _metadataURI, _contentURI, _creator, _royaltyPayoutAddress, _royaltyBPS);
-
-
-    }
-
-
-    /**
-        _calculateDomainSeparator Function
-        @dev calculates domain separator for EIP712 signature
-        @return bytes32 domain separator
-     */
-    function _calculateDomainSeparator() internal view returns (bytes32) {
-        /// lifted from zora wtf,
-        uint256 chainID;
-        
-        assembly {
-            chainID := chainid()
-        }
-        /// yeah yeah yeah 
-        return keccak256(
-            abi.encode(
-                keccak256(
-                    "EIP712Domain(string name, string version, uint256 chainId, address verifiyingContract)"
-                ),
-                keccak256(bytes("Catalog")),
-                keccak256(bytes("1")),
-                chainID,
-                address(this)
-            )
-        );
-    }
-
-
-    /**
-        permit Function
-        @param _to address to permit to
-        @param _tokenId uint256 token id for permit
-        @param _sig EIP712Signature allowing for valid signature of creator for permit
-        @dev override function, lifted from zora v1 for EIP712 implementation. original based on EIP2612
-     */
-    function permit(
-        address _to, 
-        uint256 _tokenId, 
-        EIP712Signature memory _sig
-    ) public override {
-        require(
-            _sig.deadline == 0 || _sig.deadline >= block.timestamp,
-            "Permit expired!"
-        );
-        /// check if black hole
-        require(_to != address(0), "Recipient cannot be 0x0");
-
-        bytes32 domainSeparator = _calculateDomainSeparator();
-
-        bytes32 digest = keccak256(
-            abi.encodePacked(
-                "\x19\x01",
-                domainSeparator,
-                keccak256(
-                    abi.encode(
-                        PERMIT_TYPEHASH,
-                        _to,
-                        _tokenId,
-                        permitNonces[ownerOf(_tokenId)][_tokenId]++,
-                        _sig.deadline
-                    )
-                )
-            )
-        );
-
-        /// recover ecdsa
-        address recoveredAddress = ecrecover(digest, _sig.v, _sig.r, _sig.s);
-
-
-        require(
-            recoveredAddress != address(0) && ownerOf(_tokenId) == recoveredAddress,
-            "Invalid Signature! hey!!"
-        );
-        // approve token
-        _approve(_to, _tokenId);
-    }
-
-
-    /**
         updateTokenURIs Function
         @param _tokenId uint256 token id corresponding to the token to update
         @param _metadataURI string containing new/updated metadata (e.g IPFS URI pointing to metadata.json)
@@ -430,6 +293,7 @@ contract CTest is
     
         // event heree!
     }
+
 
     /**
         tokenURI Function
@@ -497,5 +361,6 @@ contract CTest is
             // || type(ITokenContent).interfaceId == intefaceId;
     
     }
+
 
 }

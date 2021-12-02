@@ -21,8 +21,6 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface CTestInterface extends ethers.utils.Interface {
   functions: {
-    "MINT_WITH_SIG_TYPEHASH()": FunctionFragment;
-    "PERMIT_TYPEHASH()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "burn(uint256)": FunctionFragment;
@@ -34,12 +32,10 @@ interface CTestInterface extends ethers.utils.Interface {
     "merkleRoot()": FunctionFragment;
     "mint(address,string,string,address,address,uint16)": FunctionFragment;
     "mintWhitelist(address,string,string,address,address,uint16,bytes32[])": FunctionFragment;
-    "mintWithSig(address,string,string,address,address,uint16,(uint256,uint8,bytes32,bytes32))": FunctionFragment;
     "mintWithSigNonces(address)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "permit(address,uint256,(uint256,uint8,bytes32,bytes32))": FunctionFragment;
     "permitNonces(address,uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "royaltyInfo(uint256,uint256)": FunctionFragment;
@@ -58,14 +54,6 @@ interface CTestInterface extends ethers.utils.Interface {
     "updateTokenURIs(uint256,string,string)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "MINT_WITH_SIG_TYPEHASH",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "PERMIT_TYPEHASH",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
@@ -105,18 +93,6 @@ interface CTestInterface extends ethers.utils.Interface {
     values: [string, string, string, string, string, BigNumberish, BytesLike[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "mintWithSig",
-    values: [
-      string,
-      string,
-      string,
-      string,
-      string,
-      BigNumberish,
-      { deadline: BigNumberish; v: BigNumberish; r: BytesLike; s: BytesLike }
-    ]
-  ): string;
-  encodeFunctionData(
     functionFragment: "mintWithSigNonces",
     values: [string]
   ): string;
@@ -125,14 +101,6 @@ interface CTestInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "permit",
-    values: [
-      string,
-      BigNumberish,
-      { deadline: BigNumberish; v: BigNumberish; r: BytesLike; s: BytesLike }
-    ]
   ): string;
   encodeFunctionData(
     functionFragment: "permitNonces",
@@ -196,14 +164,6 @@ interface CTestInterface extends ethers.utils.Interface {
     values: [BigNumberish, string, string]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "MINT_WITH_SIG_TYPEHASH",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "PERMIT_TYPEHASH",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
@@ -225,17 +185,12 @@ interface CTestInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "mintWithSig",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "mintWithSigNonces",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "permit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "permitNonces",
     data: BytesLike
@@ -394,10 +349,6 @@ export class CTest extends BaseContract {
   interface: CTestInterface;
 
   functions: {
-    MINT_WITH_SIG_TYPEHASH(overrides?: CallOverrides): Promise<[string]>;
-
-    PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<[string]>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -462,22 +413,6 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    mintWithSig(
-      _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
-      _sig: {
-        deadline: BigNumberish;
-        v: BigNumberish;
-        r: BytesLike;
-        s: BytesLike;
-      },
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     mintWithSigNonces(
       arg0: string,
       overrides?: CallOverrides
@@ -491,18 +426,6 @@ export class CTest extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    permit(
-      _to: string,
-      _tokenId: BigNumberish,
-      _sig: {
-        deadline: BigNumberish;
-        v: BigNumberish;
-        r: BytesLike;
-        s: BytesLike;
-      },
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     permitNonces(
       arg0: string,
@@ -601,10 +524,6 @@ export class CTest extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  MINT_WITH_SIG_TYPEHASH(overrides?: CallOverrides): Promise<string>;
-
-  PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<string>;
-
   approve(
     to: string,
     tokenId: BigNumberish,
@@ -666,22 +585,6 @@ export class CTest extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  mintWithSig(
-    _to: string,
-    _metadataURI: string,
-    _contentURI: string,
-    _creator: string,
-    _royaltyPayoutAddress: string,
-    _royaltyBPS: BigNumberish,
-    _sig: {
-      deadline: BigNumberish;
-      v: BigNumberish;
-      r: BytesLike;
-      s: BytesLike;
-    },
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   mintWithSigNonces(
     arg0: string,
     overrides?: CallOverrides
@@ -692,18 +595,6 @@ export class CTest extends BaseContract {
   owner(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  permit(
-    _to: string,
-    _tokenId: BigNumberish,
-    _sig: {
-      deadline: BigNumberish;
-      v: BigNumberish;
-      r: BytesLike;
-      s: BytesLike;
-    },
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   permitNonces(
     arg0: string,
@@ -799,10 +690,6 @@ export class CTest extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    MINT_WITH_SIG_TYPEHASH(overrides?: CallOverrides): Promise<string>;
-
-    PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<string>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -861,22 +748,6 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    mintWithSig(
-      _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
-      _sig: {
-        deadline: BigNumberish;
-        v: BigNumberish;
-        r: BytesLike;
-        s: BytesLike;
-      },
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     mintWithSigNonces(
       arg0: string,
       overrides?: CallOverrides
@@ -887,18 +758,6 @@ export class CTest extends BaseContract {
     owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    permit(
-      _to: string,
-      _tokenId: BigNumberish,
-      _sig: {
-        deadline: BigNumberish;
-        v: BigNumberish;
-        r: BytesLike;
-        s: BytesLike;
-      },
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     permitNonces(
       arg0: string,
@@ -1110,10 +969,6 @@ export class CTest extends BaseContract {
   };
 
   estimateGas: {
-    MINT_WITH_SIG_TYPEHASH(overrides?: CallOverrides): Promise<BigNumber>;
-
-    PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<BigNumber>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1178,22 +1033,6 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    mintWithSig(
-      _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
-      _sig: {
-        deadline: BigNumberish;
-        v: BigNumberish;
-        r: BytesLike;
-        s: BytesLike;
-      },
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     mintWithSigNonces(
       arg0: string,
       overrides?: CallOverrides
@@ -1206,18 +1045,6 @@ export class CTest extends BaseContract {
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    permit(
-      _to: string,
-      _tokenId: BigNumberish,
-      _sig: {
-        deadline: BigNumberish;
-        v: BigNumberish;
-        r: BytesLike;
-        s: BytesLike;
-      },
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     permitNonces(
@@ -1316,12 +1143,6 @@ export class CTest extends BaseContract {
   };
 
   populateTransaction: {
-    MINT_WITH_SIG_TYPEHASH(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1389,22 +1210,6 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    mintWithSig(
-      _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
-      _sig: {
-        deadline: BigNumberish;
-        v: BigNumberish;
-        r: BytesLike;
-        s: BytesLike;
-      },
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     mintWithSigNonces(
       arg0: string,
       overrides?: CallOverrides
@@ -1417,18 +1222,6 @@ export class CTest extends BaseContract {
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    permit(
-      _to: string,
-      _tokenId: BigNumberish,
-      _sig: {
-        deadline: BigNumberish;
-        v: BigNumberish;
-        r: BytesLike;
-        s: BytesLike;
-      },
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     permitNonces(
