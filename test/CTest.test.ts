@@ -16,7 +16,7 @@ const setupCTest = deployments.createFixture(async () => {
 
     await deployments.fixture();
 
-    const {tokenOwner} = await getNamedAccounts();
+    const {tokenOwner, deployer} = await getNamedAccounts();
 
     const contracts = {
         CTest: <CTestType>await ethers.getContract('CTest'),
@@ -28,6 +28,7 @@ const setupCTest = deployments.createFixture(async () => {
         ...contracts,
         users,
         tokenOwner: await setupUser(tokenOwner, contracts),
+        deployer: await setupUser(deployer, contracts),
     };
 });
 
@@ -188,18 +189,17 @@ describe('CTest', function() {
 
 
     // 07
-    it ('burns tokens (no access control)', async function() {
+    it ('burns tokens (access control)', async function() {
 
-        const {tokenOwner, users, CTest} = await setupCTest();
+        const {tokenOwner, users, CTest, deployer} = await setupCTest();
 
         // get a BPS value
         const BPS = ethers.BigNumber.from(1200);
         // mint token   
         await users[2].CTest.mint(users[2].address, 'synthesizer', 'rolandtb303', users[2].address, users[2].address, BPS);
 
-
         // burn token
-        await tokenOwner.CTest.burn(1);
+        await users[2].CTest.burn(1);
 
         // Should not exist
         await expect(
@@ -228,6 +228,27 @@ describe('CTest', function() {
             (await tokenOwner.CTest.getURIs(1)).toString()
             // wtf is up with all this garbage i had to write to get this to assert correctly?
         ).to.equal([tempMetadataURI, tempContentURI].join(','));
+    });
+
+
+    it('allows for changes of metadata', async function() {
+
+        const {tokenOwner, users, CTest, deployer} = await setupCTest();
+
+
+        const BPS = ethers.BigNumber.from(1800);
+
+        // testing size
+        const tempMetadataURI = 'bafybeihy7yq7voxzn7wfoqrje3yzsnfkl73s2nsvev5wp6x2hikcjf7vfi';
+        const tempContentURI = 'bafybeib7nvvvqwyqm3ujmehqphoctqaxvrzyblfnk5eqewmzuhx7g5cvuy';
+
+        await users[1].CTest.mint(users[1].address, tempMetadataURI, tempContentURI, users[1].address, users[1].address, BPS);
+
+        await expect(
+            await(users[1].CTest.updateMetadataURI(1, 'new metadata'))
+        ).to.emit(CTest, 'MetadataUpdated')
+        .withArgs(1, 'new metadata');
+
     });
 
 

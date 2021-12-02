@@ -32,11 +32,9 @@ interface CTestInterface extends ethers.utils.Interface {
     "merkleRoot()": FunctionFragment;
     "mint(address,string,string,address,address,uint16)": FunctionFragment;
     "mintWhitelist(address,string,string,address,address,uint16,bytes32[])": FunctionFragment;
-    "mintWithSigNonces(address)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "permitNonces(address,uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "royaltyInfo(uint256,uint256)": FunctionFragment;
     "royaltyPayoutAddress(uint256)": FunctionFragment;
@@ -50,6 +48,7 @@ interface CTestInterface extends ethers.utils.Interface {
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "updateMerkleRoot(bytes32)": FunctionFragment;
+    "updateMetadataURI(uint256,string)": FunctionFragment;
     "updateRoyaltyInfo(uint256,address)": FunctionFragment;
     "updateTokenURIs(uint256,string,string)": FunctionFragment;
   };
@@ -92,19 +91,11 @@ interface CTestInterface extends ethers.utils.Interface {
     functionFragment: "mintWhitelist",
     values: [string, string, string, string, string, BigNumberish, BytesLike[]]
   ): string;
-  encodeFunctionData(
-    functionFragment: "mintWithSigNonces",
-    values: [string]
-  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "permitNonces",
-    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -156,6 +147,10 @@ interface CTestInterface extends ethers.utils.Interface {
     values: [BytesLike]
   ): string;
   encodeFunctionData(
+    functionFragment: "updateMetadataURI",
+    values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "updateRoyaltyInfo",
     values: [BigNumberish, string]
   ): string;
@@ -184,17 +179,9 @@ interface CTestInterface extends ethers.utils.Interface {
     functionFragment: "mintWhitelist",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "mintWithSigNonces",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "permitNonces",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -242,6 +229,10 @@ interface CTestInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "updateMetadataURI",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "updateRoyaltyInfo",
     data: BytesLike
   ): Result;
@@ -253,6 +244,7 @@ interface CTestInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "MetadataUpdated(uint256,string)": EventFragment;
     "Mint(address,uint256,address,string,string)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
@@ -261,6 +253,7 @@ interface CTestInterface extends ethers.utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MetadataUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
@@ -281,6 +274,10 @@ export type ApprovalForAllEvent = TypedEvent<
     operator: string;
     approved: boolean;
   }
+>;
+
+export type MetadataUpdatedEvent = TypedEvent<
+  [BigNumber, string] & { tokenId: BigNumber; metadataURI: string }
 >;
 
 export type MintEvent = TypedEvent<
@@ -413,11 +410,6 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    mintWithSigNonces(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     name(overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
@@ -426,12 +418,6 @@ export class CTest extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    permitNonces(
-      arg0: string,
-      arg1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -510,6 +496,12 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    updateMetadataURI(
+      _tokenId: BigNumberish,
+      _metadataURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     updateRoyaltyInfo(
       _tokenId: BigNumberish,
       _royaltyPayoutAddress: string,
@@ -585,22 +577,11 @@ export class CTest extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  mintWithSigNonces(
-    arg0: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   name(overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  permitNonces(
-    arg0: string,
-    arg1: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -676,6 +657,12 @@ export class CTest extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  updateMetadataURI(
+    _tokenId: BigNumberish,
+    _metadataURI: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   updateRoyaltyInfo(
     _tokenId: BigNumberish,
     _royaltyPayoutAddress: string,
@@ -748,22 +735,11 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    mintWithSigNonces(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     name(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    permitNonces(
-      arg0: string,
-      arg1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -840,6 +816,12 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    updateMetadataURI(
+      _tokenId: BigNumberish,
+      _metadataURI: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     updateRoyaltyInfo(
       _tokenId: BigNumberish,
       _royaltyPayoutAddress: string,
@@ -889,6 +871,22 @@ export class CTest extends BaseContract {
     ): TypedEventFilter<
       [string, string, boolean],
       { owner: string; operator: string; approved: boolean }
+    >;
+
+    "MetadataUpdated(uint256,string)"(
+      tokenId?: BigNumberish | null,
+      metadataURI?: null
+    ): TypedEventFilter<
+      [BigNumber, string],
+      { tokenId: BigNumber; metadataURI: string }
+    >;
+
+    MetadataUpdated(
+      tokenId?: BigNumberish | null,
+      metadataURI?: null
+    ): TypedEventFilter<
+      [BigNumber, string],
+      { tokenId: BigNumber; metadataURI: string }
     >;
 
     "Mint(address,uint256,address,string,string)"(
@@ -1033,23 +1031,12 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    mintWithSigNonces(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     ownerOf(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    permitNonces(
-      arg0: string,
-      arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1125,6 +1112,12 @@ export class CTest extends BaseContract {
 
     updateMerkleRoot(
       _newRoot: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    updateMetadataURI(
+      _tokenId: BigNumberish,
+      _metadataURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1210,23 +1203,12 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    mintWithSigNonces(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     ownerOf(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    permitNonces(
-      arg0: string,
-      arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1302,6 +1284,12 @@ export class CTest extends BaseContract {
 
     updateMerkleRoot(
       _newRoot: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updateMetadataURI(
+      _tokenId: BigNumberish,
+      _metadataURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

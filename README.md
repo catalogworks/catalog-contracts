@@ -3,6 +3,10 @@
 EVM hardhat environment smart contract development project.
 
 
+## Info
+
+Catalog Shared Creator Contract (cNFT): [./contracts/CTest.sol](CTest.sol)
+
 
 ## Install
 

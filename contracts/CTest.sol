@@ -51,17 +51,13 @@ contract CTest is
 
     /// Events
     event Mint(address indexed, uint256 indexed, address indexed, string, string);
+    event MetadataUpdated(uint256 indexed tokenId, string metadataURI );
 
     /// Mappings
     mapping(uint256 => string) public tokenMetadataURIs;
 
     /// mappy the token data to the token id yeah oh yeah
     mapping(uint256 => TokenData) private tokenData;
-
-    /// EIP712 shit
-    mapping(address => mapping(uint256 => uint256)) public permitNonces;
-
-    mapping(address => uint256) public mintWithSigNonces;
 
 
     // Tracking token Id
@@ -111,10 +107,10 @@ contract CTest is
     }
 
 
-    /// Basic override for owner interface
-    function owner() public view override(OwnableUpgradeable) returns (address) {
-        return super.owner();
-    }
+    // /// Basic override for owner interface
+    // function owner() public view override(OwnableUpgradeable) returns (address) {
+    //     return super.owner();
+    // }
 
 
     /**
@@ -122,9 +118,8 @@ contract CTest is
         @param _tokenId uint256 identifier of token to burn
         @dev burns given tokenId, restrited to owner (approved artists should burn?)
      */
-    function burn(uint256 _tokenId) public onlyOwner {
-        require(_exists(_tokenId));
-        // require(_isApprovedOrOwner(msg.sender, _tokenId), "Not Approved!");
+    function burn(uint256 _tokenId) external {
+        require(_isApprovedOrOwner(msg.sender, _tokenId), "Not Approved!");
         _burn(_tokenId);
     }
 
@@ -294,6 +289,22 @@ contract CTest is
         // event heree!
     }
 
+
+    /**
+        updateMetadataURI Function
+        @param _tokenId uint256 token id corresponding to the token to update
+        @param _metadataURI string containing new/updated metadata (e.g IPFS URI pointing to metadata.json)
+        @dev access controlled, restricted to contract owner when they own the tokenId or the creator (when they own the token)
+     */
+    function updateMetadataURI(
+        uint256 _tokenId,
+        string memory _metadataURI
+    ) external tokenExists(_tokenId) onlyOwner {
+
+        emit MetadataUpdated(_tokenId, _metadataURI);
+        tokenData[_tokenId].metadataURI = _metadataURI;
+    }
+    
 
     /**
         tokenURI Function
