@@ -27,11 +27,11 @@ interface CTestInterface extends ethers.utils.Interface {
     "creator(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getURIs(uint256)": FunctionFragment;
-    "initialize(address,string,string)": FunctionFragment;
+    "initialize(string,string)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "merkleRoot()": FunctionFragment;
     "mint(address,string,string,address,address,uint16)": FunctionFragment;
-    "mintWhitelist(address,string,string,address,address,uint16,bytes32[])": FunctionFragment;
+    "mintAllowlist(address,string,string,address,address,uint16,bytes32[])": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -73,7 +73,7 @@ interface CTestInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [string, string, string]
+    values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -88,7 +88,7 @@ interface CTestInterface extends ethers.utils.Interface {
     values: [string, string, string, string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "mintWhitelist",
+    functionFragment: "mintAllowlist",
     values: [string, string, string, string, string, BigNumberish, BytesLike[]]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
@@ -176,7 +176,7 @@ interface CTestInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "merkleRoot", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "mintWhitelist",
+    functionFragment: "mintAllowlist",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
@@ -375,7 +375,6 @@ export class CTest extends BaseContract {
     ): Promise<[string, string]>;
 
     initialize(
-      _owner: string,
       _name: string,
       _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -399,7 +398,7 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    mintWhitelist(
+    mintAllowlist(
       _to: string,
       _metadataURI: string,
       _contentURI: string,
@@ -542,7 +541,6 @@ export class CTest extends BaseContract {
   ): Promise<[string, string]>;
 
   initialize(
-    _owner: string,
     _name: string,
     _symbol: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -566,7 +564,7 @@ export class CTest extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  mintWhitelist(
+  mintAllowlist(
     _to: string,
     _metadataURI: string,
     _contentURI: string,
@@ -700,7 +698,6 @@ export class CTest extends BaseContract {
     ): Promise<[string, string]>;
 
     initialize(
-      _owner: string,
       _name: string,
       _symbol: string,
       overrides?: CallOverrides
@@ -724,7 +721,7 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    mintWhitelist(
+    mintAllowlist(
       _to: string,
       _metadataURI: string,
       _contentURI: string,
@@ -733,7 +730,7 @@ export class CTest extends BaseContract {
       _royaltyBPS: BigNumberish,
       _proof: BytesLike[],
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
@@ -996,7 +993,6 @@ export class CTest extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _owner: string,
       _name: string,
       _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1020,7 +1016,7 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    mintWhitelist(
+    mintAllowlist(
       _to: string,
       _metadataURI: string,
       _contentURI: string,
@@ -1168,7 +1164,6 @@ export class CTest extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      _owner: string,
       _name: string,
       _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1192,7 +1187,7 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    mintWhitelist(
+    mintAllowlist(
       _to: string,
       _metadataURI: string,
       _contentURI: string,

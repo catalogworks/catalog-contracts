@@ -28,14 +28,12 @@ TESTNET WIP
 "CTest"                     :   WIP starting ground for cNFT's
 @author                     :   @bretth18 (computerdata) 
 @title                      :   CTest
-@dev                        :   currently setup w/ minimal access control and upgraeability. 
+@dev                        :   currently setup w/ minimal access control and upgradeability. 
                                 does not implement market level functionality via zora v3 modules (TBD)
  */
 
 /// TODO:
-/// use ext calls for updating content to reduce opsize 
-/// add merkle proof, access control
-
+/// use ext calls/calldata for updating content to reduce opsize 
 contract CTest is
     ICTest,
     ERC721Upgradeable,
@@ -71,7 +69,7 @@ contract CTest is
         require(_exists(_tokenId), "Token does not exist");
         _;
     }
-    /// Check if whitelisted
+    /// Check if allowlisted
     modifier onlyAllowedMinter(bytes32[] calldata _proof) {
         // verify proof of current caller
         require(verify(leaf(msg.sender), _proof), "Only approved artists can mint");
@@ -83,13 +81,11 @@ contract CTest is
 
     /**
         initialize Function
-        @param _owner address of the owner of the contract
         @param _name string name of the contract
         @param _symbol string symbol of the contract
         @dev initializes the ERC721 contract, acts as a constructor. we use this for proxied contracts
      */
     function initialize(
-        address _owner,
         string memory _name,
         string memory _symbol
     ) public initializer {
@@ -207,10 +203,6 @@ contract CTest is
         // event time 
         emit Mint(_msgSender(), tokenId,  _creator, _metadataURI, _contentURI);
 
-        /// todo: set royalty type function here
-
-    
-
         /// increase tokenid
         _tokenIdCounter.increment();
         
@@ -218,7 +210,7 @@ contract CTest is
 
 
     /**
-        mintWhitelist Function
+        mintAllowlist Function
         @param _to address to mint to
         @param _metadataURI string containing metadata (e.g IPFS URI pointing to metadata.json)
         @param _contentURI string containing media content (subject to change, new EIP)
@@ -226,9 +218,12 @@ contract CTest is
         @param _royaltyPayoutAddress address of royalty payout address
         @param _royaltyBPS uint256 royalty percentage of creator. must be less than 10_000
         @param _proof bytes32[] merkle proof of artist wallet. this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
-        @dev mints a new token to whitelisted users with a valid merkle proof
+        @return uint256 tokenId of minted token (useful since we are not using Enumerable)
+        @dev mints a new token to allowlisted users with a valid merkle proof. params can and should
+             be changed to calldata for gas efficiency. rename to "allowlist"
+
      */
-    function mintWhitelist(
+    function mintAllowlist(
         address _to,
         string memory _metadataURI,
         string memory _contentURI,
@@ -236,7 +231,7 @@ contract CTest is
         address _royaltyPayoutAddress,
         uint16 _royaltyBPS,
         bytes32[] calldata _proof
-    ) external {
+    ) external returns (uint256){
 
         /// call angela
         require(verify(leaf(_creator), _proof), "invalid proof");
@@ -257,10 +252,10 @@ contract CTest is
         // event time 
         emit Mint(_msgSender(), tokenId,  _creator, _metadataURI, _contentURI);
 
-        /// todo: set royalty type function here
-
         /// increase tokenid
         _tokenIdCounter.increment();
+
+        return tokenId;
     
     }
 
@@ -296,8 +291,9 @@ contract CTest is
         uint256 _tokenId,
         string memory _metadataURI
     ) external tokenExists(_tokenId) onlyOwner {
-
+        // event 
         emit MetadataUpdated(_tokenId, _metadataURI);
+
         tokenData[_tokenId].metadataURI = _metadataURI;
     }
     
@@ -321,8 +317,8 @@ contract CTest is
         @param _royaltyPayoutAddress address of new royalty payout address
         @dev access controlled to owner only, subject to change. this function allows for emergency royalty control (i.e compromised wallet)
      */
-    function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) public onlyOwner {
-        /// TODO make ext call to royalty contract to handle changes
+    function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) external onlyOwner {
+
         tokenData[_tokenId].royaltyPayout = _royaltyPayoutAddress;
 
         // this should broadcast an event!

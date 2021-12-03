@@ -158,7 +158,7 @@ describe('CTest', function() {
     });
 
     // 06
-    it ('can allow whitelisted users to mint', async function() {
+    it ('can allow allowlisted users to mint', async function() {
 
         const {tokenOwner, users, CTest} = await setupCTest();
 
@@ -188,7 +188,7 @@ describe('CTest', function() {
         const BPS = ethers.BigNumber.from(1200);
 
         await expect(
-            users[4].CTest.mintWhitelist(users[4].address, 'oh boy this better work', 'please mr compiler please', users[4].address, users[4].address, BPS, proof)
+            users[4].CTest.mintAllowlist(users[4].address, 'oh boy this better work', 'please mr compiler please', users[4].address, users[4].address, BPS, proof)
         ).to.emit(CTest, 'Mint')
     });
 

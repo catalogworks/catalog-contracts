@@ -282,11 +282,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_owner",
-        "type": "address"
-      },
-      {
         "internalType": "string",
         "name": "_name",
         "type": "string"
@@ -415,8 +410,14 @@
         "type": "bytes32[]"
       }
     ],
-    "name": "mintWhitelist",
-    "outputs": [],
+    "name": "mintAllowlist",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },

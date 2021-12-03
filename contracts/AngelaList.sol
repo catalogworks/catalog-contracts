@@ -20,7 +20,7 @@ o88o  o888o o888o o888o 888     888  88oooo888 o888o 88ooo88 8o o888ooooo88 o888
 "heute nicht" - Angela Merkel                                                                                                                                                                                                                                                                                                                                                                                                                                       
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
 TESTNET WIP
-"AngelaList"                :   Whitelist utility merkle proof contract
+"AngelaList"                :   Allowlist utility merkle proof contract
 @author                     :   @bretth18 (computerdata) 
 @title                      :   AngelaList
 @dev                        :   n/a
