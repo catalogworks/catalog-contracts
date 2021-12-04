@@ -59,6 +59,24 @@ export function getMnemonic(networkName?: string): string {
 
 }
 
+export function getPrivateKey(networkName?: string): [string] {
+
+    if (networkName) {
+        const privateKey = process.env['PRIVATE_KEY_' + networkName.toUpperCase()];
+
+        if (privateKey && privateKey !== '' ) {
+            return [privateKey];
+        }
+    }
+
+    const privateKey = process.env.PRIVATE_KEY;
+    // return default private key
+    if (!privateKey || privateKey === '') {
+        throw new Error('env variable PRIVATE_KEY no config');
+    }
+
+    return [privateKey];
+}
 
 export function accounts(networkName?: string): {mnemonic: string} {
     return {mnemonic: getMnemonic(networkName)};

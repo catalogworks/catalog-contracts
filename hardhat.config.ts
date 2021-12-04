@@ -37,6 +37,8 @@ if (process.env.HARDHAT_FORK) {
 
 
 
+
+
 const config: HardhatUserConfig = {
   // Solc config
   solidity: {
@@ -108,19 +110,19 @@ const config: HardhatUserConfig = {
     },
     staging: {
       url: node_url('rinkeby'),
-      accounts: accounts('rinkeby'),
+      accounts: [`${process.env.PRIVATE_KEY}`],
     },
     production: {
       url: node_url('mainnet'),
-      accounts: accounts('mainnet'),
+      accounts: [`${process.env.PRIVATE_KEY}`],
     },
     mainnet: {
       url: node_url('mainnet'),
-      accounts: accounts('mainnet'),
+      accounts: [`${process.env.PRIVATE_KEY}`],
     },
     rinkeby: {
       url: node_url('rinkeby'),
-      accounts: accounts('rinkeby'),
+      accounts: [`${process.env.PRIVATE_KEY}`],
     },
   },
 

@@ -15,13 +15,13 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     // Proxy deploy for OZ 
     const deployCTest = await deploy('CTest', {
         from: deployer,
-        to: tokenOwner,
+        to: deployer,
         proxy: {
             proxyContract: 'OpenZeppelinTransparentProxy',
             execute: {
                 methodName: "initialize",
                 // address _owner, string memory _name, string memory _symbol
-                args: ["Catalog Test NFT", "CNFT"]
+                args: ["cNFT Test", "CNFT"]
             }
         },
         log: true,

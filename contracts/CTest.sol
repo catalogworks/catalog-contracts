@@ -10,7 +10,6 @@ import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Addr
 
 import {ICTest} from "./interfaces/ICTest.sol";
 import {AngelaList} from "./AngelaList.sol";
-// import {Royalties} from "./Royalties.sol";
 
 /**
 --------------------------------------------------------------------------------------------------------------------
@@ -25,23 +24,19 @@ import {AngelaList} from "./AngelaList.sol";
                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
 TESTNET WIP
-"CTest"                     :   WIP starting ground for cNFT's
+"CTest"                     :   WIP Creator shared NFT Contract for Catalog
 @author                     :   @bretth18 (computerdata) 
 @title                      :   CTest
-@dev                        :   currently setup w/ minimal access control and upgradeability. 
-                                does not implement market level functionality via zora v3 modules (TBD)
+@dev                        :   currently setup w/ access control and upgradeability.
+                                purpose built for optmization over the Zora V1 contracts.
+                                code relies heavily on implementations thanks to @ isian (ian nash) of Zora. 
  */
-
-/// TODO:
-/// use ext calls/calldata for updating content to reduce opsize 
 contract CTest is
     ICTest,
     ERC721Upgradeable,
     IERC2981Upgradeable,
     OwnableUpgradeable,
-    AngelaList
-    // Royalties
-    
+    AngelaList    
 {
 
 
