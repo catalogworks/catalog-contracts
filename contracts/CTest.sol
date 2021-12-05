@@ -29,7 +29,7 @@ TESTNET WIP
 @title                      :   CTest
 @dev                        :   currently setup w/ access control and upgradeability.
                                 purpose built for optmization over the Zora V1 contracts.
-                                code relies heavily on implementations thanks to @ isian (ian nash) of Zora. 
+                                code relies heavily on implementations thanks to @ isian (iain nash) of Zora. 
  */
 contract CTest is
     ICTest,
