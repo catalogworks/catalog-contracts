@@ -7,7 +7,7 @@ import { DeployFunction } from 'hardhat-deploy/types';
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
     const { deployments, getNamedAccounts } = hre;
-    const { deploy, log } = deployments;
+    const { deploy, log, catchUnknownSigner } = deployments;
 
     // Get accounts
     const { deployer, tokenOwner } = await getNamedAccounts();
@@ -15,13 +15,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     // Proxy deploy for OZ 
     const deployCTest = await deploy('CTest', {
         from: deployer,
-        to: deployer,
         proxy: {
-            proxyContract: 'OpenZeppelinTransparentProxy',
+            proxyContract: 'OptimizedTransparentProxy',
             execute: {
                 methodName: "initialize",
                 // address _owner, string memory _name, string memory _symbol
-                args: ["cNFT Test", "CNFT"]
+                args: ["cNFTv0.1 Test", "CNFT0"]
             }
         },
         log: true,
@@ -34,6 +33,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             contract: CTest deployed at ${deployCTest.address} 
             using ${deployCTest.receipt?.gasUsed} gas. 
             Owner (to): ${deployCTest.receipt?.to}
+            implementation: ${deployCTest.implementation}
             Signed from    : ${deployCTest.receipt?.from}
             `
         );

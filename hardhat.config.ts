@@ -83,7 +83,7 @@ const config: HardhatUserConfig = {
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
         // DISABLE IF NO ALCHEMY
-        enabled: true,
+        enabled: false,
         blockNumber: 13674612,
       },
 
@@ -106,24 +106,35 @@ const config: HardhatUserConfig = {
     
     localhost: {
       url: node_url('localhost'),
-      accounts: accounts(),
+      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
     },
     staging: {
       url: node_url('rinkeby'),
-      accounts: [`${process.env.PRIVATE_KEY}`],
+      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
     },
     production: {
       url: node_url('mainnet'),
-      accounts: [`${process.env.PRIVATE_KEY}`],
+      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
     },
     mainnet: {
       url: node_url('mainnet'),
-      accounts: [`${process.env.PRIVATE_KEY}`],
+      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
     },
     rinkeby: {
       url: node_url('rinkeby'),
-      accounts: [`${process.env.PRIVATE_KEY}`],
+      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
+      blockGasLimit: 10000000,
     },
+    mumbai: {
+      url: node_url('mumbai'),
+      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
+      blockGasLimit: 10000000,
+    },
+    goerli: {
+      url: node_url('goerli'),
+      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
+      blockGasLimit: 10000000,
+    }
   },
 
   paths: {

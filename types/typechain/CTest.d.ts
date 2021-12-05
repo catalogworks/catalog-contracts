@@ -30,8 +30,8 @@ interface CTestInterface extends ethers.utils.Interface {
     "initialize(string,string)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "merkleRoot()": FunctionFragment;
-    "mint(address,string,string,address,address,uint16)": FunctionFragment;
-    "mintAllowlist(address,string,string,address,address,uint16,bytes32[])": FunctionFragment;
+    "mint(address,(string,string,address,address,uint16))": FunctionFragment;
+    "mintAllowlist(address,(string,string,address,address,uint16),bytes32[])": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -47,8 +47,8 @@ interface CTestInterface extends ethers.utils.Interface {
     "tokenURI(uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "updateMerkleRoot(bytes32)": FunctionFragment;
     "updateMetadataURI(uint256,string)": FunctionFragment;
+    "updateRoot(bytes32)": FunctionFragment;
     "updateRoyaltyInfo(uint256,address)": FunctionFragment;
     "updateTokenURIs(uint256,string,string)": FunctionFragment;
   };
@@ -85,11 +85,30 @@ interface CTestInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [string, string, string, string, string, BigNumberish]
+    values: [
+      string,
+      {
+        metadataURI: string;
+        contentURI: string;
+        creator: string;
+        royaltyPayout: string;
+        royaltyBPS: BigNumberish;
+      }
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "mintAllowlist",
-    values: [string, string, string, string, string, BigNumberish, BytesLike[]]
+    values: [
+      string,
+      {
+        metadataURI: string;
+        contentURI: string;
+        creator: string;
+        royaltyPayout: string;
+        royaltyBPS: BigNumberish;
+      },
+      BytesLike[]
+    ]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -143,12 +162,12 @@ interface CTestInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "updateMerkleRoot",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
     functionFragment: "updateMetadataURI",
     values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "updateRoot",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "updateRoyaltyInfo",
@@ -225,13 +244,10 @@ interface CTestInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "updateMerkleRoot",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "updateMetadataURI",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "updateRoot", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "updateRoyaltyInfo",
     data: BytesLike
@@ -247,6 +263,7 @@ interface CTestInterface extends ethers.utils.Interface {
     "MetadataUpdated(uint256,string)": EventFragment;
     "Mint(address,uint256,address,string,string)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "RoyaltyUpdated(uint256,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
     "merkleRootUpdated(bytes32)": EventFragment;
   };
@@ -256,6 +273,7 @@ interface CTestInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "MetadataUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoyaltyUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "merkleRootUpdated"): EventFragment;
 }
@@ -277,7 +295,7 @@ export type ApprovalForAllEvent = TypedEvent<
 >;
 
 export type MetadataUpdatedEvent = TypedEvent<
-  [BigNumber, string] & { tokenId: BigNumber; metadataURI: string }
+  [BigNumber, string] & { arg0: BigNumber; arg1: string }
 >;
 
 export type MintEvent = TypedEvent<
@@ -292,6 +310,10 @@ export type MintEvent = TypedEvent<
 
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string] & { previousOwner: string; newOwner: string }
+>;
+
+export type RoyaltyUpdatedEvent = TypedEvent<
+  [BigNumber, string] & { arg0: BigNumber; arg1: string }
 >;
 
 export type TransferEvent = TypedEvent<
@@ -390,21 +412,25 @@ export class CTest extends BaseContract {
 
     mint(
       _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
+      _data: {
+        metadataURI: string;
+        contentURI: string;
+        creator: string;
+        royaltyPayout: string;
+        royaltyBPS: BigNumberish;
+      },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     mintAllowlist(
       _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
+      _data: {
+        metadataURI: string;
+        contentURI: string;
+        creator: string;
+        royaltyPayout: string;
+        royaltyBPS: BigNumberish;
+      },
       _proof: BytesLike[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -490,14 +516,14 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    updateMerkleRoot(
-      _newRoot: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     updateMetadataURI(
       _tokenId: BigNumberish,
       _metadataURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    updateRoot(
+      _newRoot: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -556,21 +582,25 @@ export class CTest extends BaseContract {
 
   mint(
     _to: string,
-    _metadataURI: string,
-    _contentURI: string,
-    _creator: string,
-    _royaltyPayoutAddress: string,
-    _royaltyBPS: BigNumberish,
+    _data: {
+      metadataURI: string;
+      contentURI: string;
+      creator: string;
+      royaltyPayout: string;
+      royaltyBPS: BigNumberish;
+    },
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   mintAllowlist(
     _to: string,
-    _metadataURI: string,
-    _contentURI: string,
-    _creator: string,
-    _royaltyPayoutAddress: string,
-    _royaltyBPS: BigNumberish,
+    _data: {
+      metadataURI: string;
+      contentURI: string;
+      creator: string;
+      royaltyPayout: string;
+      royaltyBPS: BigNumberish;
+    },
     _proof: BytesLike[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -650,14 +680,14 @@ export class CTest extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  updateMerkleRoot(
-    _newRoot: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   updateMetadataURI(
     _tokenId: BigNumberish,
     _metadataURI: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  updateRoot(
+    _newRoot: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -713,21 +743,25 @@ export class CTest extends BaseContract {
 
     mint(
       _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
+      _data: {
+        metadataURI: string;
+        contentURI: string;
+        creator: string;
+        royaltyPayout: string;
+        royaltyBPS: BigNumberish;
+      },
       overrides?: CallOverrides
     ): Promise<void>;
 
     mintAllowlist(
       _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
+      _data: {
+        metadataURI: string;
+        contentURI: string;
+        creator: string;
+        royaltyPayout: string;
+        royaltyBPS: BigNumberish;
+      },
       _proof: BytesLike[],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -808,16 +842,13 @@ export class CTest extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    updateMerkleRoot(
-      _newRoot: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     updateMetadataURI(
       _tokenId: BigNumberish,
       _metadataURI: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    updateRoot(_newRoot: BytesLike, overrides?: CallOverrides): Promise<void>;
 
     updateRoyaltyInfo(
       _tokenId: BigNumberish,
@@ -871,20 +902,14 @@ export class CTest extends BaseContract {
     >;
 
     "MetadataUpdated(uint256,string)"(
-      tokenId?: BigNumberish | null,
-      metadataURI?: null
-    ): TypedEventFilter<
-      [BigNumber, string],
-      { tokenId: BigNumber; metadataURI: string }
-    >;
+      undefined?: BigNumberish | null,
+      undefined?: null
+    ): TypedEventFilter<[BigNumber, string], { arg0: BigNumber; arg1: string }>;
 
     MetadataUpdated(
-      tokenId?: BigNumberish | null,
-      metadataURI?: null
-    ): TypedEventFilter<
-      [BigNumber, string],
-      { tokenId: BigNumber; metadataURI: string }
-    >;
+      undefined?: BigNumberish | null,
+      undefined?: null
+    ): TypedEventFilter<[BigNumber, string], { arg0: BigNumber; arg1: string }>;
 
     "Mint(address,uint256,address,string,string)"(
       undefined?: string | null,
@@ -935,6 +960,16 @@ export class CTest extends BaseContract {
       [string, string],
       { previousOwner: string; newOwner: string }
     >;
+
+    "RoyaltyUpdated(uint256,address)"(
+      undefined?: BigNumberish | null,
+      undefined?: string | null
+    ): TypedEventFilter<[BigNumber, string], { arg0: BigNumber; arg1: string }>;
+
+    RoyaltyUpdated(
+      undefined?: BigNumberish | null,
+      undefined?: string | null
+    ): TypedEventFilter<[BigNumber, string], { arg0: BigNumber; arg1: string }>;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,
@@ -1008,21 +1043,25 @@ export class CTest extends BaseContract {
 
     mint(
       _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
+      _data: {
+        metadataURI: string;
+        contentURI: string;
+        creator: string;
+        royaltyPayout: string;
+        royaltyBPS: BigNumberish;
+      },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     mintAllowlist(
       _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
+      _data: {
+        metadataURI: string;
+        contentURI: string;
+        creator: string;
+        royaltyPayout: string;
+        royaltyBPS: BigNumberish;
+      },
       _proof: BytesLike[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1106,14 +1145,14 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    updateMerkleRoot(
-      _newRoot: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     updateMetadataURI(
       _tokenId: BigNumberish,
       _metadataURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    updateRoot(
+      _newRoot: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1179,21 +1218,25 @@ export class CTest extends BaseContract {
 
     mint(
       _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
+      _data: {
+        metadataURI: string;
+        contentURI: string;
+        creator: string;
+        royaltyPayout: string;
+        royaltyBPS: BigNumberish;
+      },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     mintAllowlist(
       _to: string,
-      _metadataURI: string,
-      _contentURI: string,
-      _creator: string,
-      _royaltyPayoutAddress: string,
-      _royaltyBPS: BigNumberish,
+      _data: {
+        metadataURI: string;
+        contentURI: string;
+        creator: string;
+        royaltyPayout: string;
+        royaltyBPS: BigNumberish;
+      },
       _proof: BytesLike[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -1277,14 +1320,14 @@ export class CTest extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    updateMerkleRoot(
-      _newRoot: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     updateMetadataURI(
       _tokenId: BigNumberish,
       _metadataURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updateRoot(
+      _newRoot: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

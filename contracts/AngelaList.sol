@@ -5,7 +5,6 @@ pragma solidity ^0.8.9;
 import {MerkleProofUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-import "./interfaces/IAngelaList.sol";
 
 /**
 --------------------------------------------------------------------------------------------------------------------
@@ -27,11 +26,11 @@ TESTNET WIP
  */
 
 
-contract AngelaList is IAngelaList, OwnableUpgradeable {
+contract AngelaList {
 
     /// State variable containing merkle root 
     /// see {IAngelaList}
-    bytes32 public override merkleRoot;
+    bytes32 public merkleRoot;
 
     /// Events
     event merkleRootUpdated(bytes32 _merkleRoot);
@@ -39,7 +38,7 @@ contract AngelaList is IAngelaList, OwnableUpgradeable {
 
 
     /// update merkle root
-    function updateMerkleRoot(bytes32 _newRoot) public onlyOwner {
+    function updateMerkleRoot(bytes32 _newRoot) internal  {
         merkleRoot = _newRoot;
         emit merkleRootUpdated(merkleRoot);
     }

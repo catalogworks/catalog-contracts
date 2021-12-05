@@ -44,8 +44,8 @@ contract CTest is
 
     /// Events
     event Mint(address indexed, uint256 indexed, address indexed, string, string);
-    event MetadataUpdated(uint256 indexed tokenId, string metadataURI );
-
+    event MetadataUpdated(uint256 indexed, string);
+    event RoyaltyUpdated(uint256 indexed, address indexed);
     /// Mappings
     mapping(uint256 => string) public tokenMetadataURIs;
 
@@ -71,8 +71,6 @@ contract CTest is
         _;
     }
 
-
-    constructor() initializer{}
 
     /**
         initialize Function
@@ -165,38 +163,29 @@ contract CTest is
     /**
         mint Function
         @param _to address to mint to
-        @param _metadataURI string containing metadata (e.g IPFS URI pointing to metadata.json)
-        @param _contentURI string containing media content (subject to change, new EIP) 
-        @param _creator address of creator of token
-        @param _royaltyPayoutAddress address of royalty payout address
-        @param _royaltyBPS uint256 royalty percentage of creator. must be less than 10_000
+        @param _data TokenData struct, see ICTest
         @dev mints a new token with input data, no access control. this function is for testing purposes
      */
     function mint(
         address _to,
-        string memory _metadataURI,
-        string memory _contentURI,
-        address _creator,
-        address _royaltyPayoutAddress,
-        uint16 _royaltyBPS
+        TokenData calldata _data
     ) public {
 
-        require(_royaltyBPS < 10000, "royalty too high! calm down!");
-
+        require(_data.royaltyBPS < 10000, "royalty too high! calm down!");
 
         uint256 tokenId = _tokenIdCounter.current();
         _safeMint(_to, tokenId);
 
         tokenData[tokenId] = TokenData({
-            metadataURI: _metadataURI,
-            contentURI: _contentURI,
-            creator: _creator,
-            royaltyPayout: _royaltyPayoutAddress,
-            royaltyBPS: _royaltyBPS
+            metadataURI: _data.metadataURI,
+            contentURI: _data.contentURI,
+            creator: _data.creator,
+            royaltyPayout: _data.royaltyPayout,
+            royaltyBPS: _data.royaltyBPS
         });
 
         // event time 
-        emit Mint(_msgSender(), tokenId,  _creator, _metadataURI, _contentURI);
+        emit Mint(_msgSender(), tokenId,  _data.creator, _data.metadataURI, _data.contentURI);
 
         /// increase tokenid
         _tokenIdCounter.increment();
@@ -207,11 +196,7 @@ contract CTest is
     /**
         mintAllowlist Function
         @param _to address to mint to
-        @param _metadataURI string containing metadata (e.g IPFS URI pointing to metadata.json)
-        @param _contentURI string containing media content (subject to change, new EIP)
-        @param _creator address of creator of token
-        @param _royaltyPayoutAddress address of royalty payout address
-        @param _royaltyBPS uint256 royalty percentage of creator. must be less than 10_000
+        @param _data TokenData struct, see ICTest
         @param _proof bytes32[] merkle proof of artist wallet. this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
         @return uint256 tokenId of minted token (useful since we are not using Enumerable)
         @dev mints a new token to allowlisted users with a valid merkle proof. params can and should
@@ -220,32 +205,28 @@ contract CTest is
      */
     function mintAllowlist(
         address _to,
-        string memory _metadataURI,
-        string memory _contentURI,
-        address _creator,
-        address _royaltyPayoutAddress,
-        uint16 _royaltyBPS,
+        TokenData calldata _data,
         bytes32[] calldata _proof
     ) external returns (uint256){
 
         /// call angela
-        require(verify(leaf(_creator), _proof), "invalid proof");
+        require(verify(leaf(_data.creator), _proof), "invalid proof");
 
-        require(_royaltyBPS < 10000, "royalty too high! calm down!");
+        require(_data.royaltyBPS < 10000, "royalty too high! calm down!");
 
         uint256 tokenId = _tokenIdCounter.current();
         _safeMint(_to, tokenId);
 
         tokenData[tokenId] = TokenData({
-            metadataURI: _metadataURI,
-            contentURI: _contentURI,
-            creator: _creator,
-            royaltyPayout: _royaltyPayoutAddress,
-            royaltyBPS: _royaltyBPS
+            metadataURI: _data.metadataURI,
+            contentURI: _data.contentURI,
+            creator: _data.creator,
+            royaltyPayout: _data.royaltyPayout,
+            royaltyBPS: _data.royaltyBPS
         });
 
         // event time 
-        emit Mint(_msgSender(), tokenId,  _creator, _metadataURI, _contentURI);
+        emit Mint(_msgSender(), tokenId,  _data.creator, _data.metadataURI, _data.contentURI);
 
         /// increase tokenid
         _tokenIdCounter.increment();
@@ -266,13 +247,17 @@ contract CTest is
         uint256 _tokenId,
         string memory _metadataURI,
         string memory _contentURI
-    ) public onlyOwner {
+    ) external onlyOwner {
 
         tokenData[_tokenId].metadataURI = _metadataURI;
         tokenData[_tokenId].contentURI = _contentURI;
     
     
         // event heree!
+    }
+
+    function updateRoot(bytes32 _newRoot) external onlyOwner {
+        updateMerkleRoot(_newRoot);
     }
 
 
