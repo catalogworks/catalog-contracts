@@ -39,7 +39,6 @@ contract CTest is
     AngelaList    
 {
 
-
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Events
@@ -256,6 +255,13 @@ contract CTest is
         // event heree!
     }
 
+    /**
+        updateRoot Function
+        @param _newRoot bytes32 containing the new root hash, generated off-chain
+        @dev access controlled function, restricted to owner/admim.
+        @notice this function is inherits from Angela.sol, and may not be necessary depending
+                on role based configuration.
+     */
     function updateRoot(bytes32 _newRoot) external onlyOwner {
         updateMerkleRoot(_newRoot);
     }

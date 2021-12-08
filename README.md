@@ -8,6 +8,14 @@ EVM hardhat environment smart contract development project.
 Catalog Shared Creator Contract (cNFT): [CTest.sol](./contracts/CTest.sol)
 
 
+## Current Deployments 
+
+CTest (Rinkeby)
+
+- Proxied CTest (what we interact with): [0xAa8e4FdCC2f8D3749276bbA721C125B12b96f2E1](https://rinkeby.etherscan.io/address/0xaa8e4fdcc2f8d3749276bba721c125b12b96f2e1#code)
+- CTest Implementation (base contract that gets upgraded): [0x2Df3C8B5a53a9319C3E2A86ba73eC9626A368c90](https://rinkeby.etherscan.io/address/0x2Df3C8B5a53a9319C3E2A86ba73eC9626A368c90#code)
+- Proxy Admin: [0x1E41AD5EBD826cF719c0a949122589a1f3943282](https://rinkeby.etherscan.io/address/0x1e41ad5ebd826cf719c0a949122589a1f3943282)
+
 ## Install
 
 
