@@ -10,6 +10,12 @@ Catalog Shared Creator Contract (cNFT): [CTest.sol](./contracts/CTest.sol)
 
 ## Current Deployments 
 
+
+CTLTest (Rinkeby)
+
+- Proxied CTLTest (interact): [0x4d9cc244684483A55249A6D1C00f29D2421299d7](https://rinkeby.etherscan.io/address/0x4d9cc244684483A55249A6D1C00f29D2421299d7)
+- CTLTest Implementation: [0xbEa99d2125842D96A0DBe3f870803a58D139a742](https://rinkeby.etherscan.io/address/0xbEa99d2125842D96A0DBe3f870803a58D139a742)
+
 CTest (Rinkeby)
 
 - Proxied CTest (what we interact with): [0xAa8e4FdCC2f8D3749276bbA721C125B12b96f2E1](https://rinkeby.etherscan.io/address/0xaa8e4fdcc2f8d3749276bba721c125b12b96f2e1#code)
