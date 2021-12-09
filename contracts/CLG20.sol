@@ -24,12 +24,12 @@ TESTNET ERC-20 TOKEN
  */
 contract CLG20 is ERC20, Ownable {
 
-    event ohYeahMoneyTime(address indexed receiver, uint256 amount, string indexed memo);
+    event OhYeahMoneyTime(address indexed receiver, uint256 amount, string memo);
 
     constructor() ERC20("CLG20TestToken", "CLG20") {}
 
     function mint(address _to, uint256 _amount) public {
-        emit ohYeahMoneyTime(_to, _amount, "oh yeah money time");
+        emit OhYeahMoneyTime(_to, _amount, "oh yeah money time");
         _mint(_to, _amount);
     }
 

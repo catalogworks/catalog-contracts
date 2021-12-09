@@ -120,15 +120,15 @@ interface CLG20Interface extends ethers.utils.Interface {
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
+    "OhYeahMoneyTime(address,uint256,string)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
-    "ohYeahMoneyTime(address,uint256,string)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OhYeahMoneyTime"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ohYeahMoneyTime"): EventFragment;
 }
 
 export type ApprovalEvent = TypedEvent<
@@ -139,20 +139,20 @@ export type ApprovalEvent = TypedEvent<
   }
 >;
 
+export type OhYeahMoneyTimeEvent = TypedEvent<
+  [string, BigNumber, string] & {
+    receiver: string;
+    amount: BigNumber;
+    memo: string;
+  }
+>;
+
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string] & { previousOwner: string; newOwner: string }
 >;
 
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber] & { from: string; to: string; value: BigNumber }
->;
-
-export type ohYeahMoneyTimeEvent = TypedEvent<
-  [string, BigNumber, string] & {
-    receiver: string;
-    amount: BigNumber;
-    memo: string;
-  }
 >;
 
 export class CLG20 extends BaseContract {
@@ -411,6 +411,24 @@ export class CLG20 extends BaseContract {
       { owner: string; spender: string; value: BigNumber }
     >;
 
+    "OhYeahMoneyTime(address,uint256,string)"(
+      receiver?: string | null,
+      amount?: null,
+      memo?: null
+    ): TypedEventFilter<
+      [string, BigNumber, string],
+      { receiver: string; amount: BigNumber; memo: string }
+    >;
+
+    OhYeahMoneyTime(
+      receiver?: string | null,
+      amount?: null,
+      memo?: null
+    ): TypedEventFilter<
+      [string, BigNumber, string],
+      { receiver: string; amount: BigNumber; memo: string }
+    >;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -443,24 +461,6 @@ export class CLG20 extends BaseContract {
     ): TypedEventFilter<
       [string, string, BigNumber],
       { from: string; to: string; value: BigNumber }
-    >;
-
-    "ohYeahMoneyTime(address,uint256,string)"(
-      receiver?: string | null,
-      amount?: null,
-      memo?: string | null
-    ): TypedEventFilter<
-      [string, BigNumber, string],
-      { receiver: string; amount: BigNumber; memo: string }
-    >;
-
-    ohYeahMoneyTime(
-      receiver?: string | null,
-      amount?: null,
-      memo?: string | null
-    ): TypedEventFilter<
-      [string, BigNumber, string],
-      { receiver: string; amount: BigNumber; memo: string }
     >;
   };
 
