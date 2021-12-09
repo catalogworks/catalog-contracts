@@ -14,7 +14,6 @@ import 'tsconfig-paths/register';
 import 'hardhat-abi-exporter';
 import 'hardhat-tracer';
 import 'solidity-coverage';
-import '@primitivefi/hardhat-dodoc';
 
 import { node_url, accounts } from './utils/network';
 
