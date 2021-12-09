@@ -11,6 +11,11 @@ import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Addr
 import {ICTest} from "./interfaces/ICTest.sol";
 import {AngelaList} from "./AngelaList.sol";
 
+// emit hashes in events  as calldata during mint
+// contentURi via functions
+
+
+
 /**
 --------------------------------------------------------------------------------------------------------------------
                                                                                         
