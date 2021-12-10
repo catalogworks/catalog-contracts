@@ -173,7 +173,7 @@ contract CTLTest is
         require(_data.royaltyBPS < 10000, "royalty too high! calm down!");
 
         uint256 tokenId = _tokenIdCounter.current();
-        _safeMint(msg.sender, tokenId);
+        _mint(msg.sender, tokenId);
 
         tokenData[tokenId] = TokenData({
             metadataURI: _data.metadataURI,
@@ -209,7 +209,7 @@ contract CTLTest is
         require(_data.royaltyBPS < 10000, "royalty too high! calm down!");
 
         uint256 tokenId = _tokenIdCounter.current();
-        _safeMint(msg.sender, tokenId);
+        _mint(msg.sender, tokenId);
 
         tokenData[tokenId] = TokenData({
             metadataURI: _data.metadataURI,

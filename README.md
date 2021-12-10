@@ -44,27 +44,27 @@ npx hardhat
 starting local hardhat EVM
 
 ```bash
-npx hardhat node
+yarn dev
 ```
 
 compiling solidity contracts
 
 ```bash
-npx hardhat compile
+yarn compile
 ```
 
 
 running tests
 
 ```bash
-npx hardhat test
+yarn test
 ```
 
 
 generating coverage reports
 
 ```bash
-npx hardhat coverage
+yarn coverage
 ```
 
 
@@ -98,7 +98,7 @@ The [./scripts](./scripts) directory contains several utility scripts for testin
 developing Catalog smart contracts.
 
 
-### tree.ts
+**tree.ts**
 
 Merkle Tree utility script.
 Generates a merkle root and proof given input wallet address
@@ -106,7 +106,7 @@ Used for Allowlisting.
 
 run with `yarn tree`
 
-### ipfsUpload.ts
+**ipfsUpload.ts**
 
 IPFS URI utility script.
 Setup to upload a basic metadata.json to ipfs, presents a URI for input
@@ -114,7 +114,7 @@ Use for easy testing.
 
 run with `yarn ipfs`
 
-### getArtists.ts
+**getArtists.ts**
 
 Wallet Address List utility scripts.
 Pulls valid artist wallet addresses from hasura, and saves them in `artists.json`

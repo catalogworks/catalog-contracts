@@ -30,7 +30,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     if (deployCTLTest.newlyDeployed) {
         log('\x1b[36m%s\x1b[0m',
             `
-            contract: CTest deployed at ${deployCTLTest.address} 
+            contract: CTLTest deployed at ${deployCTLTest.address} 
             using ${deployCTLTest.receipt?.gasUsed} gas. 
             Owner (to): ${deployCTLTest.receipt?.to}
             implementation: ${deployCTLTest.implementation}

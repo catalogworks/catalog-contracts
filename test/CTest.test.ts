@@ -16,7 +16,7 @@
 
 //     await deployments.fixture('CTest');
 
-//     const {tokenOwner, deployer} = await getNamedAccounts();
+//     const  {deployer} = await getNamedAccounts();
 
 //     const contracts = {
 //         CTest: <CTestType>await ethers.getContract('CTest'),

@@ -20,12 +20,15 @@ const main = async () => {
             },
             "duration": 521.064,
             "mimeType": "audio/aiff",
-            "notes": "ambient composition\n// recorded in my living room. 03.21\n\n\nforthcoming on pure bread records.",
+            "notes": "ambient composition\n// recorded in my living room. 03.21\n\n\nforthcoming on pure bread records. TEST METADATA",
             "project": null,
             "title": "LRA",
             "trackNumber": null,
             "version": "catalog-test",
             "visualizer": null,
+            "animation_url": "https://ipfs.io/ipfs/bafybeidgyewm2iflzvpil5hfceo2i63tjub64n5etzhwxv2bl52bshxn54",
+            "audio_url": "https://ipfs.io/ipfs/bafybeidgyewm2iflzvpil5hfceo2i63tjub64n5etzhwxv2bl52bshxn54",
+            "image": "https://ipfs.io/ipfs/bafybeib6txkazlatmdp3kwmxh6cs5ik72zxirji6bgbyok6mockto46h5i",
             "origin": {
                 "algorithm": "secp256k1",
                 "encoding": "rlp",
@@ -36,7 +39,7 @@ const main = async () => {
 
     const cid = await ipfs.add(metadata);
 
-    console.log('cid:', cid);
+    console.log('\n \n ','cid:', '\x1b[33m', cid, '\x1b[0m');
     console.log(await ipfs.cat(cid));
 
     

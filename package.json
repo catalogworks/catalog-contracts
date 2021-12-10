@@ -11,6 +11,8 @@
   "scripts": {
     "dev": "npx hardhat node --verbose --show-stack-traces",
     "test": "npx hardhat test --logs",
+    "test-nolog": "npx hardhat test",
+    "coverage": "npx hardhat coverage",
     "compile": "npx hardhat compile",
     "typechain": "rm -rf ./types/typechain && typechain --show-stack-traces",
     "build:contracts": "yarn compile && yarn typechain",

@@ -10,5 +10,17 @@ gasReporterOutput.json
 inputTuple.json
 metadata.json
 ./gasReporterOutput.json
+gasreporteroutput.json
 artists.json
+metadata.json
 types
+./types/typechain
+/types/typechain/
+./bin
+/bin
+./bin/contracts/
+./bin/contracts
+/bin/contracts
+
+
+gasReporterOutput.json
