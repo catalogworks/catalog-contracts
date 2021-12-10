@@ -35,6 +35,9 @@ if (process.env.HARDHAT_FORK) {
   process.env['HARDHAT_DEPLOY_FORK'] = process.env.HARDHAT_FORK;
 }
 
+if (process.env.DEPLOYER) {
+  console.log('\x1b[34m','DEPLOYER flag is set to true, using private keys from .env...','\x1b[0m');
+}
 
 
 // SET 'process.env.DEPLOYER = TRUE' TO USE PRIVATE KEY ACCOUNTS STORED IN .env
@@ -141,6 +144,7 @@ const config: HardhatUserConfig = {
   paths: {
     artifacts: './data/artifacts',
     deployments: './data/deployments',
+    sources: './contracts',
   },
 
   // Typechain config

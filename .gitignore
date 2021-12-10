@@ -9,3 +9,5 @@ coverage.json
 gasReporterOutput.json
 inputTuple.json
 metadata.json
+./gasReporterOutput.json
+artists.json

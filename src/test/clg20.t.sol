@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity 0.8.9;
 
-import "./test.sol";
+import "ds-test/test.sol";
 import "../contracts/CLG20.sol";
 
 contract CLG20Test is DSTest {
