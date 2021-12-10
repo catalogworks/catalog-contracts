@@ -37,8 +37,8 @@ if (process.env.HARDHAT_FORK) {
 
 
 
-
-
+// SET 'process.env.DEPLOYER = TRUE' TO USE PRIVATE KEY ACCOUNTS STORED IN .env
+// DEFAULTS TO USE DUMMY MNEMONIC ACCOUNTS FOR EASE AND TESTING
 const config: HardhatUserConfig = {
   // Solc config
   solidity: {
@@ -106,33 +106,34 @@ const config: HardhatUserConfig = {
     
     localhost: {
       url: node_url('localhost'),
-      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
+      // why use two line when one line do job
+      accounts: process.env.DEPLOYER ?  [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('localhost'),
     },
     staging: {
       url: node_url('rinkeby'),
-      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('rinkeby'),
     },
     production: {
       url: node_url('mainnet'),
-      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('mainnet'),
     },
     mainnet: {
       url: node_url('mainnet'),
-      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('mainnet'),
     },
     rinkeby: {
       url: node_url('rinkeby'),
-      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('rinkeby'),
       blockGasLimit: 10000000,
     },
     mumbai: {
       url: node_url('mumbai'),
-      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('mumbai'),
       blockGasLimit: 10000000,
     },
     goerli: {
       url: node_url('goerli'),
-      accounts: [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`],
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('goerli'),
       blockGasLimit: 10000000,
     }
   },
