@@ -9,6 +9,7 @@
     "node": ">=14.0.0"
   },
   "scripts": {
+    "postinstall": "npx hardhat typechain",
     "dev": "npx hardhat node --verbose --show-stack-traces",
     "test": "npx hardhat test --logs",
     "test-nolog": "npx hardhat test",
