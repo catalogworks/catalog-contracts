@@ -13,8 +13,12 @@ const fetchGraphQL = async (
     variables: Record<string, any>
 ) => {    
 
+    if (process.env.HASURA_ENDPOINT) {
+        console.log('\x1b[37m','USING HASURA_ENDPOINT: ', process.env.HASURA_ENDPOINT, '\x1b[0m');
+    }
+
     const config: AxiosRequestConfig = {
-        url: 'https://catalog.hasura.app/v1/graphql',
+        url: process.env.HASURA_ENDPOINT || 'https://catalog.hasura.app/v1/graphql',
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

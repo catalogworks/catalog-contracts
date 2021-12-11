@@ -6,14 +6,6 @@ pragma solidity ^0.8.9;
 /// base interface for Catalog cNFT TEST
 interface ICTest {
 
-    // /// EIP712 sig
-    // struct EIP712Signature {
-    //     uint256 deadline;
-    //     uint8 v;
-    //     bytes32 r;
-    //     bytes32 s;
-    // }
-
     /// token data (metadata and content)
     /**
         @param metadataURI string containing metadata (e.g IPFS URI pointing to metadata.json)
@@ -29,30 +21,6 @@ interface ICTest {
         address royaltyPayout;
         uint16 royaltyBPS;
     }
-
-    // /// EIP-712
-    // function mintWithSig(
-    //     address _to,
-    //     string memory _metadataURI,
-    //     string memory _contentURI,
-    //     address _creator,
-    //     address _royaltyPayoutAddress,
-    //     uint16 _royaltyBPS,
-    //     EIP712Signature calldata _signature
-
-    // ) external;
-
-    // function permit(
-    //     address spender,
-    //     uint256 _tokenId,
-    //     EIP712Signature calldata _signature
-    // ) external;
-
-    // function mint(TokenData calldata data) external; /// market shit needs to go here
-
-
-    // /// EIP712 sig
-    // function mintWithSig(TokenData calldata data, EIP712Signature calldata sig) external;
 
 
     // /// update token content URI (access controlled)

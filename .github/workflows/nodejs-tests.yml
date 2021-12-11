@@ -31,5 +31,8 @@ jobs:
       - name: Installing dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Generating Types
+        run: yarn typechain
+
       - name: Running tests
         run: yarn test

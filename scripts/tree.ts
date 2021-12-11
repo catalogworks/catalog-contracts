@@ -5,23 +5,13 @@
 import hre from 'hardhat';
 import  keccak256  from 'keccak256';
 import { MerkleTree } from 'merkletreejs';
-
+import data from '../artists.json'
 
 async function getInput(): Promise<string> {
     const readline = require('readline');
 
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
     const prompt = (query: any) => new Promise<string>((resolve) => rl.question(query, resolve));
-    //   try{
-    //     const name = await prompt('Input Address: ')
-    //     //can use name for next question if needed
-    //     //can prompt multiple times.
-    //     console.log(name);
-    //     address = String(name);
-    //     rl.close()
-    //   }catch(e){
-    //     console.error("unable to prompt",e)
-    // }
     
     const address = await prompt('\x1b[33m Input Address (to add to tree, and generate proof): \x1b[0m');
        
@@ -48,13 +38,8 @@ async function main(inputAddress?: string) {
             address = inputAddress;
         }
 
-        
-        // PUT WHATEVER ADDRESS YOU WANNA INPUT HERE, PASSING ARGS DOESN"T WORK FOR SOME REASON
         // AHHHHHH I"M MERKLE TREEEEING
-            
-
-        // make a tree 
-        const leaves = [
+        const leavesInput = [
             '0x8a5847fd0e592B058c026C5fDc322AEE834B87F5',
             '0x1CD4935Eb3d7291b2B0782F9aF7525564D277E7B',
             '0x1cd4935eb3d7291b2b0782f9af7525564d277e7b',
@@ -65,8 +50,14 @@ async function main(inputAddress?: string) {
             '0x8d165b4ca6055a9a41b1fe50d1ebaab2efe44385',
             '0x2ed0db8d2870ccac48b1693b9efe4341fedaecb1',
             inputAddress,
-            // address?.toString(),           
-        ].map((x) => keccak256(x));
+        ];
+
+        if (data) {
+            console.log('with artists.json data:', data);
+            await leavesInput.push(...data);
+        }   
+        // make a tree 
+        const leaves = leavesInput.map((x) => keccak256(x));
 
         const tree = new MerkleTree(leaves, keccak256, { sortPairs: true});
         const root = tree.getHexRoot();
@@ -95,10 +86,3 @@ getInput()
     console.error(error);
     process.exit(1);
 });
-
-// main()
-//     .then(() => process.exit(0))
-//     .catch((error) => {
-//         console.error(error);
-//         process.exit(1);
-//     });
