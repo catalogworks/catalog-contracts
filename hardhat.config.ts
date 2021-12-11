@@ -173,6 +173,7 @@ const config: HardhatUserConfig = {
     enabled: process.env.REPORT_GAS ? true : false,
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
     maxMethodDiff: 10,
+    showTimeSpent: true,
   },
 
   etherscan: {
