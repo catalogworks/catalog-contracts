@@ -15,52 +15,55 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
 
     // Proxy deploy for OZ 
-    // const deployTB303 = await deploy('TB303', {
-    //     from: deployer,
-    //     proxy: {
-    //         proxyContract: 'OptimizedTransparentProxy',
-    //         execute: {
-    //             methodName: "initialize",
-    //             // address _owner, string memory _name, string memory _symbol
-    //             args: ["TB303 v0", "TB303"]
-    //         }
-    //     },
-    //     log: true,
-    //     autoMine: true, // speeds deployment on local network. no effect on testnet/mainnet
-    // });
+    const deployTB303 = await deploy('TB303', {
+        from: deployer,
+        proxy: {
+            proxyContract: 'OptimizedTransparentProxy',
+            execute: {
+                methodName: "initialize",
+                // address _owner, string memory _name, string memory _symbol
+                args: ["TB303 v0", "TB303"]
+            }
+        },
+        log: true,
+        autoMine: true, // speeds deployment on local network. no effect on testnet/mainnet
+    });
 
-    const upgradeTB303 = await catchUnknownSigner(
-        deploy('TB303', {
-            contract: 'TB303V2',
-            from: deployer,
-            proxy: {
-                proxyContract: 'OptimizedTransparentProxy',
-                owner: multisig,
-            },
-            log: true,
-    }));
+    // if (process.env.DEPLOYER) {
 
-    if (upgradeTB303) {
-        log(`TB303 upgraded to TB303V2`);
-        log('\x1b[36m%s\x1b[0m',
-            `
-            address  = ${upgradeTB303}
+    // }
+    // const upgradeTB303 = await catchUnknownSigner(
+    //     deploy('TB303', {
+    //         contract: 'TB303V2',
+    //         from: deployer,
+    //         proxy: {
+    //             proxyContract: 'OptimizedTransparentProxy',
+    //             owner: multisig,
+    //         },
+    //         log: true,
+    // }));
 
-            `
-        );
-    }
-
-    // if (deployTB303.newlyDeployed) {
+    // if (upgradeTB303) {
+    //     log(`TB303 upgraded to TB303V2`);
     //     log('\x1b[36m%s\x1b[0m',
     //         `
-    //         contract: TB303 deployed at ${deployTB303.address} 
-    //         using ${deployTB303.receipt?.gasUsed} gas. 
-    //         Owner (to): ${deployTB303.receipt?.to}
-    //         implementation: ${deployTB303.implementation}
-    //         Signed from    : ${deployTB303.receipt?.from}
+    //         address  = ${upgradeTB303}
+
     //         `
     //     );
     // }
+
+    if (deployTB303.newlyDeployed) {
+        log('\x1b[36m%s\x1b[0m',
+            `
+            contract: TB303 deployed at ${deployTB303.address} 
+            using ${deployTB303.receipt?.gasUsed} gas. 
+            Owner (to): ${deployTB303.receipt?.to}
+            implementation: ${deployTB303.implementation}
+            Signed from    : ${deployTB303.receipt?.from}
+            `
+        );
+    }
 
 };
 

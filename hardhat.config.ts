@@ -74,7 +74,10 @@ const config: HardhatUserConfig = {
   namedAccounts: {
     deployer: 0,
     tokenOwner: 1,
-    multisig: '0xDD382e505E92cA8d8575B01593e510Baf74B7566',
+    multisig: {
+      default:0,
+      4:'0xDD382e505E92cA8d8575B01593e510Baf74B7566',
+    }
   },
 
   // Network config

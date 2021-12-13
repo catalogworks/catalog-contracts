@@ -21,7 +21,7 @@ Has ownership over ProxyAdmin contract. Used to deploy upgrades to proxied contr
 
 | Contract          | Address                                    | Etherscan                                                                                     |
 | ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
-| TB303 Proxy       | 0x06318d04f2d8d7b5dffcb0d33e6ce9d99488c3dd | [link](https://rinkeby.etherscan.io/address/0x06318d04f2d8d7b5dffcb0d33e6ce9d99488c3dd#code)) |
+| TB303 Proxy       | 0x06318d04f2d8d7b5dffcb0d33e6ce9d99488c3dd | [link](https://rinkeby.etherscan.io/address/0x06318d04f2d8d7b5dffcb0d33e6ce9d99488c3dd#code)  |
 | V1 Implementation | 0x6855881b07485129A54CD0D0031974E8936A4F80 | [link](https://rinkeby.etherscan.io/address/0x6855881b07485129a54cd0d0031974e8936a4f80)       |
 | V2 Implementation | 0x9c7c7a55d29a176b39e3cf58274F709B8c3E66A1 | [link](https://rinkeby.etherscan.io/address/0x9c7c7a55d29a176b39e3cf58274f709b8c3e66a1)       |
 | ProxyAdmin        | 0x1E41AD5EBD826cF719c0a949122589a1f3943282 | [link](https://rinkeby.etherscan.io/address/0x1E41AD5EBD826cF719c0a949122589a1f3943282)       |
