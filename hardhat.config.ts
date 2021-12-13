@@ -15,6 +15,9 @@ import 'hardhat-abi-exporter';
 import 'hardhat-tracer';
 import 'solidity-coverage';
 
+// trying
+import '@openzeppelin/hardhat-upgrades';
+
 import { node_url, accounts } from './utils/network';
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -86,7 +89,7 @@ const config: HardhatUserConfig = {
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
         // DISABLE IF NO ALCHEMY
-        enabled: false,
+        enabled: true,
         blockNumber: 13674612,
       },
 
