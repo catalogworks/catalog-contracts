@@ -5,22 +5,28 @@ EVM hardhat environment smart contract development project.
 
 ## Info
 
-Catalog Shared Creator Contract (cNFT): [CTest.sol](./contracts/CTest.sol)
+Current Implementation of Catalog Shared Creator Contract (cNFT): [TB303.sol](./contracts/catalog/TB303V2.sol) 
+
+### Rinkeby Multisig (Gnosis Safe)
+
+Address: 0xDD382e505E92cA8d8575B01593e510Baf74B7566
+Has ownership over ProxyAdmin contract. Used to deploy upgrades to proxied contracts
+
+
 
 
 ## Current Deployments 
 
+(CNFT V0: CODENAME "TB303")
 
-CTLTest (Rinkeby)
+| Contract          | Address                                    | Etherscan                                                                                     |
+| ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
+| TB303 Proxy       | 0x06318d04f2d8d7b5dffcb0d33e6ce9d99488c3dd | [link](https://rinkeby.etherscan.io/address/0x06318d04f2d8d7b5dffcb0d33e6ce9d99488c3dd#code)) |
+| V1 Implementation | 0x6855881b07485129A54CD0D0031974E8936A4F80 | [link](https://rinkeby.etherscan.io/address/0x6855881b07485129a54cd0d0031974e8936a4f80)       |
+| V2 Implementation | 0x9c7c7a55d29a176b39e3cf58274F709B8c3E66A1 | [link](https://rinkeby.etherscan.io/address/0x9c7c7a55d29a176b39e3cf58274f709b8c3e66a1)       |
+| ProxyAdmin        | 0x1E41AD5EBD826cF719c0a949122589a1f3943282 | [link](https://rinkeby.etherscan.io/address/0x1E41AD5EBD826cF719c0a949122589a1f3943282)       |
 
-- Proxied CTLTest (interact): [0x4d9cc244684483A55249A6D1C00f29D2421299d7](https://rinkeby.etherscan.io/address/0x4d9cc244684483A55249A6D1C00f29D2421299d7)
-- CTLTest Implementation: [0xbEa99d2125842D96A0DBe3f870803a58D139a742](https://rinkeby.etherscan.io/address/0xbEa99d2125842D96A0DBe3f870803a58D139a742)
 
-CTest (Rinkeby)
-
-- Proxied CTest (what we interact with): [0xAa8e4FdCC2f8D3749276bbA721C125B12b96f2E1](https://rinkeby.etherscan.io/address/0xaa8e4fdcc2f8d3749276bba721c125b12b96f2e1#code)
-- CTest Implementation (base contract that gets upgraded): [0x2Df3C8B5a53a9319C3E2A86ba73eC9626A368c90](https://rinkeby.etherscan.io/address/0x2Df3C8B5a53a9319C3E2A86ba73eC9626A368c90#code)
-- Proxy Admin: [0x1E41AD5EBD826cF719c0a949122589a1f3943282](https://rinkeby.etherscan.io/address/0x1e41ad5ebd826cf719c0a949122589a1f3943282)
 
 ## Install
 
