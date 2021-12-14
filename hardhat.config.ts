@@ -14,6 +14,8 @@ import 'tsconfig-paths/register';
 import 'hardhat-abi-exporter';
 import 'hardhat-tracer';
 import 'solidity-coverage';
+import '@primitivefi/hardhat-dodoc';
+
 
 // trying
 import '@openzeppelin/hardhat-upgrades';
@@ -76,6 +78,7 @@ const config: HardhatUserConfig = {
     tokenOwner: 1,
     multisig: {
       default:0,
+      // Rinkeby Catalog MultiSig
       4:'0xDD382e505E92cA8d8575B01593e510Baf74B7566',
     }
   },
@@ -182,7 +185,7 @@ const config: HardhatUserConfig = {
     maxMethodDiff: 10,
     showTimeSpent: true,
     onlyCalledMethods: true,
-    excludeContracts: [],
+    excludeContracts: ['CLG20.sol'],
     src: './contracts'
   },
 
@@ -200,6 +203,11 @@ const config: HardhatUserConfig = {
       },
     }
     : undefined,
+
+  dodoc: {
+    runOnCompile: true,
+    exclude: ['CatalogNFT.sol','BasicContract.sol', 'Royalties.sol']
+  }
 
 
 };

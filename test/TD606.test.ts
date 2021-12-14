@@ -45,7 +45,7 @@ describe("TD606 Tests ", () => {
         signer1Address = await signer1.getAddress();
 
         // setup contract
-        await deployments.fixture(["TD606"]);
+        await deployments.fixture(["TD606"], {fallbackToGlobal: false});
         const TD606 = await deployments.get('TD606');
         // mintableArtistInstance = await ethers.getContract('TD606', signer);
         mintableArtistInstance =  TD606__factory.connect(

@@ -44,7 +44,7 @@ describe("TB303 ", () => {
         signer1Address = await signer1.getAddress();
 
         // setup contract
-        const { TB303 } = await deployments.fixture(["TB303"]);
+        const { TB303 } = await deployments.fixture(["TB303"], {fallbackToGlobal: false});
         mintableArtistInstance = TB303__factory.connect(
             TB303.address,
             signer
