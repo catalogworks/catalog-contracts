@@ -161,7 +161,7 @@ const config: HardhatUserConfig = {
   },
 
   mocha: {
-    timeout: 20000,
+    timeout: 500000,
   },
 
   abiExporter: {
@@ -182,7 +182,8 @@ const config: HardhatUserConfig = {
     maxMethodDiff: 10,
     showTimeSpent: true,
     onlyCalledMethods: true,
-    excludeContracts: ['CTLTest.sol', 'CTLTestV2.sol', 'CTest.sol', 'CLG20.sol', 'BasicContract.sol'],
+    excludeContracts: [],
+    src: './contracts'
   },
 
   etherscan: {

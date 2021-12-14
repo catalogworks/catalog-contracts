@@ -4,7 +4,6 @@ import { expect } from "chai";
 import "@nomiclabs/hardhat-ethers";
 import { deployments, ethers, getNamedAccounts } from "hardhat";
 import keccak256 from "keccak256";
-
 import { TB303, TB303__factory } from "../types/typechain";
 import MerkleTree from "merkletreejs";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
@@ -68,6 +67,7 @@ describe("TB303 ", () => {
         console.log(merkleRoot);
         //@ts-ignore-next
         await mintableArtistInstance.updateRoot(merkleRoot);
+
     });
 
 
@@ -88,7 +88,7 @@ describe("TB303 ", () => {
         const mint = await mintableArtistInstance.mint(
             inputData,
             proof,
-        );
+        ).then((tx) => tx.wait());
     });
 
 
@@ -211,7 +211,7 @@ describe("TB303 ", () => {
 
 
         // transfer token
-        await mintableArtistInstance["safeTransferFrom(address,address,uint256)"](signerAddress, signer1Address, 1);
+        await mintableArtistInstance.transferFrom(signerAddress, signer1Address, 1);
 
         await expect(
             (await mintableArtistInstance.ownerOf(1)).toString()

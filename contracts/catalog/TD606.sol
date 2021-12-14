@@ -8,7 +8,6 @@ import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/Own
 import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 
-import {ITB303} from "../interfaces/ITB303.sol";
 import {AngelaList} from "../AngelaList.sol";
 
 

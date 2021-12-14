@@ -22,7 +22,7 @@ type TokenData = {
     royaltyBPS: BigNumberish;
 };
 
-describe("TB303 ", () => {
+describe("TD606 Tests ", () => {
 
     let mintableArtistInstance: TD606;
     let signer: SignerWithAddress;
@@ -47,7 +47,8 @@ describe("TB303 ", () => {
         // setup contract
         await deployments.fixture(["TD606"]);
         const TD606 = await deployments.get('TD606');
-        mintableArtistInstance = TD606__factory.connect(
+        // mintableArtistInstance = await ethers.getContract('TD606', signer);
+        mintableArtistInstance =  TD606__factory.connect(
             TD606.address,
             signer
         );
@@ -140,6 +141,7 @@ describe("TB303 ", () => {
             proof,
         );
         await mintableArtistInstance.updateRoyaltyInfo(1, signer1Address);
+
         await expect(
             (await mintableArtistInstance.royaltyPayoutAddress(1)).toString()
         ).to.equal(signer1Address).toString();
@@ -212,7 +214,7 @@ describe("TB303 ", () => {
 
 
         // transfer token
-        await mintableArtistInstance["safeTransferFrom(address,address,uint256)"](signerAddress, signer1Address, 1);
+        await mintableArtistInstance.transferFrom(signerAddress, signer1Address, 1);
 
         await expect(
             (await mintableArtistInstance.ownerOf(1)).toString()
