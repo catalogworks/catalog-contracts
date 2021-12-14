@@ -181,6 +181,8 @@ const config: HardhatUserConfig = {
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
     maxMethodDiff: 10,
     showTimeSpent: true,
+    onlyCalledMethods: true,
+    excludeContracts: ['CTLTest.sol', 'CTLTestV2.sol', 'CTest.sol', 'CLG20.sol', 'BasicContract.sol'],
   },
 
   etherscan: {

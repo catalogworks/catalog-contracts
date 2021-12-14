@@ -30,7 +30,6 @@ async function main(inputAddress?: string) {
            '\n \n \x1b[34m','༼ つ ◕_◕ ༽つ the tree utility ༼ つ ◕_◕ ༽つ', '\x1b[0m \n \n',
         );
 
-
         let address: string = inputAddress || '0x8a5847fd0e592B058c026C5fDc322AEE834B87F5';
 
         if (inputAddress) {
@@ -57,6 +56,7 @@ async function main(inputAddress?: string) {
             await leavesInput.push(...data);
         }   
         // make a tree 
+        //@ts-ignore
         const leaves = leavesInput.map((x) => keccak256(x));
 
         const tree = new MerkleTree(leaves, keccak256, { sortPairs: true});

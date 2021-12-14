@@ -8,6 +8,11 @@
   "engines": {
     "node": ">=14.0.0"
   },
+  "files": [
+    "./data/artifacts",
+    "./contracts",
+    "./types/typechain"
+  ],
   "scripts": {
     "postinstall": "npx hardhat typechain",
     "dev": "npx hardhat node --verbose --show-stack-traces",

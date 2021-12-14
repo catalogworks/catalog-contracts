@@ -9,7 +9,8 @@ Current Implementation of Catalog Shared Creator Contract (cNFT): [TB303.sol](./
 
 ### Rinkeby Multisig (Gnosis Safe)
 
-Address: 0xDD382e505E92cA8d8575B01593e510Baf74B7566
+Address: `0xDD382e505E92cA8d8575B01593e510Baf74B7566`
+
 Has ownership over ProxyAdmin contract. Used to deploy upgrades to proxied contracts
 
 

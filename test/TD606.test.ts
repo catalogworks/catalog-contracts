@@ -1,11 +1,11 @@
-// TB303.test.ts: test suite for TB303
+// TD606.test.ts: test suite for TD606
 
 import { expect } from "chai";
 import "@nomiclabs/hardhat-ethers";
 import { deployments, ethers, getNamedAccounts } from "hardhat";
 import keccak256 from "keccak256";
 
-import { TB303, TB303__factory } from "../types/typechain";
+import { TD606, TD606__factory } from "../types/typechain";
 import MerkleTree from "merkletreejs";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
 import { BigNumberish } from "@ethersproject/bignumber";
@@ -24,7 +24,7 @@ type TokenData = {
 
 describe("TB303 ", () => {
 
-    let mintableArtistInstance: TB303;
+    let mintableArtistInstance: TD606;
     let signer: SignerWithAddress;
     let signerAddress: string;
     let signer1: SignerWithAddress;
@@ -45,9 +45,10 @@ describe("TB303 ", () => {
         signer1Address = await signer1.getAddress();
 
         // setup contract
-        const { TB303 } = await deployments.fixture(["TB303"]);
-        mintableArtistInstance = TB303__factory.connect(
-            TB303.address,
+        await deployments.fixture(["TD606"]);
+        const TD606 = await deployments.get('TD606');
+        mintableArtistInstance = TD606__factory.connect(
+            TD606.address,
             signer
         );
 
