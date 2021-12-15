@@ -16,7 +16,6 @@ import 'hardhat-tracer';
 import 'solidity-coverage';
 import '@primitivefi/hardhat-dodoc';
 
-
 // trying
 import '@openzeppelin/hardhat-upgrades';
 
@@ -152,7 +151,9 @@ const config: HardhatUserConfig = {
   },
 
   paths: {
-    artifacts: './data/artifacts',
+    artifacts: './artifacts',
+    cache: './cache',
+    tests: './test',
     deployments: './data/deployments',
     sources: './contracts',
   },
@@ -161,6 +162,7 @@ const config: HardhatUserConfig = {
   typechain: {
     outDir: './types/typechain',
     target: 'ethers-v5',
+    externalArtifacts: ['artifacts/!(build-info)/**/!(*.dbg*)*.json']
   },
 
   mocha: {
@@ -205,9 +207,11 @@ const config: HardhatUserConfig = {
     : undefined,
 
   dodoc: {
-    runOnCompile: true,
+    runOnCompile: false,
     exclude: ['CatalogNFT.sol','BasicContract.sol', 'Royalties.sol']
-  }
+  },
+
+
 
 
 };

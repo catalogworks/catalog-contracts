@@ -5,13 +5,18 @@
   "version": "0.0.1",
   "private": true,
   "main": "./dist/index.js",
-  "types": "./types/index.ts",
+  "types": "./dist/index.d.ts",
   "engines": {
     "node": ">=14.0.0"
   },
   "files": [
     "./dist/**/*",
-    "./dist/*"
+    "./dist/*",
+    "/dist/**/*.d.ts",
+    "/dist/**/*.d.ts.map",
+    "/dist/**/*.js",
+    "/dist/**/*.js.map",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "lint": "yarn lint:sol && yarn lint:ts && yarn prettier:ckeck",
@@ -22,14 +27,15 @@
     "postinstall": "npx hardhat typechain",
     "dev": "npx hardhat node --verbose --show-stack-traces",
     "test": "npx hardhat test --logs",
-    "test-nolog": "npx hardhat test",
+    "test:gas": "cross-env REPORT_GAS=true npx hardhat test --logs",
+    "test:nolog": "npx hardhat test",
+    "typechain": "rm -rf ./types/typechain && hardhat typechain --show-stack-traces",
     "coverage": "npx hardhat coverage",
     "compile": "npx hardhat compile",
-    "typechain": "rm -rf ./types/typechain && typechain --show-stack-traces --target ethers-v5 --outDir ./types/typechain 'artifacts/!(build-info)/**/!(*.dbg*).json'",
     "build": "yarn build:contracts && yarn build:package",
+    "build:contracts": "yarn compile --no-typechain && yarn typechain",
+    "build:package": "rm -rf ./dist && tsc && cp types/typechain/*.d.ts dist/types/typechain && cp -R addresses dist && cp -R artifacts/contracts dist/artifacts && cp -R contracts dist",
     "prepublishOnly": "yarn build",
-    "build:contracts": "yarn compile && yarn typechain",
-    "build:package": "rm -rf ./dist && tsc && cp ./types/typechain/*.d.ts dist/types/typechain && cp -R artifacts/contrafts dist/artifacts && cp -R contracts dist",
     "tree": "npx hardhat run scripts/tree.ts",
     "ipfs": "npx hardhat run scripts/ipfsUpload.ts",
     "getartists": "npx hardhat run scripts/getArtists.ts"
@@ -60,7 +66,6 @@
     "hardhat": "^2.6.4",
     "hardhat-abi-exporter": "^2.2.1",
     "hardhat-deploy": "^0.9.3",
-    "hardhat-docgen": "^1.2.0",
     "hardhat-gas-reporter": "^1.0.4",
     "hardhat-spdx-license-identifier": "^2.0.3",
     "hardhat-tracer": "^1.0.0-alpha.6",

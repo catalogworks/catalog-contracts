@@ -11,6 +11,6 @@
 
     },
     "exclude": ["node_modules"],
-    "include": ["./scripts", "./test", "./deploy", "./types/typechain", "index.ts","test/**/*", "types/**/*"],
+    "include": [ "./types/typechain",  "index.ts",],
     "files": ["./hardhat.config.ts"]
   }
