@@ -36,7 +36,7 @@ artists.json
 metadata.json
 types
 ./types/typechain
-/types/typechain/
+/types
 ./bin
 /bin
 ./bin/contracts/

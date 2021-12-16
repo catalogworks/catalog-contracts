@@ -150,7 +150,8 @@ contract TD606 is
     /**
         mint Function
         @param _data TokenData struct, see ITB303
-        @param _proof bytes32[] merkle proof of artist wallet. this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
+        @param _proof bytes32[] merkle proof of artist wallet. 
+                                this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
         @return uint256 tokenId of minted token (useful since we are not using Enumerable)
         @dev mints a new token to allowlisted msg.sender with a valid merkle proof. params can and should
              be changed to calldata for gas efficiency. rename to "allowlist"
@@ -218,7 +219,8 @@ contract TD606 is
         updateMetadataURI Function
         @param _tokenId uint256 token id corresponding to the token to update
         @param _metadataURI string containing new/updated metadata (e.g IPFS URI pointing to metadata.json)
-        @dev access controlled, restricted to contract owner when they own the tokenId or the creator (when they own the token)
+        @dev access controlled, restricted to contract owner 
+             when they own the tokenId or the creator (when they own the token)
      */
     function updateMetadataURI(
         uint256 _tokenId,
@@ -235,7 +237,8 @@ contract TD606 is
         updateRoyaltyInfo Function
         @param _tokenId uint256 token id corresponding to the token of which to update royalty payout
         @param _royaltyPayoutAddress address of new royalty payout address
-        @dev access controlled to owner only, subject to change. this function allows for emergency royalty control (i.e compromised wallet)
+        @dev access controlled to owner only, subject to change. 
+             this function allows for emergency royalty control (i.e compromised wallet)
      */
     function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) external onlyOwner {
 
