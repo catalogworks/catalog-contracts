@@ -95,7 +95,7 @@ const config: HardhatUserConfig = {
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
         // DISABLE IF NO ALCHEMY
-        enabled: false,
+        enabled: true,
         blockNumber: 13674612,
       },
 
@@ -184,11 +184,8 @@ const config: HardhatUserConfig = {
     currency: 'USD',
     enabled: process.env.REPORT_GAS ? true : false,
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
-    maxMethodDiff: 10,
     showTimeSpent: true,
-    onlyCalledMethods: true,
     excludeContracts: ['CLG20.sol'],
-    src: './contracts'
   },
 
   etherscan: {
@@ -199,7 +196,7 @@ const config: HardhatUserConfig = {
     ? {
       deployments: {
         // process.env.HARHAT_FORK specifies network fork is made from
-        // allows fetching deployments from the network being forked form both for node and deploy task
+        // allows fetching deployments from the network being forked fromm both for node and deploy task
         hardhat: ['data/deployments/' + process.env.HARDHAT_FORK],
         localhost: ['data/deployments/' + process.env.HARDHAT_FORK],
       },
@@ -207,7 +204,7 @@ const config: HardhatUserConfig = {
     : undefined,
 
   dodoc: {
-    runOnCompile: false,
+    runOnCompile: true,
     exclude: ['CatalogNFT.sol','BasicContract.sol', 'Royalties.sol']
   },
 
