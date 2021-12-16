@@ -71,7 +71,7 @@ async function main(inputAddress?: string) {
         const proof =  tree.getHexProof(leaf);
         console.log('\x1b[33m%s\x1b[0m','proof for address:  (copy the red for etherscan, green for tenderly)');
         console.log('\x1b[36m%s\x1b[0m', `${address}`, '\n \n', '\x1b[31m',  proof.toString(), '\x1b[0m');
-        console.log('\n \n', '\x1b[32m',  proof, '\x1b[0m');
+        console.log('\n \n', '\x1b[32m',  JSON.stringify(proof), '\x1b[0m');
 
 
 
