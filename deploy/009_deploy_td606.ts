@@ -1,6 +1,7 @@
 // deploy script for TD606
 // 009_deploy_td606.ts
 
+// Modify this script for upgrades
 
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from 'hardhat-deploy/types';
@@ -22,7 +23,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             contract: 'TD606',
             proxy: {
                 upgradeIndex: 0,
-                owner: multisig,
+                // owner: multisig,
                 proxyContract: 'OptimizedTransparentProxy',
                 execute: {
                     methodName: "initialize",

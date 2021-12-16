@@ -206,7 +206,7 @@ const config: HardhatUserConfig = {
     : undefined,
 
   dodoc: {
-    runOnCompile: true,
+    runOnCompile: false,
     exclude: ['CatalogNFT.sol','BasicContract.sol', 'Royalties.sol']
   },
 
