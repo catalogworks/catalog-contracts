@@ -1,4 +1,4 @@
-// CTLtest.test.ts: test suite for CTest
+// CTest1.test.ts: test suite for CTest
 // hoping to fix proxy issues
 
 import { expect } from "chai";
@@ -6,7 +6,7 @@ import "@nomiclabs/hardhat-ethers";
 import { deployments, ethers, getNamedAccounts } from "hardhat";
 import keccak256 from "keccak256";
 
-import { CTLTest, CTLTest__factory } from "../types/typechain";
+import { CTest, CTest__factory } from "../../types/typechain";
 import MerkleTree from "merkletreejs";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
 import { BigNumberish } from "@ethersproject/bignumber";
@@ -23,9 +23,8 @@ type TokenData = {
     royaltyBPS: BigNumberish;
 };
 
-describe("CTLTest (v2 testnet contract)", () => {
-
-    let mintableArtistInstance: CTLTest;
+describe("CTestV2", () => {
+    let mintableArtistInstance: CTest;
     let signer: SignerWithAddress;
     let signerAddress: string;
     let signer1: SignerWithAddress;
@@ -46,9 +45,9 @@ describe("CTLTest (v2 testnet contract)", () => {
         signer1Address = await signer1.getAddress();
 
         // setup contract
-        const { CTLTest } = await deployments.fixture(["CTLTest"]);
-        mintableArtistInstance = CTLTest__factory.connect(
-            CTLTest.address,
+        const { CTest } = await deployments.fixture(["CTest"]);
+        mintableArtistInstance = CTest__factory.connect(
+            CTest.address,
             signer
         );
 
@@ -87,6 +86,7 @@ describe("CTLTest (v2 testnet contract)", () => {
         };
 
         const mint = await mintableArtistInstance.mintAllowlist(
+            signerAddress,
             inputData,
             proof,
         );
@@ -107,6 +107,7 @@ describe("CTLTest (v2 testnet contract)", () => {
             royaltyBPS: 1000,
         };
         const mint = await mintableArtistInstance.mintAllowlist(
+            signerAddress,
             inputData,
             proof,
         );
@@ -136,6 +137,7 @@ describe("CTLTest (v2 testnet contract)", () => {
             royaltyBPS: 1000,
         };
         const mint = await mintableArtistInstance.mintAllowlist(
+            signerAddress,
             inputData,
             proof,
         );
@@ -158,6 +160,7 @@ describe("CTLTest (v2 testnet contract)", () => {
             royaltyBPS: 2000,
         };
         const mint = await mintableArtistInstance.mintAllowlist(
+            signerAddress,
             inputData,
             proof,
         );
@@ -181,6 +184,7 @@ describe("CTLTest (v2 testnet contract)", () => {
         };
 
         const mint = await mintableArtistInstance.mintAllowlist(
+            signerAddress,
             inputData,
             proof,
         );

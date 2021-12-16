@@ -1,4 +1,4 @@
-// CTLTestV2.test.ts: test suite for CTest
+// CTLtest.test.ts: test suite for CTest
 // hoping to fix proxy issues
 
 import { expect } from "chai";
@@ -6,7 +6,7 @@ import "@nomiclabs/hardhat-ethers";
 import { deployments, ethers, getNamedAccounts } from "hardhat";
 import keccak256 from "keccak256";
 
-import { CTLTestV2, CTLTestV2__factory } from "../types/typechain";
+import { CTLTest, CTLTest__factory } from "../../types/typechain";
 import MerkleTree from "merkletreejs";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
 import { BigNumberish } from "@ethersproject/bignumber";
@@ -23,9 +23,9 @@ type TokenData = {
     royaltyBPS: BigNumberish;
 };
 
-describe("CTLV2 ", () => {
+describe("CTLTest (v2 testnet contract)", () => {
 
-    let mintableArtistInstance: CTLTestV2;
+    let mintableArtistInstance: CTLTest;
     let signer: SignerWithAddress;
     let signerAddress: string;
     let signer1: SignerWithAddress;
@@ -46,9 +46,9 @@ describe("CTLV2 ", () => {
         signer1Address = await signer1.getAddress();
 
         // setup contract
-        const { CTLTestV2 } = await deployments.fixture(["CTLTestV2"]);
-        mintableArtistInstance = CTLTestV2__factory.connect(
-            CTLTestV2.address,
+        const { CTLTest } = await deployments.fixture(["CTLTest"]);
+        mintableArtistInstance = CTLTest__factory.connect(
+            CTLTest.address,
             signer
         );
 

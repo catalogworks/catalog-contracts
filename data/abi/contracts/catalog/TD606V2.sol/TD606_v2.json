@@ -55,17 +55,17 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "",
+        "name": "tokenId",
         "type": "uint256"
       },
       {
         "indexed": false,
         "internalType": "string",
-        "name": "",
+        "name": "contentURI",
         "type": "string"
       }
     ],
-    "name": "MetadataUpdated",
+    "name": "ContentUpdated",
     "type": "event"
   },
   {
@@ -73,36 +73,18 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "indexed": true,
         "internalType": "uint256",
-        "name": "",
+        "name": "tokenId",
         "type": "uint256"
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
         "indexed": false,
         "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "",
+        "name": "metadataURI",
         "type": "string"
       }
     ],
-    "name": "Mint",
+    "name": "MetadataUpdated",
     "type": "event"
   },
   {
@@ -130,13 +112,13 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "",
+        "name": "tokenId",
         "type": "uint256"
       },
       {
         "indexed": true,
         "internalType": "address",
-        "name": "",
+        "name": "payoutAddress",
         "type": "address"
       }
     ],
@@ -272,30 +254,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getURIs",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "string",
         "name": "_name",
         "type": "string"
@@ -351,11 +309,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_to",
-        "type": "address"
-      },
-      {
         "components": [
           {
             "internalType": "string",
@@ -383,52 +336,7 @@
             "type": "uint16"
           }
         ],
-        "internalType": "struct ICTest.TokenData",
-        "name": "_data",
-        "type": "tuple"
-      }
-    ],
-    "name": "mint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_to",
-        "type": "address"
-      },
-      {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "metadataURI",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "contentURI",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "creator",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "royaltyPayout",
-            "type": "address"
-          },
-          {
-            "internalType": "uint16",
-            "name": "royaltyBPS",
-            "type": "uint16"
-          }
-        ],
-        "internalType": "struct ICTest.TokenData",
+        "internalType": "struct TD606_v2.TokenData",
         "name": "_data",
         "type": "tuple"
       },
@@ -438,7 +346,7 @@
         "type": "bytes32[]"
       }
     ],
-    "name": "mintAllowlist",
+    "name": "mint",
     "outputs": [
       {
         "internalType": "uint256",
@@ -673,25 +581,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "tokenMetadataURIs",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "_tokenId",
         "type": "uint256"
       }
@@ -752,6 +641,24 @@
       },
       {
         "internalType": "string",
+        "name": "_contentURI",
+        "type": "string"
+      }
+    ],
+    "name": "updateContentURI",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
         "name": "_metadataURI",
         "type": "string"
       }
@@ -788,29 +695,6 @@
       }
     ],
     "name": "updateRoyaltyInfo",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_metadataURI",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_contentURI",
-        "type": "string"
-      }
-    ],
-    "name": "updateTokenURIs",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

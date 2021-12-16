@@ -18,6 +18,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const deployTB303 = await deploy('TB303', {
         from: deployer,
         proxy: {
+            owner: multisig,
             proxyContract: 'OptimizedTransparentProxy',
             execute: {
                 methodName: "initialize",
@@ -28,6 +29,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         log: true,
         autoMine: true, // speeds deployment on local network. no effect on testnet/mainnet
     });
+
 
     // if (process.env.DEPLOYER) {
 

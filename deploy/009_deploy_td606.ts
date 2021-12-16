@@ -14,46 +14,28 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const { deployer, tokenOwner, multisig } = await getNamedAccounts();
 
 
+
     // Proxy deploy for OZ 
-    const deployTD606 = await deploy('TD606', {
-        from: deployer,
-        proxy: {
-            proxyContract: 'OptimizedTransparentProxy',
-            execute: {
-                methodName: "initialize",
-                // address _owner, string memory _name, string memory _symbol
-                args: ["TD606 v0", "TD606"]
-            }
-        },
-        log: true,
-        autoMine: true, // speeds deployment on local network. no effect on testnet/mainnet
+    const deployTD606 = await 
+        deploy('TD606', {
+            from: deployer,
+            contract: 'TD606',
+            proxy: {
+                upgradeIndex: 0,
+                owner: multisig,
+                proxyContract: 'OptimizedTransparentProxy',
+                execute: {
+                    methodName: "initialize",
+                    // address _owner, string memory _name, string memory _symbol
+                    args: ["TD606 NFT", "TD606"]
+                }
+                
+            },
+            log: true,
+            autoMine: true, // speeds deployment on local network. no effect on testnet/mainnet
     });
 
-    // if (process.env.DEPLOYER) {
-
-    // }
-    // const upgradeTB303 = await catchUnknownSigner(
-    //     deploy('TB303', {
-    //         contract: 'TB303V2',
-    //         from: deployer,
-    //         proxy: {
-    //             proxyContract: 'OptimizedTransparentProxy',
-    //             owner: multisig,
-    //         },
-    //         log: true,
-    // }));
-
-    // if (upgradeTB303) {
-    //     log(`TB303 upgraded to TB303V2`);
-    //     log('\x1b[36m%s\x1b[0m',
-    //         `
-    //         address  = ${upgradeTB303}
-
-    //         `
-    //     );
-    // }
-
-    if (deployTD606.newlyDeployed) {
+    if ( deployTD606 && deployTD606.newlyDeployed) {
         log('\x1b[36m%s\x1b[0m',
             `
             contract: TD606 deployed at ${deployTD606.address} 
@@ -65,6 +47,42 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         );
     }
 
+
+    // // Proxy deploy upgrade 
+    // const upgradeTD606 = await catchUnknownSigner(
+    //     deploy('TD606', {
+    //         from: deployer,
+    //         contract: 'TD606_v2',
+    //         proxy: {
+    //             upgradeIndex: 1,
+    //             owner: multisig,
+    //             proxyContract: 'OptimizedTransparentProxy',
+    //             execute: {
+    //                 methodName: "initialize",
+    //                 // address _owner, string memory _name, string memory _symbol
+    //                 args: ["TD606 NFT", "TD606"]
+    //             }
+    //         },
+    //         log: true,
+    //         autoMine: true,
+    // }));
+        
+    
+    
+    // if (upgradeTD606) {
+    //     log(`TD606 upgraded to TB303V2`);
+    //     log('\x1b[36m%s\x1b[0m',
+    //         `
+    //         address  = ${upgradeTD606}
+
+    //         `
+    //     );
+    // }
+
+
+
+
+
 };
 
 
@@ -72,3 +90,4 @@ export default func;
 
 // Deployment tags
 func.tags = ['TD606'];
+func.id = 'TD606';

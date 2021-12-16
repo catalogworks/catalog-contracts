@@ -22,7 +22,7 @@ ooooooooooooo oooooooooo.       .ooo     .oooo.       .ooo
      888       888     d88' `Y88   88P `88b  d88' `Y88   88P 
     o888o     o888bood8P'    `88bod8'   `Y8bd8P'   `88bod8'  
 
-    v1
+    v2
 
 ************************************************
 LEGAL DISCLAIMER:
@@ -31,15 +31,15 @@ LEGAL DISCLAIMER:
 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
 RINKEBY CNFT (V1: CODENAME "TD606")
-"TD606"                     :   Creator Shared NFT Media Contract for Catalog Records Inc.
+"TD606_v2"                  :   Creator Shared NFT Media Contract for Catalog Records Inc.
 @author                     :   @bretth18 (computerdata) of @catalogworks
-@title                      :   TD606
+@title                      :   TD606_v2
 @dev                        :   Upgradeable ERC721 Contract. See interface for further implemntation details.
                                 Purpose built for optmization over the Zora V1 contracts.
                                 Code relies heavily on implementations thanks to @ isian (iain nash) of Zora. 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
  */
-contract TD606 is
+contract TD606_v2 is
     ERC721Upgradeable,
     IERC2981Upgradeable,
     OwnableUpgradeable,
@@ -166,7 +166,7 @@ contract TD606 is
         /// call angela
         require(verify(leaf(_data.creator), _proof), "!valid proof");
 
-        require(_data.royaltyBPS < 10000, "royalty 2 high");
+        require(_data.royaltyBPS < 10000, "BPS !< 10000");
 
         uint256 tokenId = _tokenIdCounter.current();
         _mint(msg.sender, tokenId);
