@@ -1,5 +1,5 @@
 // deploy script for TD606
-// 008_deploy_td606.ts
+// 009_deploy_td606.ts
 
 
 import { HardhatRuntimeEnvironment } from "hardhat/types";

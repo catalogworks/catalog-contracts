@@ -34,7 +34,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     // }
     // const upgradeTB303 = await catchUnknownSigner(
     //     deploy('TB303', {
-    //         contract: 'TB303V2',
+    //         contract: 'TB303V3',
     //         from: deployer,
     //         proxy: {
     //             proxyContract: 'OptimizedTransparentProxy',

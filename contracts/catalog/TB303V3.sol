@@ -8,21 +8,21 @@ import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/Own
 import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 
+import {ITB303} from "../interfaces/ITB303.sol";
 import {AngelaList} from "../AngelaList.sol";
 
 
 /**
 --------------------------------------------------------------------------------------------------------------------
 
-ooooooooooooo oooooooooo.       .ooo     .oooo.       .ooo   
-8'   888   `8 `888'   `Y8b    .88'      d8P'`Y8b    .88'     
-     888       888      888  d88'      888    888  d88'      
-     888       888      888 d888P"Ybo. 888    888 d888P"Ybo. 
-     888       888      888 Y88[   ]88 888    888 Y88[   ]88 
-     888       888     d88' `Y88   88P `88b  d88' `Y88   88P 
-    o888o     o888bood8P'    `88bod8'   `Y8bd8P'   `88bod8'  
-
-    v0
+ooooooooooooo oooooooooo.    .oooo.     .oooo.     .oooo.   
+8'   888   `8 `888'   `Y8b .dP""Y88b   d8P'`Y8b  .dP""Y88b  
+     888       888     888       ]8P' 888    888       ]8P' 
+     888       888oooo888'     <88b.  888    888     <88b.  
+     888       888    `88b      `88b. 888    888      `88b. 
+     888       888    .88P o.   .88P  `88b  d88' o.   .88P  
+    o888o     o888bood8P'  `8bd88P'    `Y8bd8P'  `8bd88P'          
+    v3
 
 ************************************************
 LEGAL DISCLAIMER:
@@ -30,16 +30,17 @@ LEGAL DISCLAIMER:
 ************************************************
 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
-RINKEBY CNFT (V1: CODENAME "TD606")
-"TD606"                     :   Creator Shared NFT Media Contract for Catalog Records Inc.
+RINKEBY CNFT (V0: CODENAME "TB303")
+"TB303V3"                   :   Creator Shared NFT Media Contract for Catalog Records Inc.
 @author                     :   @bretth18 (computerdata) of @catalogworks
-@title                      :   TD606
+@title                      :   TB303V3
 @dev                        :   Upgradeable ERC721 Contract. See interface for further implemntation details.
                                 Purpose built for optmization over the Zora V1 contracts.
                                 Code relies heavily on implementations thanks to @ isian (iain nash) of Zora. 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
  */
-contract TD606 is
+contract TB303V3 is
+    ITB303,
     ERC721Upgradeable,
     IERC2981Upgradeable,
     OwnableUpgradeable,
@@ -49,21 +50,11 @@ contract TD606 is
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Events
-    event MetadataUpdated(uint256 indexed tokenId, string metadataURI);
-    event ContentUpdated(uint256 indexed tokenId, string contentURI);
-    event RoyaltyUpdated(uint256 indexed tokenId, address indexed payoutAddress);
-
-    /// State
-    struct TokenData {
-        string metadataURI;
-        string contentURI;
-        address creator;
-        address royaltyPayout;
-        uint16 royaltyBPS;
-    }
+    event MetadataUpdated(uint256 indexed, string);
+    event ContentUpdated(uint256 indexed, string);
+    event RoyaltyUpdated(uint256 indexed, address indexed);
 
     /// Mappings
-    mapping(uint256 => string) public tokenMetadataURIs;
     /// Maps tokenId to data struct
     mapping(uint256 => TokenData) private tokenData;
 
@@ -150,8 +141,7 @@ contract TD606 is
     /**
         mint Function
         @param _data TokenData struct, see ITB303
-        @param _proof bytes32[] merkle proof of artist wallet. 
-                                this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
+        @param _proof bytes32[] merkle proof of artist wallet. this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
         @return uint256 tokenId of minted token (useful since we are not using Enumerable)
         @dev mints a new token to allowlisted msg.sender with a valid merkle proof. params can and should
              be changed to calldata for gas efficiency. rename to "allowlist"
@@ -219,8 +209,7 @@ contract TD606 is
         updateMetadataURI Function
         @param _tokenId uint256 token id corresponding to the token to update
         @param _metadataURI string containing new/updated metadata (e.g IPFS URI pointing to metadata.json)
-        @dev access controlled, restricted to contract owner 
-             when they own the tokenId or the creator (when they own the token)
+        @dev access controlled, restricted to contract owner when they own the tokenId or the creator (when they own the token)
      */
     function updateMetadataURI(
         uint256 _tokenId,
@@ -237,8 +226,7 @@ contract TD606 is
         updateRoyaltyInfo Function
         @param _tokenId uint256 token id corresponding to the token of which to update royalty payout
         @param _royaltyPayoutAddress address of new royalty payout address
-        @dev access controlled to owner only, subject to change. 
-             this function allows for emergency royalty control (i.e compromised wallet)
+        @dev access controlled to owner only, subject to change. this function allows for emergency royalty control (i.e compromised wallet)
      */
     function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) external onlyOwner {
 
