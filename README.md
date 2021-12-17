@@ -22,7 +22,9 @@ EVM hardhat environment smart contract development project.
 
 ## Info
 
-Current Implementation of Catalog Shared Creator Contract (cNFT): [TB303.sol](./contracts/catalog/TB303V2.sol) 
+Current Implementation of Catalog Shared Creator Contract (cNFT): 
+[TD606.sol](./contracts/catalog/TD606.sol) 
+[Docs](./docs/TD606.md)
 
 
 ### Rinkeby Multisig (Gnosis Safe)
@@ -36,7 +38,7 @@ Has ownership over ProxyAdmin contract. Used to deploy upgrades to proxied contr
 
 ## Current Deployments 
 
-(CNFT V0: CODENAME "TB303")
+(CNFT V1: CODENAME "TD606")
 
 | Contract          | Address                                    | Etherscan                                                                                     |
 | ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|

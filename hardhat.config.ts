@@ -15,6 +15,8 @@ import 'hardhat-abi-exporter';
 import 'hardhat-tracer';
 import 'solidity-coverage';
 import '@primitivefi/hardhat-dodoc';
+import "@tenderly/hardhat-tenderly"
+
 
 // trying
 import '@openzeppelin/hardhat-upgrades';
