@@ -22,7 +22,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             from: deployer,
             contract: 'TD606',
             proxy: {
-                upgradeIndex: 0,
+                // upgradeIndex: 0,
                 // owner: multisig,
                 proxyContract: 'OptimizedTransparentProxy',
                 execute: {
@@ -34,6 +34,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             },
             log: true,
             autoMine: true, // speeds deployment on local network. no effect on testnet/mainnet
+            skipIfAlreadyDeployed: true
     });
 
     if ( deployTD606 && deployTD606.newlyDeployed) {
@@ -96,4 +97,3 @@ export default func;
 
 // Deployment tags
 func.tags = ['TD606'];
-func.id = 'TD606';

@@ -166,7 +166,7 @@ contract TD606 is
         /// call angela
         require(verify(leaf(_data.creator), _proof), "!valid proof");
 
-        require(_data.royaltyBPS < 10000, "royalty 2 high");
+        require(_data.royaltyBPS < 10000, "royalty !< 10000");
 
         uint256 tokenId = _tokenIdCounter.current();
         _mint(msg.sender, tokenId);
