@@ -15,6 +15,8 @@ import 'hardhat-abi-exporter';
 import 'hardhat-tracer';
 import 'solidity-coverage';
 import '@primitivefi/hardhat-dodoc';
+import "@tenderly/hardhat-tenderly"
+
 
 // trying
 import '@openzeppelin/hardhat-upgrades';
@@ -42,6 +44,8 @@ if (process.env.HARDHAT_FORK) {
 if (process.env.DEPLOYER) {
   console.log('\x1b[34m','DEPLOYER flag is set to true, using private keys from .env...','\x1b[0m');
 }
+
+const forkBool = (process.env.HARDHAT_DEPLOY_FORK ? true : false);
 
 
 // SET 'process.env.DEPLOYER = TRUE' TO USE PRIVATE KEY ACCOUNTS STORED IN .env
@@ -184,11 +188,8 @@ const config: HardhatUserConfig = {
     currency: 'USD',
     enabled: process.env.REPORT_GAS ? true : false,
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
-    maxMethodDiff: 10,
     showTimeSpent: true,
-    onlyCalledMethods: true,
     excludeContracts: ['CLG20.sol'],
-    src: './contracts'
   },
 
   etherscan: {
@@ -199,7 +200,7 @@ const config: HardhatUserConfig = {
     ? {
       deployments: {
         // process.env.HARHAT_FORK specifies network fork is made from
-        // allows fetching deployments from the network being forked form both for node and deploy task
+        // allows fetching deployments from the network being forked fromm both for node and deploy task
         hardhat: ['data/deployments/' + process.env.HARDHAT_FORK],
         localhost: ['data/deployments/' + process.env.HARDHAT_FORK],
       },

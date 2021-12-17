@@ -336,7 +336,7 @@
             "type": "uint16"
           }
         ],
-        "internalType": "struct TD606.TokenData",
+        "internalType": "struct TD606_v2.TokenData",
         "name": "_data",
         "type": "tuple"
       },

@@ -22,21 +22,33 @@ EVM hardhat environment smart contract development project.
 
 ## Info
 
-Current Implementation of Catalog Shared Creator Contract (cNFT): [TB303.sol](./contracts/catalog/TB303V2.sol) 
+Current Implementation of Catalog Shared Creator Contract (cNFT): 
+[TD606.sol](./contracts/catalog/TD606.sol) 
+[Docs](./docs/TD606.md)
 
 
 ### Rinkeby Multisig (Gnosis Safe)
 
 Address: `0xDD382e505E92cA8d8575B01593e510Baf74B7566`
 
-Has ownership over ProxyAdmin contract. Used to deploy upgrades to proxied contracts
+[will have] ownership over ProxyAdmin contract. Used to deploy upgrades to proxied contracts
 
 
 
 
 ## Current Deployments 
 
-(CNFT V0: CODENAME "TB303")
+(CNFT V1: CODENAME "TD606")
+
+| Contract          | Address                                    | Etherscan                                                                                     |
+| ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
+| TD606 Proxy       | 0x849880398BD686031Ccb44c2cd00FaC129654b55 | [link](https://rinkeby.etherscan.io/address/0x849880398BD686031Ccb44c2cd00FaC129654b55)  |
+| V1 Implementation | 0xc0F076ED4865E95a19A1EF176508944063b66E84 | [link](https://rinkeby.etherscan.io/address/0xc0F076ED4865E95a19A1EF176508944063b66E84)       |
+| ProxyAdmin        | 0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9 | [link](https://rinkeby.etherscan.io/address/0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9)       |
+
+
+
+## Past Deployments
 
 | Contract          | Address                                    | Etherscan                                                                                     |
 | ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
@@ -44,7 +56,6 @@ Has ownership over ProxyAdmin contract. Used to deploy upgrades to proxied contr
 | V1 Implementation | 0x6855881b07485129A54CD0D0031974E8936A4F80 | [link](https://rinkeby.etherscan.io/address/0x6855881b07485129a54cd0d0031974e8936a4f80)       |
 | V2 Implementation | 0x9c7c7a55d29a176b39e3cf58274F709B8c3E66A1 | [link](https://rinkeby.etherscan.io/address/0x9c7c7a55d29a176b39e3cf58274f709b8c3e66a1)       |
 | ProxyAdmin        | 0x1E41AD5EBD826cF719c0a949122589a1f3943282 | [link](https://rinkeby.etherscan.io/address/0x1E41AD5EBD826cF719c0a949122589a1f3943282)       |
-
 
 
 ## Install
