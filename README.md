@@ -208,3 +208,9 @@ Repo is setup with ESLint/Prettier/Solhint
 ## License
 
 [MIT](LICENSE)
+
+
+## Contract Legal 
+
+[https://catalog.works/terms](http://catalog.works/terms)
+

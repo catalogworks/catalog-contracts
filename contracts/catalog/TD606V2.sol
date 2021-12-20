@@ -26,7 +26,7 @@ ooooooooooooo oooooooooo.       .ooo     .oooo.       .ooo
 
 ************************************************
 LEGAL DISCLAIMER:
-<legal go here>
+https://catalog.works/terms
 ************************************************
 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
@@ -155,7 +155,7 @@ contract TD606_v2 is
                                 this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
         @return uint256 tokenId of minted token (useful since we are not using Enumerable)
         @dev mints a new token to allowlisted msg.sender with a valid merkle proof. params can and should
-             be changed to calldata for gas efficiency. rename to "allowlist"
+             be changed to calldata for gas efficiency. should proof be verified for input creator or msg.sender?
 
      */
     function mint(
@@ -164,6 +164,7 @@ contract TD606_v2 is
     ) external returns (uint256){
 
         /// call angela
+        // NOTE: 
         require(verify(leaf(_data.creator), _proof), "!valid proof");
 
         require(_data.royaltyBPS < 10000, "BPS !< 10000");

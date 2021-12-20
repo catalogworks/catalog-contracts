@@ -14,22 +14,23 @@ const main = async () => {
         "artwork": {
             "info": {
                 "mimeType": "image/jpeg",
-                "uri": "https://ipfs.io/ipfs/bafybeidcfq7znhvyqvhrc5ahmeoqouagetseqoa6tvz6c4uzjzsmcdjz6y"
+                "uri": "https://ipfs.io/ipfs/bafybeibyorpckxuwarb7cll5dckaw3hbxc5obhy7sup5aqzuutrmeexexy"
             },
             "isNft": false,
             "nft": null
         },
-        "duration": 436.416,
-        "mimeType": "audio/wav",
-        "notes": "some unfinished recording \n// tb303\n//armk2\n//p6\n//digitone",
+        "duration": 382.44,
+        "mimeType": "audio/aiff",
+        "notes": "yeah yeah demo time oh yeah woo yeah\n\n// unreleased COMPUTER DATA 2020",
         "project": null,
-        "title": "abmao",
+        "title": "demo118",
+        "name": "COMPUTER DATA - demo118",
         "trackNumber": null,
         "version": "catalog-test",
         "visualizer": null,
-        "animation_url": "https://bafybeie7xf47lf7yibiacit6sfhx73tqtjwf5crvngrmnzpvkjcjjghxqq.ipfs.dweb.link/",
-        "audio_url": "https://bafybeie7xf47lf7yibiacit6sfhx73tqtjwf5crvngrmnzpvkjcjjghxqq.ipfs.dweb.link/",
-        "image": "https://ipfs.io/ipfs/bafybeidcfq7znhvyqvhrc5ahmeoqouagetseqoa6tvz6c4uzjzsmcdjz6y",
+        "animation_url": "https://bafybeifrgmpchfijwyrtcpxnv633tkab7ut7geqfnkc3vu2nfcnwxoi5em.ipfs.dweb.link/",
+        "audio_url": "https://bafybeifrgmpchfijwyrtcpxnv633tkab7ut7geqfnkc3vu2nfcnwxoi5em.ipfs.dweb.link/",
+        "image": "https://bafybeibyorpckxuwarb7cll5dckaw3hbxc5obhy7sup5aqzuutrmeexexy.ipfs.dweb.link/",
         "origin": {
             "algorithm": "secp256k1",
             "encoding": "rlp",
@@ -37,6 +38,34 @@ const main = async () => {
             "publicKey": "0x0CcCcDAd491D8255d19475d4cC18c954AE185b0e"
         }
     });
+    // const metadata = JSON.stringify({
+    //     "artist": "COMPUTER DATA",
+    //     "artwork": {
+    //         "info": {
+    //             "mimeType": "image/jpeg",
+    //             "uri": "https://ipfs.io/ipfs/bafybeidcfq7znhvyqvhrc5ahmeoqouagetseqoa6tvz6c4uzjzsmcdjz6y"
+    //         },
+    //         "isNft": false,
+    //         "nft": null
+    //     },
+    //     "duration": 436.416,
+    //     "mimeType": "audio/wav",
+    //     "notes": "some unfinished recording \n// tb303\n//armk2\n//p6\n//digitone",
+    //     "project": null,
+    //     "title": "abmao",
+    //     "trackNumber": null,
+    //     "version": "catalog-test",
+    //     "visualizer": null,
+    //     "animation_url": "https://bafybeie7xf47lf7yibiacit6sfhx73tqtjwf5crvngrmnzpvkjcjjghxqq.ipfs.dweb.link/",
+    //     "audio_url": "https://bafybeie7xf47lf7yibiacit6sfhx73tqtjwf5crvngrmnzpvkjcjjghxqq.ipfs.dweb.link/",
+    //     "image": "https://ipfs.io/ipfs/bafybeidcfq7znhvyqvhrc5ahmeoqouagetseqoa6tvz6c4uzjzsmcdjz6y",
+    //     "origin": {
+    //         "algorithm": "secp256k1",
+    //         "encoding": "rlp",
+    //         "signature": "0xb018be74577f6520ba2b5ddaad72ef5f5cecb2e5fbce7ccdef71ca3005dcc2b5564d17098a85d0623f0f2922468f6b800bee33d857042af90b56dcf260eb86811b",
+    //         "publicKey": "0x0CcCcDAd491D8255d19475d4cC18c954AE185b0e"
+    //     }
+    // });
 
     // const metadata = JSON.stringify({
     //         "artist": "COMPUTER DATA",
