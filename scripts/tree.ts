@@ -48,6 +48,8 @@ async function main(inputAddress?: string) {
             '0x37b95b2fe82b35b01e475d3578e19614b2a8bef7',
             '0x8d165b4ca6055a9a41b1fe50d1ebaab2efe44385',
             '0x2ed0db8d2870ccac48b1693b9efe4341fedaecb1',
+            '0x25a1735D2490F8f6a72874B8d1084E0745DC01f2',
+            '0x77BbAC0F9340d5bffa8FDF433AfF3663d87CDbfF',
             inputAddress,
         ];
 

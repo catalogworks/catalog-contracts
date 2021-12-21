@@ -10,34 +10,140 @@ const main = async () => {
 
 
     const metadata = JSON.stringify({
+        "version": "catalog-20210202", 
+        "title": "drei",
         "artist": "COMPUTER DATA",
-        "artwork": {
-            "info": {
-                "mimeType": "image/jpeg",
-                "uri": "https://ipfs.io/ipfs/bafybeibyorpckxuwarb7cll5dckaw3hbxc5obhy7sup5aqzuutrmeexexy"
-            },
-            "isNft": false,
-            "nft": null
+        "description": null,
+        "duration": 434.103,
+        "mimeType": "audio/wav",
+        "trackNumber": 1,
+        "project": {
+            "title": "drei EP",
+            "artwork": {
+                    "uri": "https://ipfs.io/ipfs/bafybeifp645k6sact5i6oqjs7tbxfxlx6svdtskip75swyed5j7qy5zvey",
+                    "mimeType": "image/jpeg",
+                    "externalUrl": "https://zora.co/....",
+                    "nft": null
+                },
+                  "numTracks": 1,
+                  "type": ["EP", "Single"],
+                  "releaseDate": "DateTime ISO8601 (or sumn)",
+                  "recordLabel": "pure bread records",
+                  "publisher": "pure bread records",
+                  "compilation": false 
         },
-        "duration": 382.44,
-        "mimeType": "audio/aiff",
-        "notes": "yeah yeah demo time oh yeah woo yeah\n\n// unreleased COMPUTER DATA 2020",
-        "project": null,
-        "title": "demo118",
-        "name": "COMPUTER DATA - demo118",
-        "trackNumber": null,
-        "version": "catalog-test",
-        "visualizer": null,
-        "animation_url": "https://bafybeifrgmpchfijwyrtcpxnv633tkab7ut7geqfnkc3vu2nfcnwxoi5em.ipfs.dweb.link/",
-        "audio_url": "https://bafybeifrgmpchfijwyrtcpxnv633tkab7ut7geqfnkc3vu2nfcnwxoi5em.ipfs.dweb.link/",
-        "image": "https://bafybeibyorpckxuwarb7cll5dckaw3hbxc5obhy7sup5aqzuutrmeexexy.ipfs.dweb.link/",
-        "origin": {
-            "algorithm": "secp256k1",
-            "encoding": "rlp",
-            "signature": "0xb018be74577f6520ba2b5ddaad72ef5f5cecb2e5fbce7ccdef71ca3005dcc2b5564d17098a85d0623f0f2922468f6b800bee33d857042af90b56dcf260eb86811b",
-            "publicKey": "0x0CcCcDAd491D8255d19475d4cC18c954AE185b0e"
-        }
-    });
+        "artwork": {
+            "uri": "https://ipfs.io/ipfs/bafybeifp645k6sact5i6oqjs7tbxfxlx6svdtskip75swyed5j7qy5zvey",
+            "mimeType": "image/jpeg",
+            "externalUrl": "https://zora.co/....",
+            "nft": { 
+                "chainId": 4,
+                "contractAddress": "0x7C2668BD0D3c050703CEcC956C11Bd520c26f7d4",
+                "tokenId": 5299
+            }
+        },
+        "visualizer": {
+             "uri": "https://ipfs.io/ipfs/bafybeiavcox6ardvpxlmktkg4dw36dihtfho4ghhagjycniazvf5np66ta",
+              "mimeType": "video/quicktime",
+              "nft": null
+        },
+          "genre": "acid house",
+          "tags": ["string"],
+          "lyrics": "string",
+          "bpm": "125",
+          "key": "9A",
+          "language": "Deutsch",
+          "license": "n/a",
+          "isrc": "peeandpoo",
+          "locationCreated": "San Francisco, CA",
+          "recordedAt": "Undisclosed Location, San Francisco, CA",
+          "releaseDate": "DateTime ISO8601 (or sumn)",
+          "recordLabel": "pure bread records",
+          "isFamilyFriendly": true,
+          "credits": {
+                  "collaborators": ["none"],
+                  "composers": ["Brett Henderson"],
+                  "performers": ["Brett Henderson"],
+                  "producers": ["Brett Henderson"],
+                  "mixedBy": ["Brett Henderson"],
+                  "masteredBy": ["Brett Henderson"]
+          },
+          "links": [
+              "https://soundcloud.com/computerdata/drei-r0-sm",
+              "https://open.spotify.com/artist/5wwnitxvqbrtiGk3QW3BuN"
+          ],
+      
+          "losslessAudio": "bafybeihzo6jqtu2czrxpx6uacf2j4p6e4rxofqyt4gtzwaqoivl4tbcz4q",
+          "lossyAudio": "bafybeielmpl4qtsxcy2554ox4hjq47ow7xxqwcmy2b2zmc26g5nsct3l5e",
+          "samples": [],
+          "software": [],
+          "instruments": [
+              "TB-303",
+              "TR-909"
+          ],
+          "isRemix": false,
+          "originalSong": "",
+          "notes": "// big acid\n// unreleased 2019, COMPUTER DATA\n\n// pure bread records",
+          "additionalMedia": [], 
+          "thumbnail": "bafybeidw4krjfnbgdo75ascepkpkjr4nldo7yyrmprq4jzmrlom7nbueey", 
+          "image": "https://bafybeifp645k6sact5i6oqjs7tbxfxlx6svdtskip75swyed5j7qy5zvey.ipfs.dweb.link",
+          "name": "drei",
+          "external_url": "https://catalog.works/<contract>/<tokenId>",
+          "animation_url": "https://bafybeielmpl4qtsxcy2554ox4hjq47ow7xxqwcmy2b2zmc26g5nsct3l5e.ipfs.dweb.link",
+          "attributes": [
+              {
+                  "trait_type": "Track Title",
+                  "value": "drei"
+              },
+              {
+                  "trait_type": "Artist",
+                  "value": "COMPUTER DATA"
+              },
+              {
+                  "trait_type": "Album",
+                  "value": "drei"
+              },
+              {
+                  "trait_type": "BPM",
+                  "value": "125"
+              },
+              {
+                  "trait_type": "Key",
+                  "value": "9A"
+              }
+      
+          ]
+      });
+
+    // const metadata = JSON.stringify({
+    //     "artist": "COMPUTER DATA",
+    //     "artwork": {
+    //         "info": {
+    //             "mimeType": "image/jpeg",
+    //             "uri": "https://ipfs.io/ipfs/bafybeibyorpckxuwarb7cll5dckaw3hbxc5obhy7sup5aqzuutrmeexexy"
+    //         },
+    //         "isNft": false,
+    //         "nft": null
+    //     },
+    //     "duration": 382.44,
+    //     "mimeType": "audio/aiff",
+    //     "notes": "yeah yeah demo time oh yeah woo yeah\n\n// unreleased COMPUTER DATA 2020",
+    //     "project": null,
+    //     "title": "demo118",
+    //     "name": "COMPUTER DATA - demo118",
+    //     "trackNumber": null,
+    //     "version": "catalog-test",
+    //     "visualizer": null,
+    //     "animation_url": "https://bafybeifrgmpchfijwyrtcpxnv633tkab7ut7geqfnkc3vu2nfcnwxoi5em.ipfs.dweb.link/",
+    //     "audio_url": "https://bafybeifrgmpchfijwyrtcpxnv633tkab7ut7geqfnkc3vu2nfcnwxoi5em.ipfs.dweb.link/",
+    //     "image": "https://bafybeibyorpckxuwarb7cll5dckaw3hbxc5obhy7sup5aqzuutrmeexexy.ipfs.dweb.link/",
+    //     "origin": {
+    //         "algorithm": "secp256k1",
+    //         "encoding": "rlp",
+    //         "signature": "0xb018be74577f6520ba2b5ddaad72ef5f5cecb2e5fbce7ccdef71ca3005dcc2b5564d17098a85d0623f0f2922468f6b800bee33d857042af90b56dcf260eb86811b",
+    //         "publicKey": "0x0CcCcDAd491D8255d19475d4cC18c954AE185b0e"
+    //     }
+    // });
     // const metadata = JSON.stringify({
     //     "artist": "COMPUTER DATA",
     //     "artwork": {

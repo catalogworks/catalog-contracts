@@ -34,6 +34,7 @@ RINKEBY CNFT (V1: CODENAME "TD606")
 "TD606_v2"                  :   Creator Shared NFT Media Contract for Catalog Records Inc.
 @author                     :   @bretth18 (computerdata) of @catalogworks
 @title                      :   TD606_v2
+@notice                     :   This contrct is a derivative of the original TD606 contract.
 @dev                        :   Upgradeable ERC721 Contract. See interface for further implemntation details.
                                 Purpose built for optmization over the Zora V1 contracts.
                                 Code relies heavily on implementations thanks to @ isian (iain nash) of Zora. 
