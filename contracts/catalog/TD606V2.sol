@@ -26,7 +26,7 @@ ooooooooooooo oooooooooo.       .ooo     .oooo.       .ooo
 
 ************************************************
 LEGAL DISCLAIMER:
-<legal go here>
+https://catalog.works/terms
 ************************************************
 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
@@ -34,6 +34,7 @@ RINKEBY CNFT (V1: CODENAME "TD606")
 "TD606_v2"                  :   Creator Shared NFT Media Contract for Catalog Records Inc.
 @author                     :   @bretth18 (computerdata) of @catalogworks
 @title                      :   TD606_v2
+@notice                     :   This contrct is a derivative of the original TD606 contract.
 @dev                        :   Upgradeable ERC721 Contract. See interface for further implemntation details.
                                 Purpose built for optmization over the Zora V1 contracts.
                                 Code relies heavily on implementations thanks to @ isian (iain nash) of Zora. 
@@ -155,7 +156,7 @@ contract TD606_v2 is
                                 this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
         @return uint256 tokenId of minted token (useful since we are not using Enumerable)
         @dev mints a new token to allowlisted msg.sender with a valid merkle proof. params can and should
-             be changed to calldata for gas efficiency. rename to "allowlist"
+             be changed to calldata for gas efficiency. should proof be verified for input creator or msg.sender?
 
      */
     function mint(
@@ -164,6 +165,7 @@ contract TD606_v2 is
     ) external returns (uint256){
 
         /// call angela
+        // NOTE: 
         require(verify(leaf(_data.creator), _proof), "!valid proof");
 
         require(_data.royaltyBPS < 10000, "BPS !< 10000");
