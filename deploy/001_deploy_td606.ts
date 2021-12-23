@@ -34,7 +34,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             },
             log: true,
             autoMine: true, // speeds deployment on local network. no effect on testnet/mainnet
-            skipIfAlreadyDeployed: true
+            // skipIfAlreadyDeployed: true
     });
 
     if ( deployTD606 && deployTD606.newlyDeployed) {

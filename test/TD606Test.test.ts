@@ -378,13 +378,10 @@ describe("TD606 Test Suite v2", () => {
         );
 
         await expect(
-            (await TD606.royaltyInfo(1, 1)).toString()
+            (await TD606.royaltyInfo(1, 10)).toString()
         ).to.equal(
-            [users[3].address, 0.8].toString()
+            [users[3].address, 8].toString()
         )
-    })
-
-
-
+    });
 
 });

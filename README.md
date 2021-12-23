@@ -43,6 +43,7 @@ Address: `0xDD382e505E92cA8d8575B01593e510Baf74B7566`
 | Contract          | Address                                    | Etherscan                                                                                     |
 | ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
 | TD606 Proxy       | 0x849880398BD686031Ccb44c2cd00FaC129654b55 | [link](https://rinkeby.etherscan.io/address/0x849880398BD686031Ccb44c2cd00FaC129654b55)  |
+| V2 Implementation | 0xab4ae1640757980FA31A1EB66dEdc5a3A8716FAb | [link](https://rinkeby.etherscan.io/address/0xab4ae1640757980FA31A1EB66dEdc5a3A8716FAb)       |
 | V1 Implementation | 0xc0F076ED4865E95a19A1EF176508944063b66E84 | [link](https://rinkeby.etherscan.io/address/0xc0F076ED4865E95a19A1EF176508944063b66E84)       |
 | ProxyAdmin        | 0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9 | [link](https://rinkeby.etherscan.io/address/0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9)       |
 

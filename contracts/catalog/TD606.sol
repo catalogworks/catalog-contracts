@@ -280,12 +280,7 @@ contract TD606 is
         override 
         returns (address receiver, uint256 royaltyAmount) {
 
-        /// Don't give royalties to a bottomless pit lol. 
-        if(owner() == address(0x0)) {
-            return (owner(), 0);
-        }
-
-        return (owner(), (_salePrice * tokenData[_tokenId].royaltyBPS) / 10_000);
+        return (tokenData[_tokenId].royaltyPayout, (_salePrice * tokenData[_tokenId].royaltyBPS) / 10_000);
     }
     
 
