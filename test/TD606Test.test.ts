@@ -270,5 +270,118 @@ describe("TD606 Test Suite v2", () => {
         )
     });
 
+    // 07
+    it('returns the correct token contentURI', async () => {
+
+        const { users, deployer, multisig, merkletree, TD606 } = await setup();
+
+        //mint token
+        const proof = merkletree.getHexProof(hashAddress(users[4].address));
+        const inputData: TokenData = {
+            metadataURI: "https://catalog.works/content/metadata",
+            contentURI: "http://catalog.works/content/uri/pee",
+            creator: users[4].address,
+            royaltyPayout: users[4].address,
+            royaltyBPS: 2000,
+        };
+
+        const mint = await users[4].TD606.mint(
+            inputData,
+            proof,
+        );
+ 
+
+        // transfer token
+        await users[4].TD606.transferFrom(users[4].address, users[3].address, 1);
+
+        await expect(
+                (await TD606.tokenContentURI(1)).toString()
+        ).to.equal(
+            "http://catalog.works/content/uri/pee",
+        )
+    });
+
+    // 08
+    it('returns the correct creator address of the token', async () => {
+
+        const { users, deployer, multisig, merkletree, TD606 } = await setup();
+        const proof = merkletree.getHexProof(hashAddress(users[3].address));
+        const inputData: TokenData = {
+            metadataURI: "https://catalog.works/content/metadata",
+            contentURI: "http://catalog.works/content/uri",
+            creator: users[3].address,
+            royaltyPayout: users[3].address,
+            royaltyBPS: 5000,
+        };
+
+        const mint = await users[3].TD606.mint(
+            inputData,
+            proof,
+        );
+
+        await expect(
+            (await TD606.creator(1)).toString()
+        ).to.equal(
+            users[3].address,
+        )
+    });
+
+    // 09
+    it('can have contentURI updated by admin', async () => {
+        const { users, deployer, multisig, merkletree, TD606 } = await setup();
+        const proof = merkletree.getHexProof(hashAddress(users[3].address));
+        const inputData: TokenData = {
+            metadataURI: "https://catalog.works/content/metadata",
+            contentURI: "http://catalog.works/content/uri",
+            creator: users[3].address,
+            royaltyPayout: users[3].address,
+            royaltyBPS: 8000,
+        };
+
+        const mint = await users[3].TD606.mint(
+            inputData,
+            proof,
+        );
+
+        await expect(
+            (await TD606.tokenContentURI(1)).toString()
+        ).to.equal(
+            "http://catalog.works/content/uri",
+        )
+
+        // update contentURI
+        await deployer.TD606.updateContentURI(1, "poopinandpeeinyeahyeah");
+
+        await expect(
+            (await TD606.tokenContentURI(1)).toString()
+        ).to.equal(
+            "poopinandpeeinyeahyeah",   
+        )
+    });
+
+
+    // 10
+    it('returns correct royalty for EIP2981', async () => {
+        const { users, deployer, multisig, merkletree, TD606 } = await setup();
+        const proof = merkletree.getHexProof(hashAddress(users[3].address));
+        const inputData: TokenData = {
+            metadataURI: "https://catalog.works/content/metadata",
+            contentURI: "http://catalog.works/content/uri",
+            creator: users[3].address,
+            royaltyPayout: users[3].address,
+            royaltyBPS: 8000,
+        };
+
+        const mint = await users[3].TD606.mint(
+            inputData,
+            proof,
+        );
+
+        await expect(
+            (await TD606.royaltyInfo(1, 10)).toString()
+        ).to.equal(
+            [users[3].address, 8].toString()
+        )
+    });
 
 });

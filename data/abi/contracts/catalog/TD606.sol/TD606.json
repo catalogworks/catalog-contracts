@@ -216,6 +216,32 @@
   {
     "inputs": [
       {
+        "internalType": "bytes32",
+        "name": "c__0x0923cf13",
+        "type": "bytes32"
+      }
+    ],
+    "name": "c_0x0923cf13",
+    "outputs": [],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "c__0x8c7628f3",
+        "type": "bytes32"
+      }
+    ],
+    "name": "c_0x8c7628f3",
+    "outputs": [],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "_tokenId",
         "type": "uint256"

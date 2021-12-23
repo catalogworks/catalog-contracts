@@ -22,7 +22,7 @@ ooooooooooooo oooooooooo.       .ooo     .oooo.       .ooo
      888       888     d88' `Y88   88P `88b  d88' `Y88   88P 
     o888o     o888bood8P'    `88bod8'   `Y8bd8P'   `88bod8'  
 
-    v1
+    v2
 
 ************************************************
 LEGAL DISCLAIMER:
@@ -280,12 +280,7 @@ contract TD606 is
         override 
         returns (address receiver, uint256 royaltyAmount) {
 
-        /// Don't give royalties to a bottomless pit lol. 
-        if(owner() == address(0x0)) {
-            return (owner(), 0);
-        }
-
-        return (owner(), (_salePrice * tokenData[_tokenId].royaltyBPS) / 10_000);
+        return (tokenData[_tokenId].royaltyPayout, (_salePrice * tokenData[_tokenId].royaltyBPS) / 10_000);
     }
     
 

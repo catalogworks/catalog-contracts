@@ -166,6 +166,19 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "c__0xbcd919f5",
+        "type": "bytes32"
+      }
+    ],
+    "name": "c_0xbcd919f5",
+    "outputs": [],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "decimals",
     "outputs": [
