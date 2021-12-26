@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+/node_modules
+
+# testing
+/coverage
+
+# misc
+.DS_Store
+.vscode/
+bytes.json
+
+# logs
+npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+
+
+
+
+
+#Hardhat files
+cache
+coverage
+.env
+coverage.json
+gasReporterOutput.json
+inputTuple.json
+metadata.json
+./gasReporterOutput.json
+gasreporteroutput.json
+artists.json
+metadata.json
+
+
+
+gasReporterOutput.json
+inputmetadata2.json
+inputmetadata2.json
