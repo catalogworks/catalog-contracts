@@ -186,7 +186,6 @@ yarn getartists
 
 
 
-
 ## Types
 
 Project is configured for usage with Typescript.

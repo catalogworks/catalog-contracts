@@ -1,35 +1,36 @@
 {
-  "name": "catalog-contracts",
+  "name": "@catalogworks/catalog-contracts",
   "author": "@catalogworks",
   "license": "MIT",
-  "version": "0.0.1",
-  "private": true,
+  "version": "0.0.2",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/catalogworks/catalog-contracts.git"
+  },
   "engines": {
     "node": ">=14.0.0"
   },
   "files": [
     "./dist/**/*",
-    "./dist/*",
-    "/dist/**/*.d.ts",
-    "/dist/**/*.d.ts.map",
-    "/dist/**/*.js",
-    "/dist/**/*.js.map",
-    "CHANGELOG.md"
+    "./dist/*"
   ],
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com/"
+  },
   "scripts": {
     "lint": "yarn lint:sol && yarn lint:ts && yarn prettier:ckeck",
     "lint:sol": "solhint --coinfig ./.solhint.json --max-warnings 0 \"contracts/**/*.sol\"",
     "lint:ts": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore --ext .js, .ts .",
     "prettier": "prettier --config ./.prettierrc.yaml --write \"**/*.{js,json,md,sol,ts}\"",
     "prettier:check": "prettier --check --config ./.prettierrc.yaml \"**/*.{js,json,md,sol,ts}\"",
-    "postinstall": "npx hardhat typechain",
     "dev": "npx hardhat node --verbose --show-stack-traces",
     "test": "cross-env HARDHAT_DEPLOY_FIXTURE=true npx hardhat test --logs",
     "test:gas": "cross-env HARDHAT_DEPLOY_FIXTURE=true REPORT_GAS=true npx hardhat test --logs",
     "test:nolog": "npx hardhat test",
     "typechain": "rm -rf ./types/typechain && hardhat typechain --show-stack-traces",
+    "genfortest": "npx hardhat typechain",
     "coverage": "npx hardhat coverage",
     "compile": "npx hardhat compile",
     "build": "yarn build:contracts && yarn build:package",
@@ -79,14 +80,14 @@
     "solhint-plugin-prettier": "^0.0.5",
     "solidity-coverage": "^0.7.17",
     "tsconfig-paths": "^3.10.1",
-    "typechain": "^5.1.2"
-  },
-  "dependencies": {
-    "@primitivefi/hardhat-dodoc": "^0.1.3",
-    "axios": "^0.24.0",
-    "ethers": "^5.4.7",
+    "typechain": "^5.1.2",
     "nano-ipfs-store": "^0.1.3",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "@primitivefi/hardhat-dodoc": "^0.1.3",
+    "axios": "^0.24.0"
+  },
+  "dependencies": {
+    "ethers": "^5.4.7"
   }
 }
