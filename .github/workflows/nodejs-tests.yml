@@ -31,8 +31,8 @@ jobs:
       - name: Installing dependencies
         run: yarn install --frozen-lockfile
 
-      - name: postinstall
-        run: yarn postinstall
+      - name: genfortest
+        run: yarn genfortest
 
       - name: Running tests
         run: yarn test
