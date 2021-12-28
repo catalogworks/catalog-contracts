@@ -2,12 +2,15 @@
     "compilerOptions": {
       "target": "es2018",
       "module": "commonjs",
+      "moduleResolution": "node",
+      "importHelpers": true,
       "sourceMap": true,
       "strict": true,
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
       "outDir": "dist",
-      "resolveJsonModule": true
+      "resolveJsonModule": true,
+      "declaration": true,
 
     },
     "exclude": ["node_modules", "archive"],
