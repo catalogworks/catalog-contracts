@@ -38,11 +38,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     });
 
     if ( deployTD606 && deployTD606.newlyDeployed) {
-        hre.tenderly.verify({
-            name: 'TD606',
-            address: deployTD606.address,
-        });
-
         log('\x1b[36m%s\x1b[0m',
             `
             contract: TD606 deployed at ${deployTD606.address} 
