@@ -34,7 +34,7 @@ contract Royalties is IERC2981, ERC165 {
         /// emit event
         emit RoyaltyUpdated(_tokenId, _royaltyReceiver, _royaltyBPS);
 
-        royalties[_tokenId] = RoyaltyInfo({ royaltyBPS: _royaltyBPS, royaltyReceiver: _royaltyReceiver });
+        royalties[_tokenId] = RoyaltyInfo({royaltyBPS: _royaltyBPS, royaltyReceiver: _royaltyReceiver});
     }
 
     /// called w/ sale price to determine royalties owed

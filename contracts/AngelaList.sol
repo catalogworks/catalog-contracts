@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.9;
 
-import { MerkleProofUpgradeable } from "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
+import {MerkleProofUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
 
 /**
 --------------------------------------------------------------------------------------------------------------------

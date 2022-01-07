@@ -3,7 +3,7 @@ module.exports = {
     bracketSpacing: false,
     printWidth: 80,
     tabWidth: 2,
-    override: [
+    overrides: [
         {
             files: '*.sol',
             options: {

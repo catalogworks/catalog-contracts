@@ -1,107 +1,112 @@
 // lazy utility to upload metadata to ipfs
 
-import { network } from "hardhat";
+import {network} from 'hardhat';
 // @ts-ignore
-const IPFS = require("nano-ipfs-store");
+const IPFS = require('nano-ipfs-store');
 
 const main = async () => {
-  const ipfs = IPFS.at("https://ipfs.infura.io:5001");
+  const ipfs = IPFS.at('https://ipfs.infura.io:5001');
 
   const metadata = JSON.stringify({
-    version: "catalog-20210202",
-    title: "bd-demo",
-    artist: "COMPUTER DATA",
-    description: "//ahhh i'm testing\n//mint mint mint\nyeah yeah yeah\n\n// demo, 2020",
+    version: 'catalog-20210202',
+    title: 'bd-demo',
+    artist: 'COMPUTER DATA',
+    description:
+      "//ahhh i'm testing\n//mint mint mint\nyeah yeah yeah\n\n// demo, 2020",
     duration: 443.136,
-    mimeType: "audio/aiff",
+    mimeType: 'audio/aiff',
     trackNumber: 1,
     project: {
-      title: "bd-demo",
+      title: 'bd-demo',
       artwork: {
-        uri: "https://ipfs.io/ipfs/bafybeidlv23kqneb7m6mw3a5jw6wr7pgiheflt3x3sadi3zvy3tlw7j6xi",
-        mimeType: "image/png",
-        externalUrl: "https://zora.co/....",
+        uri: 'https://ipfs.io/ipfs/bafybeidlv23kqneb7m6mw3a5jw6wr7pgiheflt3x3sadi3zvy3tlw7j6xi',
+        mimeType: 'image/png',
+        externalUrl: 'https://zora.co/....',
         nft: null,
       },
       numTracks: 1,
-      type: ["EP", "Single"],
-      releaseDate: "DateTime ISO8601 (or sumn)",
-      recordLabel: "pure bread records",
-      publisher: "pure bread records",
+      type: ['EP', 'Single'],
+      releaseDate: 'DateTime ISO8601 (or sumn)',
+      recordLabel: 'pure bread records',
+      publisher: 'pure bread records',
       compilation: false,
     },
     artwork: {
-      uri: "https://ipfs.io/ipfs/bafybeidlv23kqneb7m6mw3a5jw6wr7pgiheflt3x3sadi3zvy3tlw7j6xi",
-      mimeType: "image/png",
-      externalUrl: "https://zora.co/....",
+      uri: 'https://ipfs.io/ipfs/bafybeidlv23kqneb7m6mw3a5jw6wr7pgiheflt3x3sadi3zvy3tlw7j6xi',
+      mimeType: 'image/png',
+      externalUrl: 'https://zora.co/....',
       nft: {
         chainId: 4,
-        contractAddress: "0x7C2668BD0D3c050703CEcC956C11Bd520c26f7d4",
+        contractAddress: '0x7C2668BD0D3c050703CEcC956C11Bd520c26f7d4',
         tokenId: 5313,
       },
     },
     visualizer: {
-      uri: "https://ipfs.io/ipfs/bafybeiavcox6ardvpxlmktkg4dw36dihtfho4ghhagjycniazvf5np66ta",
-      mimeType: "video/quicktime",
+      uri: 'https://ipfs.io/ipfs/bafybeiavcox6ardvpxlmktkg4dw36dihtfho4ghhagjycniazvf5np66ta',
+      mimeType: 'video/quicktime',
       nft: null,
     },
-    genre: "techno",
-    tags: ["string"],
-    lyrics: "string",
-    bpm: "130",
-    key: "4A",
-    language: "Deutsch",
-    license: "n/a",
-    isrc: "peeandpoo",
-    locationCreated: "San Francisco, CA",
-    recordedAt: "Undisclosed Location, San Francisco, CA",
-    releaseDate: "DateTime ISO8601 (or sumn)",
-    recordLabel: "pure bread records",
+    genre: 'techno',
+    tags: ['string'],
+    lyrics: 'string',
+    bpm: '130',
+    key: '4A',
+    language: 'Deutsch',
+    license: 'n/a',
+    isrc: 'peeandpoo',
+    locationCreated: 'San Francisco, CA',
+    recordedAt: 'Undisclosed Location, San Francisco, CA',
+    releaseDate: 'DateTime ISO8601 (or sumn)',
+    recordLabel: 'pure bread records',
     isFamilyFriendly: true,
     credits: {
-      collaborators: ["none"],
-      composers: ["Brett Henderson"],
-      performers: ["Brett Henderson"],
-      producers: ["Brett Henderson"],
-      mixedBy: ["Brett Henderson"],
-      masteredBy: ["Brett Henderson"],
+      collaborators: ['none'],
+      composers: ['Brett Henderson'],
+      performers: ['Brett Henderson'],
+      producers: ['Brett Henderson'],
+      mixedBy: ['Brett Henderson'],
+      masteredBy: ['Brett Henderson'],
     },
-    links: ["https://open.spotify.com/artist/5wwnitxvqbrtiGk3QW3BuN"],
+    links: ['https://open.spotify.com/artist/5wwnitxvqbrtiGk3QW3BuN'],
 
-    losslessAudio: "bafybeihl43fjf5ns5bk3odbegn6u74ysme5hhkl2o3yekfhm3hkqipkx6q",
-    lossyAudio: "bafybeigmr5pf2nuaqozhkma7xw2oedhhm6xkgwofoedxwjjo3w5zxdzixe",
+    losslessAudio:
+      'bafybeihl43fjf5ns5bk3odbegn6u74ysme5hhkl2o3yekfhm3hkqipkx6q',
+    lossyAudio: 'bafybeigmr5pf2nuaqozhkma7xw2oedhhm6xkgwofoedxwjjo3w5zxdzixe',
     samples: [],
     software: [],
-    instruments: ["TB-303", "TR-909"],
+    instruments: ['TB-303', 'TR-909'],
     isRemix: false,
-    originalSong: "",
-    notes: "//ahhh i'm testing\n//mint mint mint\nyeah yeah yeah\n\n// demo, 2020",
+    originalSong: '',
+    notes:
+      "//ahhh i'm testing\n//mint mint mint\nyeah yeah yeah\n\n// demo, 2020",
     additionalMedia: [],
-    thumbnail: "bafybeigo26pdxfplxkuyaoprzmqrt4tuoxas2ahiag45ybwfltdgjglid4",
-    image: "https://bafybeidlv23kqneb7m6mw3a5jw6wr7pgiheflt3x3sadi3zvy3tlw7j6xi.ipfs.dweb.link",
-    name: "COMPUTER DATA - bd-demo",
-    external_url: "https://catalog.works/<contract>/<tokenId>",
-    animation_url: "https://bafybeigmr5pf2nuaqozhkma7xw2oedhhm6xkgwofoedxwjjo3w5zxdzixe.ipfs.dweb.link",
+    thumbnail: 'bafybeigo26pdxfplxkuyaoprzmqrt4tuoxas2ahiag45ybwfltdgjglid4',
+    image:
+      'https://bafybeidlv23kqneb7m6mw3a5jw6wr7pgiheflt3x3sadi3zvy3tlw7j6xi.ipfs.dweb.link',
+    name: 'COMPUTER DATA - bd-demo',
+    external_url: 'https://catalog.works/<contract>/<tokenId>',
+    animation_url:
+      'https://bafybeigmr5pf2nuaqozhkma7xw2oedhhm6xkgwofoedxwjjo3w5zxdzixe.ipfs.dweb.link',
     attributes: [
       {
-        trait_type: "Track Title",
-        value: "bd-demo",
+        trait_type: 'Track Title',
+        value: 'bd-demo',
       },
       {
-        trait_type: "Artist",
-        value: "COMPUTER DATA",
+        trait_type: 'Artist',
+        value: 'COMPUTER DATA',
       },
       {
-        trait_type: "Album",
-        value: "bd-demo",
+        trait_type: 'Album',
+        value: 'bd-demo',
       },
       {
-        trait_type: "BPM",
-        value: "130",
+        trait_type: 'BPM',
+        value: '130',
       },
       {
-        trait_type: "Key",
-        value: "4A",
+        trait_type: 'Key',
+        value: '4A',
       },
     ],
   });
@@ -301,13 +306,13 @@ const main = async () => {
 
   const cid = await ipfs.add(metadata);
 
-  console.log("\n \n ", "cid:", "\x1b[33m", cid, "\x1b[0m");
+  console.log('\n \n ', 'cid:', '\x1b[33m', cid, '\x1b[0m');
   console.log(await ipfs.cat(cid));
 };
 
 main()
   .then(() => process.exit(0))
-  .catch(error => {
+  .catch((error) => {
     console.error(error);
     process.exit(1);
   });
