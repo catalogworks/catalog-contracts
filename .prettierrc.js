@@ -1,7 +1,8 @@
 module.exports = {
     singleQuote: true,
     bracketSpacing: false,
-    printWidth: 120,
+    printWidth: 80,
+    tabWidth: 2,
     override: [
         {
             files: '*.sol',

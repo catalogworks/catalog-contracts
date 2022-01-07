@@ -1,4 +1,5 @@
 'use strict';
+//@ts-ignore
 process.env.TS_NODE_FILES = true;
 module.exports = {
     'allow-uncaught': true,
