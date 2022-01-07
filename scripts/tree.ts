@@ -5,7 +5,7 @@
 import hre from 'hardhat';
 import  keccak256  from 'keccak256';
 import { MerkleTree } from 'merkletreejs';
-import data from '../artists.json'
+// import data from '../artists.json'
 
 async function getInput(): Promise<string> {
     const readline = require('readline');
@@ -53,10 +53,10 @@ async function main(inputAddress?: string) {
             inputAddress,
         ];
 
-        if (data) {
-            console.log('with artists.json data:', data);
-            await leavesInput.push(...data);
-        }   
+        // if (data) {
+        //     console.log('with artists.json data:', data);
+        //     await leavesInput.push(...data);
+        // }   
         // make a tree 
         //@ts-ignore
         const leaves = leavesInput.map((x) => keccak256(x));

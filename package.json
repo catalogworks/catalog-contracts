@@ -20,7 +20,9 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "scripts": {
-    "lint": "yarn lint:sol && yarn lint:ts && yarn prettier:ckeck",
+    "lint": "yarn lint:sol && yarn lint:ts && yarn prettier:check",
+    "linttest": "eslint \"**/*.{js,ts}\" && solhint src/**/*.sol",
+    "linttestfix": "eslint --fix \"**/*.{js,ts}\" && solhint --fix src/**/*.sol",
     "lint:sol": "solhint --coinfig ./.solhint.json --max-warnings 0 \"contracts/**/*.sol\"",
     "lint:ts": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore --ext .js, .ts .",
     "prettier": "prettier --config ./.prettierrc.yaml --write \"**/*.{js,json,md,sol,ts}\"",
@@ -54,8 +56,8 @@
     "@types/chai": "^4.2.22",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.10.2",
-    "@typescript-eslint/eslint-plugin": "^5.7.0",
-    "@typescript-eslint/parser": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
     "axios": "^0.24.0",
     "chai": "^4.3.4",
     "chai-ethers": "^0.0.1",
