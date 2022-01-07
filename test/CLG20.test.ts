@@ -6,7 +6,7 @@ import "@nomiclabs/hardhat-ethers";
 import { deployments, ethers, getNamedAccounts } from "hardhat";
 
 import { CLG20, CLG20__factory } from "../types/typechain";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
 
 describe("CLG20 Test Suite", () => {

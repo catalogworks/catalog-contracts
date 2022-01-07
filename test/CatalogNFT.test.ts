@@ -7,7 +7,8 @@ import keccak256 from "keccak256";
 
 import { CatalogNFT, CatalogNFT__factory } from "../types/typechain";
 import MerkleTree from "merkletreejs";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+
 
 function hashAddress(address: string) {
     return ethers.utils.solidityKeccak256(["address"], [address]);

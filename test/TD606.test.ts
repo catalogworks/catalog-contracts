@@ -7,7 +7,7 @@ import keccak256 from "keccak256";
 
 import { TD606, TD606__factory } from "../types/typechain";
 import MerkleTree from "merkletreejs";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BigNumberish } from "@ethersproject/bignumber";
 
 function hashAddress(address: string) {
