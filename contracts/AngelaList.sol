@@ -23,20 +23,16 @@ TESTNET WIP
 @dev                        :   n/a
  */
 
-
 contract AngelaList {
-
-    /// State variable containing merkle root 
+    /// State variable containing merkle root
     /// see {IAngelaList}
     bytes32 public merkleRoot;
 
     /// Events
     event merkleRootUpdated(bytes32 _merkleRoot);
 
-
-
     /// update merkle root
-    function updateMerkleRoot(bytes32 _newRoot) internal  {
+    function updateMerkleRoot(bytes32 _newRoot) internal {
         merkleRoot = _newRoot;
         emit merkleRootUpdated(merkleRoot);
     }
@@ -50,6 +46,4 @@ contract AngelaList {
     function verify(bytes32 _leaf, bytes32[] memory _proof) internal view returns (bool) {
         return MerkleProofUpgradeable.verify(_proof, merkleRoot, _leaf);
     }
-
 }
-

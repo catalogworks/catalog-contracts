@@ -11,8 +11,16 @@
 **/dist
 **/node_modules
 **/types
+**/archive
+
 
 # files
+.eslintrc.js
+.mocharc.js
+.prettierrc.js
+.solcover.js
+hardhat.config.ts
+index.ts
 *.env
 *.log
 .pnp.*
