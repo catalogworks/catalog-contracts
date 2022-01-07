@@ -2,10 +2,8 @@
 
 pragma solidity 0.8.9;
 
-
 /// base interface for Catalog cNFT TEST
 interface ITB303 {
-
     /// token data (metadata and content)
     /**
         @param metadataURI string containing metadata (e.g IPFS URI pointing to metadata.json)
@@ -21,5 +19,4 @@ interface ITB303 {
         address royaltyPayout;
         uint16 royaltyBPS;
     }
-
 }

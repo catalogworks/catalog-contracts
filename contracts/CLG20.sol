@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.6;
 
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
 --------------------------------------------------------------------------------------------------------------------
@@ -23,7 +23,6 @@ TESTNET ERC-20 TOKEN
 @dev                        :   lol
  */
 contract CLG20 is ERC20, Ownable {
-
     event OhYeahMoneyTime(address indexed receiver, uint256 amount, string memo);
 
     constructor() ERC20("CLG20TestToken", "CLG20") {}
@@ -32,5 +31,4 @@ contract CLG20 is ERC20, Ownable {
         emit OhYeahMoneyTime(_to, _amount, "oh yeah money time");
         _mint(_to, _amount);
     }
-
 }

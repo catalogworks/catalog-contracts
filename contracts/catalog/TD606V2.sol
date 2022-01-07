@@ -2,14 +2,13 @@
 
 pragma solidity 0.8.9;
 
-import {ERC721Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
-import {IERC2981Upgradeable, IERC165Upgradeable} from "@openzeppelin/contracts-upgradeable/interfaces/IERC2981Upgradeable.sol";
-import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
-import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
+import { ERC721Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+import { IERC2981Upgradeable, IERC165Upgradeable } from "@openzeppelin/contracts-upgradeable/interfaces/IERC2981Upgradeable.sol";
+import { OwnableUpgradeable } from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import { CountersUpgradeable } from "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+import { AddressUpgradeable } from "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 
-import {AngelaList} from "../AngelaList.sol";
-
+import { AngelaList } from "../AngelaList.sol";
 
 /**
 --------------------------------------------------------------------------------------------------------------------
@@ -40,13 +39,7 @@ RINKEBY CNFT (V1: CODENAME "TD606")
                                 Code relies heavily on implementations thanks to @ isian (iain nash) of Zora. 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
  */
-contract TD606_v2 is
-    ERC721Upgradeable,
-    IERC2981Upgradeable,
-    OwnableUpgradeable,
-    AngelaList    
-{
-
+contract TD606_v2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, AngelaList {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Events
@@ -76,7 +69,6 @@ contract TD606_v2 is
         _;
     }
 
-
     /**
         initialize Function
         @notice Initializes contract with default values, acts as a constructor
@@ -84,19 +76,13 @@ contract TD606_v2 is
         @param _symbol string symbol of the contract
         @dev OZ proxy
      */
-    function initialize(
-        string memory _name,
-        string memory _symbol
-    ) public initializer {
-
+    function initialize(string memory _name, string memory _symbol) public initializer {
         __ERC721_init(_name, _symbol);
         __Ownable_init();
 
         // Set tokenId to start @ 1
         _tokenIdCounter.increment();
-
     }
-
 
     /**
         Burn Function
@@ -107,8 +93,7 @@ contract TD606_v2 is
     function burn(uint256 _tokenId) external {
         require(_isApprovedOrOwner(msg.sender, _tokenId), "Not Approved!");
         _burn(_tokenId);
-    } 
-
+    }
 
     /**
         tokenContentURI Function
@@ -120,7 +105,6 @@ contract TD606_v2 is
     function tokenContentURI(uint256 _tokenId) public view returns (string memory) {
         return tokenData[_tokenId].contentURI;
     }
-    
 
     /**
         creator Function
@@ -129,11 +113,10 @@ contract TD606_v2 is
         @return address creator of given tokenId
         @dev idk what this should be called, and do we need?
      */
-    function creator(uint256 _tokenId) public view  returns (address) {
+    function creator(uint256 _tokenId) public view returns (address) {
         require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
         return tokenData[_tokenId].creator;
     }
-
 
     /**
         royaltyPayoutAddress Function
@@ -147,7 +130,6 @@ contract TD606_v2 is
         return tokenData[_tokenId].royaltyPayout;
     }
 
-
     /**
         mint Function
         @notice mints a new token
@@ -159,13 +141,9 @@ contract TD606_v2 is
              be changed to calldata for gas efficiency. should proof be verified for input creator or msg.sender?
 
      */
-    function mint(
-        TokenData calldata _data,
-        bytes32[] calldata _proof
-    ) external returns (uint256){
-
+    function mint(TokenData calldata _data, bytes32[] calldata _proof) external returns (uint256) {
         /// call angela
-        // NOTE: 
+        // NOTE:
         require(verify(leaf(_data.creator), _proof), "!valid proof");
 
         require(_data.royaltyBPS < 10000, "BPS !< 10000");
@@ -185,9 +163,7 @@ contract TD606_v2 is
         _tokenIdCounter.increment();
 
         return tokenId;
-    
     }
-
 
     /**
         updateContentURI Function
@@ -196,16 +172,10 @@ contract TD606_v2 is
         @param _contentURI string containing new/updated media content (subject to change, new EIP)
         @dev access controlled function, restricted to owner/admim. subject to change.
      */
-    function updateContentURI(
-        uint256 _tokenId,
-        string memory _contentURI
-    ) external onlyOwner {
-
+    function updateContentURI(uint256 _tokenId, string memory _contentURI) external onlyOwner {
         emit ContentUpdated(_tokenId, _contentURI);
         tokenData[_tokenId].contentURI = _contentURI;
-    
     }
-
 
     /**
         updateRoot Function
@@ -219,7 +189,6 @@ contract TD606_v2 is
         updateMerkleRoot(_newRoot);
     }
 
-
     /**
         updateMetadataURI Function
         @notice updates the metadata URI of a token, emits an event
@@ -228,16 +197,12 @@ contract TD606_v2 is
         @dev access controlled, restricted to contract owner 
              when they own the tokenId or the creator (when they own the token)
      */
-    function updateMetadataURI(
-        uint256 _tokenId,
-        string memory _metadataURI
-    ) external tokenExists(_tokenId) onlyOwner {
-        // event 
+    function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external tokenExists(_tokenId) onlyOwner {
+        // event
         emit MetadataUpdated(_tokenId, _metadataURI);
 
         tokenData[_tokenId].metadataURI = _metadataURI;
     }
-
 
     /**
         updateRoyaltyInfo Function
@@ -248,13 +213,10 @@ contract TD606_v2 is
              this function allows for emergency royalty control (i.e compromised wallet)
      */
     function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) external onlyOwner {
-
         emit RoyaltyUpdated(_tokenId, _royaltyPayoutAddress);
         tokenData[_tokenId].royaltyPayout = _royaltyPayoutAddress;
-    
     }
 
-    
     /**
         tokenURI Function
         @notice override function to get the URI of a token. returns stored metadataURI
@@ -268,7 +230,6 @@ contract TD606_v2 is
         return tokenData[_tokenId].metadataURI;
     }
 
-
     /**
         royaltyInfo Function
         @notice override function gets royalty information for a token (EIP-2981)
@@ -276,15 +237,14 @@ contract TD606_v2 is
         @param _salePrice uint256 final sale price of token used to calculate royalty payout
         @dev override, conforms to EIP-2981
      */
-    function royaltyInfo(uint256 _tokenId, uint256 _salePrice) 
-        external 
-        view 
-        override 
-        returns (address receiver, uint256 royaltyAmount) {
-
+    function royaltyInfo(uint256 _tokenId, uint256 _salePrice)
+        external
+        view
+        override
+        returns (address receiver, uint256 royaltyAmount)
+    {
         return (tokenData[_tokenId].royaltyPayout, (_salePrice * tokenData[_tokenId].royaltyBPS) / 10_000);
     }
-    
 
     /**
         supportsInterface Function
@@ -293,18 +253,13 @@ contract TD606_v2 is
         @dev override 
      */
     function supportsInterface(bytes4 interfaceId)
-        public 
+        public
         view
         virtual
         override(ERC721Upgradeable, IERC165Upgradeable)
-        returns (bool) {
-        
-        return 
-            type(IERC2981Upgradeable).interfaceId == interfaceId ||
-            ERC721Upgradeable.supportsInterface(interfaceId);
-            // || type(ITokenContent).interfaceId == intefaceId;
-    
+        returns (bool)
+    {
+        return type(IERC2981Upgradeable).interfaceId == interfaceId || ERC721Upgradeable.supportsInterface(interfaceId);
+        // || type(ITokenContent).interfaceId == intefaceId;
     }
-
-
 }

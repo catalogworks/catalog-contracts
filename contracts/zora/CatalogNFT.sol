@@ -5,13 +5,13 @@ pragma solidity 0.8.6;
   Catalog.works NFT Contracts
 */
 
-import {ITokenContent, ContentData} from "./ITokenContent.sol";
-import {ERC721Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
-import {IERC2981Upgradeable} from "@openzeppelin/contracts-upgradeable/interfaces/IERC2981Upgradeable.sol";
-import {IERC165Upgradeable} from "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol";
-import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
-import {MerkleProofUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
+import { ITokenContent, ContentData } from "./ITokenContent.sol";
+import { ERC721Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+import { IERC2981Upgradeable } from "@openzeppelin/contracts-upgradeable/interfaces/IERC2981Upgradeable.sol";
+import { IERC165Upgradeable } from "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol";
+import { OwnableUpgradeable } from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import { CountersUpgradeable } from "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+import { MerkleProofUpgradeable } from "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
 
 /*
  * Catalog.works NFT Contracts
@@ -19,12 +19,7 @@ import {MerkleProofUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/
  * project: Catalog.works NFT Contracts
  * contract: iain n (@isiain)
  */
-contract CatalogNFT is
-    OwnableUpgradeable,
-    ERC721Upgradeable,
-    ITokenContent,
-    IERC2981Upgradeable
-{
+contract CatalogNFT is OwnableUpgradeable, ERC721Upgradeable, ITokenContent, IERC2981Upgradeable {
     event MetadataUpdated(uint256 indexed tokenId, string metadataUri);
     event RoyaltyUpdated(uint256 indexed tokenId, address payout);
 
@@ -59,24 +54,14 @@ contract CatalogNFT is
     modifier onlyAllowedMinter(bytes32[] calldata merkleProof) {
         // Verify the merkle proof.
         bytes32 node = keccak256(abi.encodePacked(msg.sender));
-        require(
-            MerkleProofUpgradeable.verify(
-                merkleProof,
-                allowedMintersRoot,
-                node
-            ),
-            "Only minter"
-        );
+        require(MerkleProofUpgradeable.verify(merkleProof, allowedMintersRoot, node), "Only minter");
         _;
     }
 
     /// @dev Sets up ERC721 Token
     /// @param _name name of token
     /// @param _symbol symbol of token
-    function initialize(string memory _name, string memory _symbol)
-        public
-        initializer
-    {
+    function initialize(string memory _name, string memory _symbol) public initializer {
         __ERC721_init(_name, _symbol);
 
         __Ownable_init();
@@ -101,10 +86,7 @@ contract CatalogNFT is
         bytes32[] calldata merkleProof,
         address[] calldata creators
     ) public onlyAllowedMinter(merkleProof) returns (uint256) {
-        require(
-            royaltyBps < 10000,
-            "Royalty needs to be less than 10000 bps (100%)"
-        );
+        require(royaltyBps < 10000, "Royalty needs to be less than 10000 bps (100%)");
         uint256 tokenId = tokenIdTracker.current();
         _mint(msg.sender, tokenId);
         tokenInfo[tokenId] = TokenInfo({
@@ -128,21 +110,14 @@ contract CatalogNFT is
     /// Only callable by the contract owner when they own the NFT or the creator when they own the NFT.
     /// @param tokenId token id to update the metadata for
     /// @param newMetadataUri new metadata uri string
-    function updateMetadataUri(uint256 tokenId, string memory newMetadataUri)
-        external
-        tokenExists(tokenId)
-        onlyOwner
-    {
+    function updateMetadataUri(uint256 tokenId, string memory newMetadataUri) external tokenExists(tokenId) onlyOwner {
         emit MetadataUpdated(tokenId, newMetadataUri);
         tokenInfo[tokenId].metadataUri = newMetadataUri;
     }
 
     /// Only callable by owner
     /// @param newReceiver address new royalty receiver address
-    function setTokenPayoutAdmin(uint256 tokenId, address newReceiver)
-        external
-        onlyOwner
-    {
+    function setTokenPayoutAdmin(uint256 tokenId, address newReceiver) external onlyOwner {
         tokenInfo[tokenId].payout = newReceiver;
         emit RoyaltyUpdated(tokenId, newReceiver);
     }
@@ -150,21 +125,11 @@ contract CatalogNFT is
     // Content info getter fns
 
     /// @param tokenId token id to get uri for
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override
-        tokenExists(tokenId)
-        returns (string memory)
-    {
+    function tokenURI(uint256 tokenId) public view override tokenExists(tokenId) returns (string memory) {
         return tokenInfo[tokenId].metadataUri;
     }
 
-    function content(uint256 tokenId)
-        external
-        override
-        returns (ContentData memory)
-    {
+    function content(uint256 tokenId) external override returns (ContentData memory) {
         return
             ContentData({
                 uri: tokenInfo[tokenId].contentUri,
@@ -180,10 +145,7 @@ contract CatalogNFT is
         override(IERC2981Upgradeable)
         returns (address receiver, uint256 royaltyAmount)
     {
-        return (
-            tokenInfo[tokenId].payout,
-            (salePrice * tokenInfo[tokenId].royaltyBps) / 10000
-        );
+        return (tokenInfo[tokenId].payout, (salePrice * tokenInfo[tokenId].royaltyBps) / 10000);
     }
 
     /// Interface ERC165 spec calls

@@ -6,14 +6,12 @@
 // import { bufferToHex, ecrecover, fromRpcSig, pubToAddress } from 'ethereumjs-util';
 // import { CTest__factory, CTest } from '../../types/typechain';
 
-
 // export type EIP712Sig = {
 //     deadline: BigNumberish;
 //     v: any;
 //     r: any;
 //     s: any;
 // };
-
 
 // export async function signPermit(owner: Wallet, toAddress: string, tokenAddress: string, tokenId: number, chainId: number ) {
 
@@ -26,7 +24,7 @@
 //         try {
 
 //             nonce = (await ctestContract.permitNonces(owner.address, tokenId)).toNumber();
-            
+
 //         } catch (e) {
 //             console.error('nonce error:', e);
 //             reject(e);
@@ -37,7 +35,6 @@
 //         const deadline = Math.floor(new Date().getTime() / 1000) + (60 * 60 * 24);
 
 //         const name = await ctestContract.name();
-
 
 //         try {
 //             const sig = signTypedData(Buffer.from(owner.privateKey.slice(2), 'hex'), {
@@ -91,7 +88,6 @@
 //     });
 // }
 
-
 // export async function signMintWithSig(owner: Wallet, tokenAddress: string, creator: string, metadataURI: string, contentURI: string, royaltyBPS: BigNumberish, chainId: number) {
 
 //     return new Promise<EIP712Sig>(async (resolve, reject) => {
@@ -101,7 +97,7 @@
 //         const ctestContract = CTest__factory.connect(tokenAddress, owner);
 
 //         try {
-            
+
 //             nonce = (await ctestContract.mintWithSigNonces(creator)).toNumber();
 
 //         } catch (e) {
@@ -168,7 +164,6 @@
 //             console.error('signMintWithSig error:', e);
 //             reject(e);
 //         }
-        
+
 //     });
 // }
-

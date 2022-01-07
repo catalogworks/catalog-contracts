@@ -70,7 +70,6 @@
 
 //     });
 
-
 //     // 01
 
 //     it("mints", async () => {
@@ -91,12 +90,11 @@
 //         ).then((tx) => tx.wait());
 //     });
 
-
 //     // 02
 
 //     it('properly updates', async () => {
 
-//         // mint token 
+//         // mint token
 //         const proof = merkletree.getHexProof(hashAddress(signerAddress))
 //         const inputData: TokenData = {
 //             metadataURI: "https://catalog.works/content/metadata",
@@ -119,7 +117,6 @@
 //         .withArgs(1, 'poopoopeepee');
 
 //     });
-
 
 //     // 03
 
@@ -209,7 +206,6 @@
 //             proof,
 //         );
 
-
 //         // transfer token
 //         await mintableArtistInstance.transferFrom(signerAddress, signer1Address, 1);
 
@@ -219,6 +215,5 @@
 //             signer1Address,
 //         )
 //     });
-
 
 // });
