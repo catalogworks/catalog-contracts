@@ -197,7 +197,7 @@ const config: HardhatUserConfig = {
     enabled: process.env.REPORT_GAS ? true : false,
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
     showTimeSpent: true,
-    excludeContracts: ['CLG20.sol'],
+    excludeContracts: ['CLG20.sol', 'TD606.sol', 'CatalogNFT.sol', 'TD606V2.sol', 'contract/zora'],
   },
 
   etherscan: {

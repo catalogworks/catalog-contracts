@@ -31,7 +31,8 @@ RINKEBY CNFT (V2.1: CODENAME "SP1200")
 "SP1200"                    :   Creator Shared NFT Media Contract for Catalog Records Inc.
 @author                     :   @bretth18 (computerdata) of @catalogworks
 @title                      :   SP1200
-@dev                        :   Upgradeable ERC721 Contract. This version is for testing an alternative burn method. 
+@dev                        :   Upgradeable ERC721 Contract. This version is for testing an alternative burn method
+                                and features role based permissions. 
                                 Purpose built for optmization over the Zora V1 contracts.
                                 Code relies heavily on implementations thanks to @ isian (iain nash) of Zora. 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
@@ -78,7 +79,7 @@ contract SP1200 is ERC721Upgradeable, IERC2981Upgradeable, AccessControlUpgradea
         @notice Initializes contract with default values, acts as a constructor
         @param _name string name of the contract
         @param _symbol string symbol of the contract
-        @dev OZ proxy
+        @dev Initializes contract with default values, acts as a constructor. Necessary for OZ proxy
      */
 
     function initialize(string memory _name, string memory _symbol) public initializer {
