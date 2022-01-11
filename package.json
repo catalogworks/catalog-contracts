@@ -40,7 +40,8 @@
     "prepublishOnly": "yarn build",
     "tree": "npx hardhat run scripts/tree.ts",
     "ipfs": "npx hardhat run scripts/ipfsUpload.ts",
-    "getartists": "npx hardhat run scripts/getArtists.ts"
+    "getartists": "npx hardhat run scripts/getArtists.ts",
+    "exportabi": "npx hardhat export-abi --no-compile"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@^0.3.0-beta.13",
