@@ -87,6 +87,7 @@ contract SP1200 is ERC721Upgradeable, IERC2981Upgradeable, AccessControlUpgradea
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(BURNER_ROLE, msg.sender);
+        _grantRole(TREE_ROLE, msg.sender);
 
         // Set tokenId to start @ 1
         _tokenIdCounter.increment();
@@ -207,11 +208,11 @@ contract SP1200 is ERC721Upgradeable, IERC2981Upgradeable, AccessControlUpgradea
         @dev access controlled, restricted to contract owner 
              when they own the tokenId or the creator (when they own the token)
      */
-    function updateMetadataURI(uint256 _tokenId, string memory _metadataURI)
-        external
-        tokenExists(_tokenId)
-        onlyRole(DEFAULT_ADMIN_ROLE)
-    {
+    function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external tokenExists(_tokenId) {
+        require(
+            msg.sender == tokenData[_tokenId].creator || hasRole(DEFAULT_ADMIN_ROLE, msg.sender),
+            "Only creator or admin"
+        );
         // event
         emit MetadataUpdated(_tokenId, _metadataURI);
 

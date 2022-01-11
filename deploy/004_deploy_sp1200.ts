@@ -36,7 +36,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     log(
       '\x1b[36m%s\x1b[0m',
       `
-            contract: TD606 deployed at ${deploySP1200.address} 
+            contract: SP1200 deployed at ${deploySP1200.address} 
             using ${deploySP1200.receipt?.gasUsed} gas. 
             Owner (to): ${deploySP1200.receipt?.to}
             implementation: ${deploySP1200.implementation}
