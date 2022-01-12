@@ -1,5 +1,5 @@
-// deploy script for TD606
-// 009_deploy_td606.ts
+// deploy script for TR909
+// 005_deploy_tr909.ts
 
 // Modify this script for upgrades
 
@@ -14,9 +14,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const {deployer, tokenOwner, multisig} = await getNamedAccounts();
 
     // Proxy deploy for OZ
-    const deployTD606 = await deploy('TD606', {
+    const deployTR909 = await deploy('TR909', {
         from: deployer,
-        contract: 'TD606',
+        contract: 'TR909',
         proxy: {
             // upgradeIndex: 0,
             // owner: multisig,
@@ -24,7 +24,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             execute: {
                 methodName: 'initialize',
                 // address _owner, string memory _name, string memory _symbol
-                args: ['TD606 NFT', 'TD606'],
+                args: ['TR909 NFT', 'TR909'],
             },
         },
         log: true,
@@ -32,15 +32,15 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         // skipIfAlreadyDeployed: true
     });
 
-    if (deployTD606 && deployTD606.newlyDeployed) {
+    if (deployTR909 && deployTR909.newlyDeployed) {
         log(
             '\x1b[36m%s\x1b[0m',
             `
-            contract: TD606 deployed at ${deployTD606.address} 
-            using ${deployTD606.receipt?.gasUsed} gas. 
-            Owner (to): ${deployTD606.receipt?.to}
-            implementation: ${deployTD606.implementation}
-            Signed from    : ${deployTD606.receipt?.from}
+            contract: TR909 deployed at ${deployTR909.address} 
+            using ${deployTR909.receipt?.gasUsed} gas. 
+            Owner (to): ${deployTR909.receipt?.to}
+            implementation: ${deployTR909.implementation}
+            Signed from    : ${deployTR909.receipt?.from}
             `
         );
     }
@@ -78,4 +78,4 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 export default func;
 
 // Deployment tags
-func.tags = ['TD606'];
+func.tags = ['TR909'];

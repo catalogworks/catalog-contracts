@@ -9,7 +9,6 @@ import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Cou
 import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import {AngelaList} from "../AngelaList.sol";
 
-
 /**
 --------------------------------------------------------------------------------------------------------------------
 
@@ -32,13 +31,12 @@ RINKEBY CNFT (V2: CODENAME "TR909")
 @title TR909
 @author @bretth18 (COMPUTER DATA) of @catalogworks
 @notice Catalog Shared Creator Contract (CNFT), v2(TR909). This is an upgradeable ERC721 contract, with a access
-        control restrictions for a given Admin address. Purpose built for optimization over the original Zora v1 contracts.
-        Special thanks to @isian (Iaian Nash) of Zora for help with this implementation.
+        control restrictions for a given Admin address. Purpose built for optimization over the original Zora V1
+        contracts. Special thanks to @ isian (Iaian Nash) of Zora for help with this implementation.
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
  */
 
-
- contract TR909 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, AngelaList {
+contract TR909 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, AngelaList {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Event
@@ -46,7 +44,7 @@ RINKEBY CNFT (V2: CODENAME "TR909")
     event ContentUpdate(uint256 indexed tokenId, string contentURI);
     event RoyaltyUpdate(uint256 indexed tokenId, address indexed payoutAddress);
 
-    /// State 
+    /// State
     struct Data {
         string metadataURI;
         string contentURI;
@@ -59,8 +57,7 @@ RINKEBY CNFT (V2: CODENAME "TR909")
     CountersUpgradeable.Counter private _tokenIdCount;
 
     /// Mappings
-    mapping (uint256 => Data) private _data;
-
+    mapping(uint256 => Data) private _data;
 
     /// Constructor
     /// @custom:oz-upgrades-unsafe-allow constructor
@@ -75,7 +72,6 @@ RINKEBY CNFT (V2: CODENAME "TR909")
         _tokenIdCount.increment();
     }
 
-
     /// WRITE FUNCTIONS
 
     /// Burn Function
@@ -84,18 +80,16 @@ RINKEBY CNFT (V2: CODENAME "TR909")
     /// @dev Requires contract admin or creator of token to burn.
     function burn(uint256 _tokenId) external {
         require(
-            /// NOTE: i think onlyOwner can be changed from modifier
             msg.sender == _data[_tokenId].creator || msg.sender == owner(),
             "Only creator or Admin"
         );
         _burn(_tokenId);
     }
 
-
     /// Mint Function
     /// @notice Mint Function
-    /// @param _inputData tuple data of type Data, containing contents of CNFT.
-    /// @param _proof bytes32[] Valid merkle proof for the input creator address.
+    /// @param _inputData: tuple data of type Data, containing contents of CNFT.
+    /// @param _proof: bytes32[] Valid merkle proof for the input creator address.
     /// @return uint256 The tokenId of the minted token.
     /// @dev Mint requires a valid Merkle proof. We use the creator address as the source of truth here.
     function mint(Data calldata _inputData, bytes32[] calldata _proof) external returns (uint256) {
@@ -131,13 +125,12 @@ RINKEBY CNFT (V2: CODENAME "TR909")
         _data[_tokenId].contentURI = _contentURI;
     }
 
-
     /// Update Metadata Function
     /// @notice Update MetadataURI Function
     /// @param _tokenId: The tokenId to update
     /// @param _metadataURI: The new metadataURI
     /// @dev Requires contract admin to update or creator to update
-    funtion updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external {
+    function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external {
         require(_exists(_tokenId), "!exists");
         require(msg.sender == _data[_tokenId].creator || msg.sender == owner(), "!creator or !admin");
         emit MetadataUpdate(_tokenId, _metadataURI);
@@ -146,7 +139,7 @@ RINKEBY CNFT (V2: CODENAME "TR909")
     /// Update Royalty Info Function
     /// @notice Update Royalty Info Function
     /// @param _tokenId: The tokenId to update
-    /// @param _royaltyPayout: The new royalty payout address
+    /// @param _royaltyPayoutAddress: The new royalty payout address
     /// @dev Requires contract admin to update.
     function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) external {
         require(_exists(_tokenId), "!exists");
@@ -163,7 +156,6 @@ RINKEBY CNFT (V2: CODENAME "TR909")
         require(msg.sender == owner(), "!admin");
         updateMerkleRoot(_newRoot);
     }
-
 
     /// READ FUNCTIONS
 
@@ -193,8 +185,6 @@ RINKEBY CNFT (V2: CODENAME "TR909")
         return _data[_tokenId].contentURI;
     }
 
-
-    
     /// OVERRIDE FUNCTIONS
 
     /// Get TokenURI
@@ -208,20 +198,31 @@ RINKEBY CNFT (V2: CODENAME "TR909")
     }
 
     /// Override function for EIP2981
-    /// @notice royaltyInfo Function conforms to EIP2981 
+    /// @notice royaltyInfo Function conforms to EIP2981
     /// @param _tokenId: The tokenId to update
     /// @param _salePrice: The new sale price
-    /// @return royalty payout address and calculated royalty payment
-    function royaltyInfo(uint256 _tokenId, uint256 _salePrice) external view override returns (address receiver, uint256 royaltyAmount) {
+    /// @return receiver royalty payout address and calculated royalty payment
+    function royaltyInfo(uint256 _tokenId, uint256 _salePrice)
+        external
+        view
+        override
+        returns (address receiver, uint256 royaltyAmount)
+    {
         return (_data[_tokenId].royaltyPayout, (_salePrice * _data[_tokenId].royaltyBPS) / 10000);
     }
 
     /// SupportsInterface Override Function
     /// @notice interface Override Function
-    /// @param _interfaceID: The interfaceId to check
-    /// @return interfcae supported 
-    function supportsInterface(bytes4 _interfaceId) public view virtual override(ERC721Upgradeable, IERC165Upgradeable) returns (bool) {
-        return type(IERC2981Upgradeable).interfaceId == intefaceId || ERC721Upgradeable.supportsInterface(interfaceId);
+    /// @param _interfaceId: The interfaceId to check
+    /// @return interfcae supported
+    function supportsInterface(bytes4 _interfaceId)
+        public
+        view
+        virtual
+        override(ERC721Upgradeable, IERC165Upgradeable)
+        returns (bool)
+    {
+        return
+            type(IERC2981Upgradeable).interfaceId == _interfaceId || ERC721Upgradeable.supportsInterface(_interfaceId);
     }
-
- }
+}
