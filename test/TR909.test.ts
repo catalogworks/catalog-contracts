@@ -257,6 +257,10 @@ describe('TR909 Test Suite', () => {
             )
                 .to.emit(TR909, 'MetadataUpdate')
                 .withArgs(1, 'https://catalog.works/metadata/uri2');
+
+            await expect(await TR909.tokenURI(1)).to.eq(
+                'https://catalog.works/metadata/uri2'
+            );
         });
 
         // 02
@@ -283,6 +287,10 @@ describe('TR909 Test Suite', () => {
             )
                 .to.emit(TR909, 'MetadataUpdate')
                 .withArgs(1, 'https://catalog.works/metadata/uri2');
+            
+            await expect(await TR909.tokenURI(1)).to.eq(
+                'https://catalog.works/metadata/uri2'
+            );
         });
 
         // 03

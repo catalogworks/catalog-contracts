@@ -134,6 +134,7 @@ contract TR909 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, An
         require(_exists(_tokenId), "!exists");
         require(msg.sender == _data[_tokenId].creator || msg.sender == owner(), "!creator or !admin");
         emit MetadataUpdate(_tokenId, _metadataURI);
+        _data[_tokenId].metadataURI = _metadataURI;
     }
 
     /// Update Royalty Info Function
