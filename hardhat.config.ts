@@ -205,9 +205,10 @@ const config: HardhatUserConfig = {
     excludeContracts: ['CLG20.sol', 'TD606.sol', 'CatalogNFT.sol', 'TD606V2.sol', 'contract/zora'],
   },
 
-  etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
-  },
+  // etherscan: {
+  //   apiKey: process.env.ETHERSCAN_API_KEY,
+
+  // },
 
   external: process.env.HARDHAT_FORK
     ? {
