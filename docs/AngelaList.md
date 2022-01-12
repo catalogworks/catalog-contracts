@@ -16,7 +16,7 @@
 function merkleRoot() external view returns (bytes32)
 ```
 
-State variable containing merkle root  see {IAngelaList}
+State variable containing merkle root see {IAngelaList}
 
 
 

@@ -1,5 +1,5 @@
 {
-  "address": "0x159dbb36B8A169928D3Ff32e17E8a96Da072A58E",
+  "address": "0x8282F72FB844D75BeD48c476e542E812A9a608ba",
   "abi": [
     {
       "anonymous": false,
@@ -141,30 +141,11 @@
         {
           "indexed": false,
           "internalType": "string",
-          "name": "metadataUri",
+          "name": "contentURI",
           "type": "string"
         }
       ],
-      "name": "MetadataUpdated",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "previousOwner",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "OwnershipTransferred",
+      "name": "ContentUpdated",
       "type": "event"
     },
     {
@@ -178,8 +159,102 @@
         },
         {
           "indexed": false,
+          "internalType": "string",
+          "name": "metadataURI",
+          "type": "string"
+        }
+      ],
+      "name": "MetadataUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "role",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "previousAdminRole",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "newAdminRole",
+          "type": "bytes32"
+        }
+      ],
+      "name": "RoleAdminChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "role",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
           "internalType": "address",
-          "name": "payout",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        }
+      ],
+      "name": "RoleGranted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "role",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        }
+      ],
+      "name": "RoleRevoked",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "payoutAddress",
           "type": "address"
         }
       ],
@@ -210,6 +285,58 @@
       ],
       "name": "Transfer",
       "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "_merkleRoot",
+          "type": "bytes32"
+        }
+      ],
+      "name": "merkleRootUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "BURNER_ROLE",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "DEFAULT_ADMIN_ROLE",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "TREE_ROLE",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "inputs": [
@@ -252,7 +379,7 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "_tokenId",
           "type": "uint256"
         }
       ],
@@ -265,41 +392,19 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "_tokenId",
           "type": "uint256"
         }
       ],
-      "name": "content",
+      "name": "creator",
       "outputs": [
         {
-          "components": [
-            {
-              "internalType": "string",
-              "name": "uri",
-              "type": "string"
-            },
-            {
-              "internalType": "bytes32",
-              "name": "hash",
-              "type": "bytes32"
-            },
-            {
-              "internalType": "string",
-              "name": "mime",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "content",
-              "type": "string"
-            }
-          ],
-          "internalType": "struct ContentData",
+          "internalType": "address",
           "name": "",
-          "type": "tuple"
+          "type": "address"
         }
       ],
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -316,6 +421,67 @@
           "internalType": "address",
           "name": "",
           "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "role",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getRoleAdmin",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "role",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "grantRole",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "role",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "hasRole",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
         }
       ],
       "stateMutability": "view",
@@ -364,41 +530,56 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "contentUri",
-          "type": "string"
-        },
+      "inputs": [],
+      "name": "merkleRoot",
+      "outputs": [
         {
           "internalType": "bytes32",
-          "name": "_contentHash",
+          "name": "",
           "type": "bytes32"
-        },
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
         {
-          "internalType": "string",
-          "name": "metadataUri",
-          "type": "string"
-        },
-        {
-          "internalType": "address",
-          "name": "payout",
-          "type": "address"
-        },
-        {
-          "internalType": "uint16",
-          "name": "royaltyBps",
-          "type": "uint16"
+          "components": [
+            {
+              "internalType": "string",
+              "name": "metadataURI",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "contentURI",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "royaltyPayout",
+              "type": "address"
+            },
+            {
+              "internalType": "uint16",
+              "name": "royaltyBPS",
+              "type": "uint16"
+            }
+          ],
+          "internalType": "struct SP1200.TokenData",
+          "name": "_data",
+          "type": "tuple"
         },
         {
           "internalType": "bytes32[]",
-          "name": "merkleProof",
+          "name": "_proof",
           "type": "bytes32[]"
-        },
-        {
-          "internalType": "address[]",
-          "name": "creators",
-          "type": "address[]"
         }
       ],
       "name": "mint",
@@ -426,19 +607,6 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -458,8 +626,37 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "renounceOwnership",
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "role",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "renounceRole",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "role",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "revokeRole",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -468,12 +665,12 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "_tokenId",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "salePrice",
+          "name": "_salePrice",
           "type": "uint256"
         }
       ],
@@ -488,6 +685,25 @@
           "internalType": "uint256",
           "name": "royaltyAmount",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "royaltyPayoutAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -547,19 +763,6 @@
     {
       "inputs": [
         {
-          "internalType": "bytes32",
-          "name": "root",
-          "type": "bytes32"
-        }
-      ],
-      "name": "setAllowedMintersRoot",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "address",
           "name": "operator",
           "type": "address"
@@ -571,24 +774,6 @@
         }
       ],
       "name": "setApprovalForAll",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "newReceiver",
-          "type": "address"
-        }
-      ],
-      "name": "setTokenPayoutAdmin",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -629,7 +814,26 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenContentURI",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
           "type": "uint256"
         }
       ],
@@ -670,12 +874,17 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_contentURI",
+          "type": "string"
         }
       ],
-      "name": "transferOwnership",
+      "name": "updateContentURI",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -684,16 +893,47 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "_tokenId",
           "type": "uint256"
         },
         {
           "internalType": "string",
-          "name": "newMetadataUri",
+          "name": "_metadataURI",
           "type": "string"
         }
       ],
-      "name": "updateMetadataUri",
+      "name": "updateMetadataURI",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_newRoot",
+          "type": "bytes32"
+        }
+      ],
+      "name": "updateRoot",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_royaltyPayoutAddress",
+          "type": "address"
+        }
+      ],
+      "name": "updateRoyaltyInfo",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -720,41 +960,72 @@
       "type": "constructor"
     }
   ],
-  "transactionHash": "0x7fa403a62551fa542a01d3c63cdd592ddd1b38695c7a8843c88bd475483886b8",
+  "transactionHash": "0x561387cf68ea5aabe51d1a15a0e36738d785fcbdeb05933c4de64954e2a2fcca",
   "receipt": {
     "to": null,
-    "from": "0x17ff474427dd67E58d3FB785F00200AD8883c31E",
-    "contractAddress": "0x159dbb36B8A169928D3Ff32e17E8a96Da072A58E",
-    "transactionIndex": 0,
-    "gasUsed": "543976",
-    "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000020000000000000000000800000000040000000000000000000000400200000000000000000000000000002000000000000000000000000000000000000800000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000800000000000000000000000000000000000000000000000000000",
-    "blockHash": "0xbec0c1c20040228edd435d39f84b509b54e2ec282ff2dbbb39883d70392ea147",
-    "transactionHash": "0x7fa403a62551fa542a01d3c63cdd592ddd1b38695c7a8843c88bd475483886b8",
+    "from": "0x723aAe1AD495f0b804624bc507741c08F214fba2",
+    "contractAddress": "0x8282F72FB844D75BeD48c476e542E812A9a608ba",
+    "transactionIndex": 15,
+    "gasUsed": "616209",
+    "logsBloom": "0x00000004000010000000000000000000000000000000040000000000000000010000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000020000000000000000000800000000000000000000000000000000000000000000000000000001004010000000000000000000000000000000000000000020000000000000000000000000000000000000004000001000000000000000040000000000000000000000000000000000000000000100000000000020000002000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x7f4c7b754de114e0b25091d31e293d19460df2e4c92fe0a9ba31a6f9db37abd1",
+    "transactionHash": "0x561387cf68ea5aabe51d1a15a0e36738d785fcbdeb05933c4de64954e2a2fcca",
     "logs": [
       {
-        "transactionIndex": 0,
-        "blockNumber": 8,
-        "transactionHash": "0x7fa403a62551fa542a01d3c63cdd592ddd1b38695c7a8843c88bd475483886b8",
-        "address": "0x159dbb36B8A169928D3Ff32e17E8a96Da072A58E",
+        "transactionIndex": 15,
+        "blockNumber": 9974468,
+        "transactionHash": "0x561387cf68ea5aabe51d1a15a0e36738d785fcbdeb05933c4de64954e2a2fcca",
+        "address": "0x8282F72FB844D75BeD48c476e542E812A9a608ba",
         "topics": [
-          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d",
           "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x00000000000000000000000017ff474427dd67e58d3fb785f00200ad8883c31e"
+          "0x000000000000000000000000723aae1ad495f0b804624bc507741c08f214fba2",
+          "0x000000000000000000000000723aae1ad495f0b804624bc507741c08f214fba2"
         ],
         "data": "0x",
-        "logIndex": 0,
-        "blockHash": "0xbec0c1c20040228edd435d39f84b509b54e2ec282ff2dbbb39883d70392ea147"
+        "logIndex": 9,
+        "blockHash": "0x7f4c7b754de114e0b25091d31e293d19460df2e4c92fe0a9ba31a6f9db37abd1"
+      },
+      {
+        "transactionIndex": 15,
+        "blockNumber": 9974468,
+        "transactionHash": "0x561387cf68ea5aabe51d1a15a0e36738d785fcbdeb05933c4de64954e2a2fcca",
+        "address": "0x8282F72FB844D75BeD48c476e542E812A9a608ba",
+        "topics": [
+          "0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d",
+          "0x3c11d16cbaffd01df69ce1c404f6340ee057498f5f00246190ea54220576a848",
+          "0x000000000000000000000000723aae1ad495f0b804624bc507741c08f214fba2",
+          "0x000000000000000000000000723aae1ad495f0b804624bc507741c08f214fba2"
+        ],
+        "data": "0x",
+        "logIndex": 10,
+        "blockHash": "0x7f4c7b754de114e0b25091d31e293d19460df2e4c92fe0a9ba31a6f9db37abd1"
+      },
+      {
+        "transactionIndex": 15,
+        "blockNumber": 9974468,
+        "transactionHash": "0x561387cf68ea5aabe51d1a15a0e36738d785fcbdeb05933c4de64954e2a2fcca",
+        "address": "0x8282F72FB844D75BeD48c476e542E812A9a608ba",
+        "topics": [
+          "0x2f8788117e7eff1d82e926ec794901d17c78024a50270940304540a733656f0d",
+          "0x1fdbf99a5af5a7f7ecbac27beb0e0f146da7c2c648249ff6cc033515d6655488",
+          "0x000000000000000000000000723aae1ad495f0b804624bc507741c08f214fba2",
+          "0x000000000000000000000000723aae1ad495f0b804624bc507741c08f214fba2"
+        ],
+        "data": "0x",
+        "logIndex": 11,
+        "blockHash": "0x7f4c7b754de114e0b25091d31e293d19460df2e4c92fe0a9ba31a6f9db37abd1"
       }
     ],
-    "blockNumber": 8,
-    "cumulativeGasUsed": "543976",
+    "blockNumber": 9974468,
+    "cumulativeGasUsed": "10722746",
     "status": 1,
     "byzantium": true
   },
   "args": [
-    "0x231aD9901e91719d0CD04492584E8D57A2406B60",
-    "0x39537e050Edf482Fa5e1CA3dF49c1905853c9472",
-    "0x4cd88b76000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000011436174616c6f67285a6f726129204e46540000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005435a4e4654000000000000000000000000000000000000000000000000000000"
+    "0x9Aeee4FC8B4427689eb839521Fe9DaCFa9c849b7",
+    "0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9",
+    "0x4cd88b7600000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000a535031323030204e46540000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000065350313230300000000000000000000000000000000000000000000000000000"
   ],
   "numDeployments": 1,
   "solcInputHash": "1635d55d57a0a2552952c0d22586ed23",
@@ -764,11 +1035,11 @@
   "execute": {
     "methodName": "initialize",
     "args": [
-      "Catalog(Zora) NFT",
-      "CZNFT"
+      "SP1200 NFT",
+      "SP1200"
     ]
   },
-  "implementation": "0x231aD9901e91719d0CD04492584E8D57A2406B60",
+  "implementation": "0x9Aeee4FC8B4427689eb839521Fe9DaCFa9c849b7",
   "devdoc": {
     "details": "This contract implements a proxy that is upgradeable by an admin. To avoid https://medium.com/nomic-labs-blog/malicious-backdoors-in-ethereum-proxies-62629adf3357[proxy selector clashing], which can potentially be used in an attack, this contract uses the https://blog.openzeppelin.com/the-transparent-proxy-pattern/[transparent proxy pattern]. This pattern implies two things that go hand in hand: 1. If any account other than the admin calls the proxy, the call will be forwarded to the implementation, even if that call matches one of the admin functions exposed by the proxy itself. 2. If the admin calls the proxy, it can access the admin functions, but its calls will never be forwarded to the implementation. If the admin tries to call a function on the implementation it will fail with an error that says \"admin cannot fallback to proxy target\". These properties mean that the admin account can only be used for admin actions like upgrading the proxy or changing the admin, so it's best if it's a dedicated account that is not used for anything else. This will avoid headaches due to sudden errors when trying to call a function from the proxy implementation. Our recommendation is for the dedicated account to be an instance of the {ProxyAdmin} contract. If set up this way, you should think of the `ProxyAdmin` instance as the real administrative inerface of your proxy.",
     "kind": "dev",

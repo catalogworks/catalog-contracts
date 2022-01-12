@@ -136,19 +136,23 @@ const config: HardhatUserConfig = {
     staging: {
       url: node_url('rinkeby'),
       accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('rinkeby'),
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
     },
     production: {
       url: node_url('mainnet'),
       accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('mainnet'),
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
     },
     mainnet: {
       url: node_url('mainnet'),
       accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('mainnet'),
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
     },
     rinkeby: {
       url: node_url('rinkeby'),
       accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('rinkeby'),
       blockGasLimit: 10000000,
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
     },
     mumbai: {
       url: node_url('mumbai'),
@@ -159,6 +163,7 @@ const config: HardhatUserConfig = {
       url: node_url('goerli'),
       accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('goerli'),
       blockGasLimit: 10000000,
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
     }
   },
 
@@ -197,12 +202,13 @@ const config: HardhatUserConfig = {
     enabled: process.env.REPORT_GAS ? true : false,
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
     showTimeSpent: true,
-    excludeContracts: ['CLG20.sol'],
+    excludeContracts: ['CLG20.sol', 'TD606.sol', 'CatalogNFT.sol', 'TD606V2.sol', 'contract/zora'],
   },
 
-  etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
-  },
+  // etherscan: {
+  //   apiKey: process.env.ETHERSCAN_API_KEY,
+
+  // },
 
   external: process.env.HARDHAT_FORK
     ? {
