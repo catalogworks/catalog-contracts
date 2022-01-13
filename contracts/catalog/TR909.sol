@@ -79,10 +79,7 @@ contract TR909 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, An
     /// @param _tokenId: The tokenId to burn
     /// @dev Requires contract admin or creator of token to burn.
     function burn(uint256 _tokenId) external {
-        require(
-            msg.sender == _data[_tokenId].creator || msg.sender == owner(),
-            "Only creator or Admin"
-        );
+        require(msg.sender == _data[_tokenId].creator || msg.sender == owner(), "Only creator or Admin");
         _burn(_tokenId);
     }
 

@@ -14,7 +14,7 @@ import {TR909, TR909__factory} from '../types/typechain';
 import MerkleTree from 'merkletreejs';
 import {BigNumberish} from '@ethersproject/bignumber';
 import {setupUser, setupUsers} from './utils';
-import { utils } from 'ethers';
+import {utils} from 'ethers';
 
 function hashAddress(address: string) {
     return ethers.utils.solidityKeccak256(['address'], [address]);
@@ -210,7 +210,9 @@ describe('TR909 Test Suite', () => {
                 .to.emit(TR909, 'ContentUpdate')
                 .withArgs(1, 'https://catalog.works/content/uri2');
 
-            await expect (await TR909.tokenContentURI(1)).to.eq('https://catalog.works/content/uri2');
+            await expect(await TR909.tokenContentURI(1)).to.eq(
+                'https://catalog.works/content/uri2'
+            );
         });
 
         it('only allows the admin to update the content uri', async () => {
@@ -294,7 +296,7 @@ describe('TR909 Test Suite', () => {
             )
                 .to.emit(TR909, 'MetadataUpdate')
                 .withArgs(1, 'https://catalog.works/metadata/uri2');
-            
+
             await expect(await TR909.tokenURI(1)).to.eq(
                 'https://catalog.works/metadata/uri2'
             );
@@ -348,12 +350,12 @@ describe('TR909 Test Suite', () => {
             expect(await TR909.royaltyPayoutAddress(1)).to.equal(
                 users[1].address
             );
-            
+
             const res = await TR909.royaltyInfo(1, 100);
             expect(res.receiver).to.equal(users[1].address);
             expect(res.royaltyAmount).to.equal({
-                "_hex": utils.hexValue(50),
-                "_isBigNumber": true,
+                _hex: utils.hexValue(50),
+                _isBigNumber: true,
             });
         });
 
