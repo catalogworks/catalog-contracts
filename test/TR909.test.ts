@@ -14,6 +14,7 @@ import {TR909, TR909__factory} from '../types/typechain';
 import MerkleTree from 'merkletreejs';
 import {BigNumberish} from '@ethersproject/bignumber';
 import {setupUser, setupUsers} from './utils';
+import { utils } from 'ethers';
 
 function hashAddress(address: string) {
     return ethers.utils.solidityKeccak256(['address'], [address]);
@@ -208,6 +209,8 @@ describe('TR909 Test Suite', () => {
             )
                 .to.emit(TR909, 'ContentUpdate')
                 .withArgs(1, 'https://catalog.works/content/uri2');
+
+            await expect (await TR909.tokenContentURI(1)).to.eq('https://catalog.works/content/uri2');
         });
 
         it('only allows the admin to update the content uri', async () => {
@@ -230,6 +233,10 @@ describe('TR909 Test Suite', () => {
                     'https://catalog.works/content/uri2'
                 )
             ).to.be.revertedWith('!admin');
+
+            await expect(await TR909.tokenContentURI(1)).to.eq(
+                'https://catalog.works/content/uri'
+            );
         });
     });
 
@@ -337,6 +344,17 @@ describe('TR909 Test Suite', () => {
             await expect(deployer.TR909.updateRoyaltyInfo(1, users[1].address))
                 .to.emit(TR909, 'RoyaltyUpdate')
                 .withArgs(1, users[1].address);
+
+            expect(await TR909.royaltyPayoutAddress(1)).to.equal(
+                users[1].address
+            );
+            
+            const res = await TR909.royaltyInfo(1, 100);
+            expect(res.receiver).to.equal(users[1].address);
+            expect(res.royaltyAmount).to.equal({
+                "_hex": utils.hexValue(50),
+                "_isBigNumber": true,
+            });
         });
 
         it('does not allow non admin to update payout address', async () => {
@@ -356,6 +374,10 @@ describe('TR909 Test Suite', () => {
             await expect(
                 users[0].TR909.updateRoyaltyInfo(1, users[1].address)
             ).to.be.revertedWith('!admin');
+
+            await expect(await TR909.royaltyPayoutAddress(1)).to.equal(
+                users[0].address
+            );
         });
     });
 
