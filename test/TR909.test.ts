@@ -176,7 +176,7 @@ describe('TR909 Test Suite', () => {
 
             await expect(await TR909.ownerOf(1)).to.eq(users[1].address);
             await expect(
-                await users[1].TR909.transferFrom(
+                users[1].TR909.transferFrom(
                     users[1].address,
                     users[2].address,
                     1

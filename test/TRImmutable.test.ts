@@ -176,7 +176,7 @@ describe('TRImmutable Test Suite', () => {
 
             await expect(await TRImmutable.ownerOf(1)).to.eq(users[1].address);
             await expect(
-                await users[1].TRImmutable.transferFrom(
+                users[1].TRImmutable.transferFrom(
                     users[1].address,
                     users[2].address,
                     1
@@ -211,12 +211,12 @@ describe('TRImmutable Test Suite', () => {
             await expect(await TRImmutable.ownerOf(1)).to.eq(users[0].address);
 
             await expect(
-                deployer.TRImmutable.updateContentURI(
+                deployer.TRImmutable.updateContent(
                     1,
                     'https://catalog.works/content/uri2'
                 )
             )
-                .to.emit(TRImmutable, 'ContentUpdate')
+                .to.emit(TRImmutable, 'ContentUpdated')
                 .withArgs(1, 'https://catalog.works/content/uri2');
 
             await expect(await TRImmutable.tokenContentURI(1)).to.eq(
@@ -239,7 +239,7 @@ describe('TRImmutable Test Suite', () => {
             await expect(await TRImmutable.creator(1)).to.eq(users[0].address);
 
             await expect(
-                users[0].TRImmutable.updateContentURI(
+                users[0].TRImmutable.updateContent(
                     1,
                     'https://catalog.works/content/uri2'
                 )
@@ -268,12 +268,12 @@ describe('TRImmutable Test Suite', () => {
             await expect(await TRImmutable.ownerOf(1)).to.eq(users[0].address);
 
             await expect(
-                deployer.TRImmutable.updateMetadataURI(
+                deployer.TRImmutable.updateMetadata(
                     1,
                     'https://catalog.works/metadata/uri2'
                 )
             )
-                .to.emit(TRImmutable, 'MetadataUpdate')
+                .to.emit(TRImmutable, 'MetadataUpdated')
                 .withArgs(1, 'https://catalog.works/metadata/uri2');
 
             await expect(await TRImmutable.tokenURI(1)).to.eq(
@@ -298,12 +298,12 @@ describe('TRImmutable Test Suite', () => {
             await expect(await TRImmutable.creator(1)).to.eq(users[3].address);
 
             await expect(
-                users[3].TRImmutable.updateMetadataURI(
+                users[3].TRImmutable.updateMetadata(
                     1,
                     'https://catalog.works/metadata/uri2'
                 )
             )
-                .to.emit(TRImmutable, 'MetadataUpdate')
+                .to.emit(TRImmutable, 'MetadataUpdated')
                 .withArgs(1, 'https://catalog.works/metadata/uri2');
 
             await expect(await TRImmutable.tokenURI(1)).to.eq(
@@ -328,11 +328,11 @@ describe('TRImmutable Test Suite', () => {
             await expect(await TRImmutable.creator(1)).to.eq(users[3].address);
 
             await expect(
-                users[0].TRImmutable.updateMetadataURI(
+                users[0].TRImmutable.updateMetadata(
                     1,
                     'https://catalog.works/metadata/uri2'
                 )
-            ).to.be.revertedWith('!admin');
+            ).to.be.revertedWith('!creator/admin');
         });
     });
 
@@ -352,8 +352,10 @@ describe('TRImmutable Test Suite', () => {
             await users[0].TRImmutable.mint(inputTokenData, proof);
             await expect(await TRImmutable.ownerOf(1)).to.eq(users[0].address);
 
-            await expect(deployer.TRImmutable.updateRoyaltyInfo(1, users[1].address))
-                .to.emit(TRImmutable, 'RoyaltyUpdate')
+            await expect(
+                deployer.TRImmutable.updateRoyalty(1, users[1].address)
+            )
+                .to.emit(TRImmutable, 'RoyaltyUpdated')
                 .withArgs(1, users[1].address);
 
             expect(await TRImmutable.royaltyPayoutAddress(1)).to.equal(
@@ -383,7 +385,7 @@ describe('TRImmutable Test Suite', () => {
             await expect(await TRImmutable.creator(1)).to.eq(users[0].address);
 
             await expect(
-                users[0].TRImmutable.updateRoyaltyInfo(1, users[1].address)
+                users[0].TRImmutable.updateRoyalty(1, users[1].address)
             ).to.be.revertedWith('!admin');
 
             await expect(await TRImmutable.royaltyPayoutAddress(1)).to.equal(
@@ -424,9 +426,9 @@ describe('TRImmutable Test Suite', () => {
             });
             const newRoot = newTree.getHexRoot();
 
-            await expect(users[0].TRImmutable.updateRoot(newRoot)).to.be.revertedWith(
-                '!admin'
-            );
+            await expect(
+                users[0].TRImmutable.updateRoot(newRoot)
+            ).to.be.revertedWith('!admin');
         });
     });
 });

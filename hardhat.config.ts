@@ -182,7 +182,7 @@ const config: HardhatUserConfig = {
   },
 
   mocha: {
-    timeout: 500000,
+    timeout: 5000000,
   },
 
   abiExporter: {
@@ -199,6 +199,7 @@ const config: HardhatUserConfig = {
   gasReporter: {
     currency: 'USD',
     enabled: process.env.REPORT_GAS ? true : false,
+    gasPrice: 130,
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
     showTimeSpent: true,
     excludeContracts: ['CLG20.sol', 'TD606.sol', 'CatalogNFT.sol', 'TD606V2.sol', 'contract/zora', 'SP1200.sol'],

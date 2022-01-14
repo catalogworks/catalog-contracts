@@ -2,20 +2,15 @@
 
 pragma solidity ^0.8.9;
 
+import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {Counters} from "@openzeppelin/contracts/utils/Counters.sol";
+import {IERC2981} from "../interfaces/IERC2981.sol";
+import {IERC165} from "@openzeppelin/contracts/interfaces/IERC165.sol";
 
-
-
-import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { Counters } from "@openzeppelin/contracts/utils/Counters.sol";
-import { IERC2981 } from "../interfaces/IERC2981.sol";
-import { IERC165 } from "@openzeppelin/contracts/interfaces/IERC165.sol";
-
-import { ALImmutable } from "../ALImmutable.sol";
-
+import {ALImmutable} from "../ALImmutable.sol";
 
 contract TRImmutable is ERC721, Ownable, IERC2981, ALImmutable {
-
     using Counters for Counters.Counter;
 
     /// Events
@@ -32,7 +27,7 @@ contract TRImmutable is ERC721, Ownable, IERC2981, ALImmutable {
         uint16 royaltyBPS;
     }
     /// Mappings
-    mapping (uint256 => TokenData) private _tokenData;
+    mapping(uint256 => TokenData) private _tokenData;
     Counters.Counter private _tokenIdCounter;
 
     /// Constructor
@@ -55,7 +50,7 @@ contract TRImmutable is ERC721, Ownable, IERC2981, ALImmutable {
         return tokenId;
     }
 
-    /// Burn 
+    /// Burn
     function burn(uint256 _tokenId) external {
         require(
             (msg.sender == _tokenData[_tokenId].creator && msg.sender == ownerOf(_tokenId)) || msg.sender == owner(),
@@ -79,7 +74,6 @@ contract TRImmutable is ERC721, Ownable, IERC2981, ALImmutable {
         _tokenData[_tokenId].contentURI = _contentURI;
     }
 
-
     /// updateRoyalty
     function updateRoyalty(uint256 _tokenId, address _payoutAddress) external {
         require(msg.sender == owner(), "!admin");
@@ -87,16 +81,15 @@ contract TRImmutable is ERC721, Ownable, IERC2981, ALImmutable {
         _tokenData[_tokenId].royaltyPayout = _payoutAddress;
     }
 
-
     /// updateRoot
     function updateRoot(bytes32 _newRoot) external {
         require(msg.sender == owner(), "!admin");
-        updateMerkleRoot(_newRoot);(_newRoot);
+        updateMerkleRoot(_newRoot);
+        (_newRoot);
     }
 
-
     ///
-    
+
     function creator(uint256 _tokenId) public view returns (address) {
         return _tokenData[_tokenId].creator;
     }
@@ -109,15 +102,12 @@ contract TRImmutable is ERC721, Ownable, IERC2981, ALImmutable {
         return _tokenData[_tokenId].contentURI;
     }
 
-
     /// override
-
 
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
         require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
         return _tokenData[_tokenId].metadataURI;
     }
-
 
     function royaltyInfo(uint256 _tokenId, uint256 _salePrice)
         external
@@ -128,20 +118,7 @@ contract TRImmutable is ERC721, Ownable, IERC2981, ALImmutable {
         return (_tokenData[_tokenId].royaltyPayout, (_salePrice * _tokenData[_tokenId].royaltyBPS) / 10000);
     }
 
-
-
-
-    function supportsInterface(bytes4 _interfaceId)
-        public
-        view
-        virtual
-        override(ERC721)
-        returns (bool)
-    {
-        return
-            type(IERC2981).interfaceId == _interfaceId || ERC721.supportsInterface(_interfaceId);
+    function supportsInterface(bytes4 _interfaceId) public view virtual override(ERC721) returns (bool) {
+        return type(IERC2981).interfaceId == _interfaceId || ERC721.supportsInterface(_interfaceId);
     }
-
-
-
 }
