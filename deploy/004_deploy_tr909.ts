@@ -1,5 +1,5 @@
 // deploy script for TR909
-// 005_deploy_tr909.ts
+// 004_deploy_tr909.ts
 
 // Modify this script for upgrades
 

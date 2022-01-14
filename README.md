@@ -38,17 +38,6 @@ Address: `0xDD382e505E92cA8d8575B01593e510Baf74B7566`
 
 ## Current Deployments 
 
-Info: SP1200.sol is an alternative version of the TD606 implementation, it features role based permissions (DEFAULT_ADMIN_ROLE,BURNER,TREE) and a modified burn method control statement. This version was created and deployed to estimate gas differences with changes to the burn function.
-
-
-(CNFT V1.1: CODENAME "SP1200")
-
-| Contract          | Address                                    | Etherscan                                                                                     |
-| ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
-| SP1200 Proxy       | 0x8282F72FB844D75BeD48c476e542E812A9a608ba | [link](https://rinkeby.etherscan.io/address/0x8282F72FB844D75BeD48c476e542E812A9a608ba)  |
-| V1 Implementation | 0x9Aeee4FC8B4427689eb839521Fe9DaCFa9c849b7 | [link](https://rinkeby.etherscan.io/address/0x9Aeee4FC8B4427689eb839521Fe9DaCFa9c849b7)       |
-| ProxyAdmin        | 0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9 | [link](https://rinkeby.etherscan.io/address/0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9)       |
-
 
 (CNFT V1: CODENAME "TD606")
 
@@ -62,6 +51,17 @@ Info: SP1200.sol is an alternative version of the TD606 implementation, it featu
 
 
 ## Past Deployments
+
+Info: SP1200.sol is an alternative version of the TD606 implementation, it features role based permissions (DEFAULT_ADMIN_ROLE,BURNER,TREE) and a modified burn method control statement. This version was created and deployed to estimate gas differences with changes to the burn function.
+
+
+(CNFT V1.1: CODENAME "SP1200")
+
+| Contract          | Address                                    | Etherscan                                                                                     |
+| ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
+| SP1200 Proxy       | 0x8282F72FB844D75BeD48c476e542E812A9a608ba | [link](https://rinkeby.etherscan.io/address/0x8282F72FB844D75BeD48c476e542E812A9a608ba)  |
+| V1 Implementation | 0x9Aeee4FC8B4427689eb839521Fe9DaCFa9c849b7 | [link](https://rinkeby.etherscan.io/address/0x9Aeee4FC8B4427689eb839521Fe9DaCFa9c849b7)       |
+| ProxyAdmin        | 0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9 | [link](https://rinkeby.etherscan.io/address/0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9)       |
 
 | Contract          | Address                                    | Etherscan                                                                                     |
 | ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|

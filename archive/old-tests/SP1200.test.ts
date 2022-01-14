@@ -10,10 +10,10 @@ import {
 } from 'hardhat';
 import keccak256 from 'keccak256';
 
-import {SP1200, SP1200__factory} from '../types/typechain';
+import {SP1200, SP1200__factory} from '../../types/typechain';
 import MerkleTree from 'merkletreejs';
 import {BigNumberish} from '@ethersproject/bignumber';
-import {setupUser, setupUsers} from './utils';
+import {setupUser, setupUsers} from '../../test/utils';
 
 function hashAddress(address: string) {
     return ethers.utils.solidityKeccak256(['address'], [address]);
