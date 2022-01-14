@@ -1,4 +1,4 @@
-// TR909.test.ts: test suite for TR909
+// TRImmutable.test.ts: test suite for TRImmutable
 
 import {expect} from 'chai';
 import '@nomiclabs/hardhat-ethers';
@@ -10,7 +10,7 @@ import {
 } from 'hardhat';
 import keccak256 from 'keccak256';
 
-import {TR909} from '../types/typechain';
+import {TRImmutable} from '../types/typechain';
 import MerkleTree from 'merkletreejs';
 import {BigNumberish} from '@ethersproject/bignumber';
 import {setupUser, setupUsers} from './utils';
@@ -29,11 +29,11 @@ type TokenData = {
 };
 
 const setup = deployments.createFixture(async () => {
-    await deployments.fixture('TR909');
+    await deployments.fixture('TRImmutable');
     const {deployer, tokenOwner, multisig} = await getNamedAccounts();
 
     const contracts = {
-        TR909: <TR909>await ethers.getContract('TR909'),
+        TRImmutable: <TRImmutable>await ethers.getContract('TRImmutable'),
     };
 
     const users = await setupUsers(await getUnnamedAccounts(), contracts);
@@ -60,7 +60,7 @@ const setup = deployments.createFixture(async () => {
     const merkleRoot = merkletree.getRoot();
     console.log(merkleRoot);
     // update root
-    await result.TR909.updateRoot(merkleRoot);
+    await result.TRImmutable.updateRoot(merkleRoot);
 
     return {
         ...contracts,
@@ -71,13 +71,13 @@ const setup = deployments.createFixture(async () => {
     };
 });
 
-describe('TR909 Test Suite', () => {
+describe('TRImmutable Test Suite', () => {
     // 01
 
     describe('Minting', () => {
         // 01
         it('mints token', async () => {
-            const {users, merkletree, TR909} = await setup();
+            const {users, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -87,8 +87,8 @@ describe('TR909 Test Suite', () => {
                 royaltyBPS: 5000,
             };
 
-            await expect(users[0].TR909.mint(inputTokenData, proof))
-                .to.emit(TR909, 'Transfer')
+            await expect(users[0].TRImmutable.mint(inputTokenData, proof))
+                .to.emit(TRImmutable, 'Transfer')
                 .withArgs(
                     '0x0000000000000000000000000000000000000000',
                     users[0].address,
@@ -98,7 +98,7 @@ describe('TR909 Test Suite', () => {
 
         // 02
         it('fails to mint for invalid creator proof', async () => {
-            const {users, merkletree, TR909} = await setup();
+            const {users, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[5].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -109,7 +109,7 @@ describe('TR909 Test Suite', () => {
             };
 
             await expect(
-                users[5].TR909.mint(inputTokenData, proof)
+                users[5].TRImmutable.mint(inputTokenData, proof)
             ).to.be.revertedWith('!proof');
         });
     });
@@ -117,7 +117,7 @@ describe('TR909 Test Suite', () => {
     describe('burning', () => {
         // 01
         it('burns token from admin account', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -126,23 +126,23 @@ describe('TR909 Test Suite', () => {
                 royaltyPayout: users[0].address,
                 royaltyBPS: 5000,
             };
-            await users[0].TR909.mint(inputTokenData, proof);
-            await users[0].TR909.mint(inputTokenData, proof);
-            await expect(await TR909.ownerOf(1)).to.eq(users[0].address);
+            await users[0].TRImmutable.mint(inputTokenData, proof);
+            await users[0].TRImmutable.mint(inputTokenData, proof);
+            await expect(await TRImmutable.ownerOf(1)).to.eq(users[0].address);
 
-            await expect(deployer.TR909.burn(1))
-                .to.emit(TR909, 'Transfer')
+            await expect(deployer.TRImmutable.burn(1))
+                .to.emit(TRImmutable, 'Transfer')
                 .withArgs(
                     users[0].address,
                     '0x0000000000000000000000000000000000000000',
                     1
                 );
-            await expect(await TR909.ownerOf(2)).to.eq(users[0].address);
+            await expect(await TRImmutable.ownerOf(2)).to.eq(users[0].address);
         });
 
         // 02
         it('does not allow non-creator or non-admin to burn', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[2].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -152,17 +152,17 @@ describe('TR909 Test Suite', () => {
                 royaltyBPS: 5000,
             };
 
-            await users[1].TR909.mint(inputTokenData, proof);
+            await users[1].TRImmutable.mint(inputTokenData, proof);
 
-            await expect(await TR909.ownerOf(1)).to.eq(users[1].address);
-            await expect(users[1].TR909.burn(1)).to.be.revertedWith(
+            await expect(await TRImmutable.ownerOf(1)).to.eq(users[1].address);
+            await expect(users[1].TRImmutable.burn(1)).to.be.revertedWith(
                 'Only creator or Admin'
             );
         });
 
         // 03
         it('burns from creator account', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[2].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -172,20 +172,20 @@ describe('TR909 Test Suite', () => {
                 royaltyBPS: 5000,
             };
 
-            await users[1].TR909.mint(inputTokenData, proof);
+            await users[1].TRImmutable.mint(inputTokenData, proof);
 
-            await expect(await TR909.ownerOf(1)).to.eq(users[1].address);
+            await expect(await TRImmutable.ownerOf(1)).to.eq(users[1].address);
             await expect(
-                await users[1].TR909.transferFrom(
+                await users[1].TRImmutable.transferFrom(
                     users[1].address,
                     users[2].address,
                     1
                 )
             )
-                .to.emit(TR909, 'Transfer')
+                .to.emit(TRImmutable, 'Transfer')
                 .withArgs(users[1].address, users[2].address, 1);
-            await expect(users[2].TR909.burn(1))
-                .to.emit(TR909, 'Transfer')
+            await expect(users[2].TRImmutable.burn(1))
+                .to.emit(TRImmutable, 'Transfer')
                 .withArgs(
                     users[2].address,
                     '0x0000000000000000000000000000000000000000',
@@ -197,7 +197,7 @@ describe('TR909 Test Suite', () => {
     describe('updating content', () => {
         // 01
         it('updates the contentURI from an admin account', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -207,25 +207,25 @@ describe('TR909 Test Suite', () => {
                 royaltyBPS: 5000,
             };
 
-            await users[0].TR909.mint(inputTokenData, proof);
-            await expect(await TR909.ownerOf(1)).to.eq(users[0].address);
+            await users[0].TRImmutable.mint(inputTokenData, proof);
+            await expect(await TRImmutable.ownerOf(1)).to.eq(users[0].address);
 
             await expect(
-                deployer.TR909.updateContentURI(
+                deployer.TRImmutable.updateContentURI(
                     1,
                     'https://catalog.works/content/uri2'
                 )
             )
-                .to.emit(TR909, 'ContentUpdate')
+                .to.emit(TRImmutable, 'ContentUpdate')
                 .withArgs(1, 'https://catalog.works/content/uri2');
 
-            await expect(await TR909.tokenContentURI(1)).to.eq(
+            await expect(await TRImmutable.tokenContentURI(1)).to.eq(
                 'https://catalog.works/content/uri2'
             );
         });
 
         it('only allows the admin to update the content uri', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -235,17 +235,17 @@ describe('TR909 Test Suite', () => {
                 royaltyBPS: 5000,
             };
 
-            await users[0].TR909.mint(inputTokenData, proof);
-            await expect(await TR909.creator(1)).to.eq(users[0].address);
+            await users[0].TRImmutable.mint(inputTokenData, proof);
+            await expect(await TRImmutable.creator(1)).to.eq(users[0].address);
 
             await expect(
-                users[0].TR909.updateContentURI(
+                users[0].TRImmutable.updateContentURI(
                     1,
                     'https://catalog.works/content/uri2'
                 )
             ).to.be.revertedWith('!admin');
 
-            await expect(await TR909.tokenContentURI(1)).to.eq(
+            await expect(await TRImmutable.tokenContentURI(1)).to.eq(
                 'https://catalog.works/content/uri'
             );
         });
@@ -254,7 +254,7 @@ describe('TR909 Test Suite', () => {
     describe('updating metadata', () => {
         // 01
         it('updates the metadataURI from an admin account', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -264,26 +264,26 @@ describe('TR909 Test Suite', () => {
                 royaltyBPS: 5000,
             };
 
-            await users[0].TR909.mint(inputTokenData, proof);
-            await expect(await TR909.ownerOf(1)).to.eq(users[0].address);
+            await users[0].TRImmutable.mint(inputTokenData, proof);
+            await expect(await TRImmutable.ownerOf(1)).to.eq(users[0].address);
 
             await expect(
-                deployer.TR909.updateMetadataURI(
+                deployer.TRImmutable.updateMetadataURI(
                     1,
                     'https://catalog.works/metadata/uri2'
                 )
             )
-                .to.emit(TR909, 'MetadataUpdate')
+                .to.emit(TRImmutable, 'MetadataUpdate')
                 .withArgs(1, 'https://catalog.works/metadata/uri2');
 
-            await expect(await TR909.tokenURI(1)).to.eq(
+            await expect(await TRImmutable.tokenURI(1)).to.eq(
                 'https://catalog.works/metadata/uri2'
             );
         });
 
         // 02
         it('allows the creator to update the metadataURI', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[3].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -293,27 +293,27 @@ describe('TR909 Test Suite', () => {
                 royaltyBPS: 5000,
             };
 
-            await users[0].TR909.mint(inputTokenData, proof);
-            await expect(await TR909.ownerOf(1)).to.eq(users[0].address);
-            await expect(await TR909.creator(1)).to.eq(users[3].address);
+            await users[0].TRImmutable.mint(inputTokenData, proof);
+            await expect(await TRImmutable.ownerOf(1)).to.eq(users[0].address);
+            await expect(await TRImmutable.creator(1)).to.eq(users[3].address);
 
             await expect(
-                users[3].TR909.updateMetadataURI(
+                users[3].TRImmutable.updateMetadataURI(
                     1,
                     'https://catalog.works/metadata/uri2'
                 )
             )
-                .to.emit(TR909, 'MetadataUpdate')
+                .to.emit(TRImmutable, 'MetadataUpdate')
                 .withArgs(1, 'https://catalog.works/metadata/uri2');
 
-            await expect(await TR909.tokenURI(1)).to.eq(
+            await expect(await TRImmutable.tokenURI(1)).to.eq(
                 'https://catalog.works/metadata/uri2'
             );
         });
 
         // 03
         it('only allows creator/admin to update metadataURI', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[3].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -323,12 +323,12 @@ describe('TR909 Test Suite', () => {
                 royaltyBPS: 5000,
             };
 
-            await users[0].TR909.mint(inputTokenData, proof);
-            await expect(await TR909.ownerOf(1)).to.eq(users[0].address);
-            await expect(await TR909.creator(1)).to.eq(users[3].address);
+            await users[0].TRImmutable.mint(inputTokenData, proof);
+            await expect(await TRImmutable.ownerOf(1)).to.eq(users[0].address);
+            await expect(await TRImmutable.creator(1)).to.eq(users[3].address);
 
             await expect(
-                users[0].TR909.updateMetadataURI(
+                users[0].TRImmutable.updateMetadataURI(
                     1,
                     'https://catalog.works/metadata/uri2'
                 )
@@ -339,7 +339,7 @@ describe('TR909 Test Suite', () => {
     describe('updating royalty payout address', () => {
         // 01
         it('allows an admin account to update payout address', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -349,18 +349,18 @@ describe('TR909 Test Suite', () => {
                 royaltyBPS: 5000,
             };
 
-            await users[0].TR909.mint(inputTokenData, proof);
-            await expect(await TR909.ownerOf(1)).to.eq(users[0].address);
+            await users[0].TRImmutable.mint(inputTokenData, proof);
+            await expect(await TRImmutable.ownerOf(1)).to.eq(users[0].address);
 
-            await expect(deployer.TR909.updateRoyaltyInfo(1, users[1].address))
-                .to.emit(TR909, 'RoyaltyUpdate')
+            await expect(deployer.TRImmutable.updateRoyaltyInfo(1, users[1].address))
+                .to.emit(TRImmutable, 'RoyaltyUpdate')
                 .withArgs(1, users[1].address);
 
-            expect(await TR909.royaltyPayoutAddress(1)).to.equal(
+            expect(await TRImmutable.royaltyPayoutAddress(1)).to.equal(
                 users[1].address
             );
 
-            const res = await TR909.royaltyInfo(1, 100);
+            const res = await TRImmutable.royaltyInfo(1, 100);
             expect(res.receiver).to.equal(users[1].address);
             expect(res.royaltyAmount).to.equal({
                 _hex: utils.hexValue(50),
@@ -369,7 +369,7 @@ describe('TR909 Test Suite', () => {
         });
 
         it('does not allow non admin to update payout address', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -379,14 +379,14 @@ describe('TR909 Test Suite', () => {
                 royaltyBPS: 5000,
             };
 
-            await users[0].TR909.mint(inputTokenData, proof);
-            await expect(await TR909.creator(1)).to.eq(users[0].address);
+            await users[0].TRImmutable.mint(inputTokenData, proof);
+            await expect(await TRImmutable.creator(1)).to.eq(users[0].address);
 
             await expect(
-                users[0].TR909.updateRoyaltyInfo(1, users[1].address)
+                users[0].TRImmutable.updateRoyaltyInfo(1, users[1].address)
             ).to.be.revertedWith('!admin');
 
-            await expect(await TR909.royaltyPayoutAddress(1)).to.equal(
+            await expect(await TRImmutable.royaltyPayoutAddress(1)).to.equal(
                 users[0].address
             );
         });
@@ -395,7 +395,7 @@ describe('TR909 Test Suite', () => {
     describe('updateRoot', () => {
         // 01
         it('allows an admin account to update the root', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const newLeafs = [
                 users[0].address,
                 users[1].address,
@@ -406,14 +406,14 @@ describe('TR909 Test Suite', () => {
             });
             const newRoot = newTree.getHexRoot();
 
-            await deployer.TR909.updateRoot(newRoot);
-            await expect(await TR909.merkleRoot()).to.eq(newRoot);
+            await deployer.TRImmutable.updateRoot(newRoot);
+            await expect(await TRImmutable.merkleRoot()).to.eq(newRoot);
 
-            // await expect(await deployer.TR909.updateRoot(newRoot)).to.emit(TR909, 'merkleRootUpdated').withArgs(newRoot);
+            // await expect(await deployer.TRImmutable.updateRoot(newRoot)).to.emit(TRImmutable, 'merkleRootUpdated').withArgs(newRoot);
         });
         // 02
         it('does not allow non admin to update the root', async () => {
-            const {users, deployer, merkletree, TR909} = await setup();
+            const {users, deployer, merkletree, TRImmutable} = await setup();
             const newLeafs = [
                 users[0].address,
                 users[1].address,
@@ -424,7 +424,7 @@ describe('TR909 Test Suite', () => {
             });
             const newRoot = newTree.getHexRoot();
 
-            await expect(users[0].TR909.updateRoot(newRoot)).to.be.revertedWith(
+            await expect(users[0].TRImmutable.updateRoot(newRoot)).to.be.revertedWith(
                 '!admin'
             );
         });

@@ -127,7 +127,6 @@ const config: HardhatUserConfig = {
         : undefined,
         
     },
-    
     localhost: {
       url: node_url('localhost'),
       // why use two line when one line do job
@@ -164,7 +163,7 @@ const config: HardhatUserConfig = {
       accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('goerli'),
       blockGasLimit: 10000000,
       etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
-    }
+    },
   },
 
   paths: {

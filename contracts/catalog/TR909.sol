@@ -74,21 +74,26 @@ contract TR909 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, An
 
     /// WRITE FUNCTIONS
 
-    /// Burn Function
-    /// @notice Burn Function
-    /// @param _tokenId: The tokenId to burn
-    /// @dev Requires contract admin or creator of token to burn.
+    /**
+        @notice Burn Function
+        @param _tokenId: The tokenId to burn
+        @dev Requires contract admin or creator of token to burn. Emits transfer Event
+     */
     function burn(uint256 _tokenId) external {
-        require(msg.sender == _data[_tokenId].creator || msg.sender == owner(), "Only creator or Admin");
+        require(
+            (msg.sender == _data[_tokenId].creator && msg.sender == ownerOf(_tokenId)) || msg.sender == owner(),
+            "Only creator or Admin"
+        );
         _burn(_tokenId);
     }
 
-    /// Mint Function
-    /// @notice Mint Function
-    /// @param _inputData: tuple data of type Data, containing contents of CNFT.
-    /// @param _proof: bytes32[] Valid merkle proof for the input creator address.
-    /// @return uint256 The tokenId of the minted token.
-    /// @dev Mint requires a valid Merkle proof. We use the creator address as the source of truth here.
+    /**
+        @notice Mint Function
+        @param _inputData: tuple data of type Data, containing contents of CNFT.
+        @param _proof: bytes32[] Valid merkle proof for the input creator address.
+        @return uint256 The tokenId of the minted token.
+        @dev Mint requires a valid Merkle proof. We use the creator address as the source of truth here.
+     */
     function mint(Data calldata _inputData, bytes32[] calldata _proof) external returns (uint256) {
         /// Validate Proof
         require(verify(leaf(_inputData.creator), _proof), "!proof");
@@ -111,22 +116,25 @@ contract TR909 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, An
         return tokenId;
     }
 
-    /// Update Content Function
-    /// @notice Update ContentURI Function
-    /// @param _tokenId: The tokenId to update
-    /// @param _contentURI: The new contentURI
-    /// @dev Requires contract admin to update.
+    /**
+        @notice Update ContentURI Function
+        @param _tokenId: The tokenId to update
+        @param _contentURI: The new contentURI
+        @dev Requires contract admin to update.
+     */
     function updateContentURI(uint256 _tokenId, string memory _contentURI) external {
         require(msg.sender == owner(), "!admin");
         emit ContentUpdate(_tokenId, _contentURI);
         _data[_tokenId].contentURI = _contentURI;
     }
 
-    /// Update Metadata Function
-    /// @notice Update MetadataURI Function
-    /// @param _tokenId: The tokenId to update
-    /// @param _metadataURI: The new metadataURI
-    /// @dev Requires contract admin to update or creator to update
+    /**
+        @notice Update MetadataURI Function
+        @param _tokenId: The tokenId to update
+        @param _metadataURI: The new metadataURI
+        @dev Requires contract admin to update or creator to update. note: potentially exploitable by compromised wallet
+
+     */
     function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external {
         require(_exists(_tokenId), "!exists");
         require(msg.sender == _data[_tokenId].creator || msg.sender == owner(), "!creator or !admin");
@@ -134,22 +142,23 @@ contract TR909 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, An
         _data[_tokenId].metadataURI = _metadataURI;
     }
 
-    /// Update Royalty Info Function
-    /// @notice Update Royalty Info Function
-    /// @param _tokenId: The tokenId to update
-    /// @param _royaltyPayoutAddress: The new royalty payout address
-    /// @dev Requires contract admin to update.
+    /**
+        @notice Update Royalty Info Function
+        @param _tokenId: The tokenId to update
+        @param _royaltyPayoutAddress: The new royalty payout address
+        @dev Requires contract admin to update.
+     */
     function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) external {
-        require(_exists(_tokenId), "!exists");
         require(msg.sender == owner(), "!admin");
         emit RoyaltyUpdate(_tokenId, _royaltyPayoutAddress);
         _data[_tokenId].royaltyPayout = _royaltyPayoutAddress;
     }
 
-    /// Update Root Function
-    /// @notice Update Root Function
-    /// @param _newRoot: The new Merkle Root
-    /// @dev Requires contract admin to update, emits a merkleRootUpdated event.
+    /**
+        @notice Update Root Function
+        @param _newRoot: The new Merkle Root
+        @dev Requires contract admin to update, emits a merkleRootUpdated event.
+     */
     function updateRoot(bytes32 _newRoot) external {
         require(msg.sender == owner(), "!admin");
         updateMerkleRoot(_newRoot);
@@ -157,49 +166,55 @@ contract TR909 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, An
 
     /// READ FUNCTIONS
 
-    /// Get Creator
-    /// @notice Get Creator Function
-    /// @param _tokenId: The tokenId to get creator of
-    /// @return address The creator of the tokenId
+    /**
+        @notice Get Creator Function
+        @param _tokenId: The tokenId to get creator of
+        @return address The creator of the tokenId
+     */
     function creator(uint256 _tokenId) public view returns (address) {
         require(_exists(_tokenId), "!exists");
         return _data[_tokenId].creator;
     }
 
-    /// Get Royalty Payout Address
-    /// @notice Get Royalty Payout Address Function
-    /// @param _tokenId: The tokenId to get the royalty payout address for
-    /// @return address The royalty payout address
+    /**
+        @notice Get Royalty Payout Address Function
+        @param _tokenId: The tokenId to get the royalty payout address for
+        @return address The royalty payout address
+    
+     */
     function royaltyPayoutAddress(uint256 _tokenId) public view returns (address) {
         require(_exists(_tokenId), "!exists");
         return _data[_tokenId].royaltyPayout;
     }
 
-    /// Get tokenContentURI
-    /// @notice Get tokenContentURI Function
-    /// @param _tokenId: The tokenId to obtain the content URI from
-    /// @return string The content URI of the token
+    /**
+        @notice Get tokenContentURI Function
+        @param _tokenId: The tokenId to obtain the content URI from
+        @return string The content URI of the token
+     */
     function tokenContentURI(uint256 _tokenId) external view returns (string memory) {
         return _data[_tokenId].contentURI;
     }
 
     /// OVERRIDE FUNCTIONS
 
-    /// Get TokenURI
-    /// @notice Get TokenURI Function
-    /// @param _tokenId: The tokenId to get the URI for
-    /// @return string The metadataURI of the token
-    /// @dev Returns the metadataURI of the token, there is no method for metadataURI()
+    /**
+        @notice Get TokenURI Function
+        @param _tokenId: The tokenId to get the URI for
+        @return string The metadataURI of the token
+        @dev Returns the metadataURI of the token, there is no method for metadataURI()
+     */
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
         require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
         return _data[_tokenId].metadataURI;
     }
 
-    /// Override function for EIP2981
-    /// @notice royaltyInfo Function conforms to EIP2981
-    /// @param _tokenId: The tokenId to update
-    /// @param _salePrice: The new sale price
-    /// @return receiver royalty payout address and calculated royalty payment
+    /**
+        @notice royaltyInfo Function conforms to EIP2981
+        @param _tokenId: The tokenId to update
+        @param _salePrice: The new sale price
+        @return receiver royalty payout address and calculated royalty payment
+     */
     function royaltyInfo(uint256 _tokenId, uint256 _salePrice)
         external
         view
@@ -209,10 +224,11 @@ contract TR909 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, An
         return (_data[_tokenId].royaltyPayout, (_salePrice * _data[_tokenId].royaltyBPS) / 10000);
     }
 
-    /// SupportsInterface Override Function
-    /// @notice interface Override Function
-    /// @param _interfaceId: The interfaceId to check
-    /// @return interfcae supported
+    /**
+        @notice interface Override Function
+        @param _interfaceId: The interfaceId to check
+        @return interface type supported
+     */
     function supportsInterface(bytes4 _interfaceId)
         public
         view

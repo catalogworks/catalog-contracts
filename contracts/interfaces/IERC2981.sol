@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 
 /// @title ERC2981 interface
 interface IERC2981 {
-    /// lifted from iainnash
+
     /// ERC165 bytes to add to interface array - set in parent contract
     /// implementing this standard
     ///
