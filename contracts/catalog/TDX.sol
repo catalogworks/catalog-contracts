@@ -23,8 +23,8 @@ https://catalog.works/terms
 ************************************************
 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
-RINKEBY CNFT (V1: CODENAME "TDX")
-"TD606"                     :   Creator Shared NFT Media Contract for Catalog Records Inc.
+RINKEBY CNFT (V3: CODENAME "TDX")
+"TDX"                       :   Creator Shared NFT Media Contract for Catalog Records Inc.
 @author                     :   @bretth18 (computerdata) of @catalogworks
 @title                      :   TDX
 @dev                        :   Upgradeable ERC721 Contract. See interface for further implemntation details.
@@ -36,8 +36,8 @@ contract TDX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Events
-    event MetadataUpdated(uint256 indexed tokenId, string metadataURI);
-    event ContentUpdated(uint256 indexed tokenId, string contentURI);
+    event MetadataUpdated(uint256 indexed tokenId, string indexed metadataURI);
+    event ContentUpdated(uint256 indexed tokenId, string indexed contentURI);
     event RoyaltyUpdated(uint256 indexed tokenId, address indexed payoutAddress);
 
     /// State
@@ -81,11 +81,11 @@ contract TDX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
         Burn Function
         @notice Burns a token
         @param _tokenId uint256 identifier of token to burn
-        @dev burns given tokenId, restrited to owner (approved artists should burn?)
+        @dev burns given tokenId, restrited to owner and creator (when owned)
      */
     function burn(uint256 _tokenId) external {
         require(
-            msg.sender == tokenData[_tokenId].creator && msg.sender == ownerOf(_tokenId) || msg.sender == owner(),
+            (msg.sender == tokenData[_tokenId].creator && msg.sender == ownerOf(_tokenId)) || msg.sender == owner(),
             "Only creator or Admin"
         );
         _burn(_tokenId);
@@ -146,13 +146,15 @@ contract TDX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
         uint256 tokenId = _tokenIdCounter.current();
         _mint(msg.sender, tokenId);
 
-        tokenData[tokenId] = TokenData({
-            metadataURI: _data.metadataURI,
-            contentURI: _data.contentURI,
-            creator: _data.creator,
-            royaltyPayout: _data.royaltyPayout,
-            royaltyBPS: _data.royaltyBPS
-        });
+        tokenData[tokenId] = _data;
+
+        // tokenData[tokenId] = TokenData({
+        //     metadataURI: _data.metadataURI,
+        //     contentURI: _data.contentURI,
+        //     creator: _data.creator,
+        //     royaltyPayout: _data.royaltyPayout,
+        //     royaltyBPS: _data.royaltyBPS
+        // });
 
         /// increase tokenid
         _tokenIdCounter.increment();

@@ -48,7 +48,7 @@ describe('TDX Tests ', () => {
         signer1Address = await signer1.getAddress();
 
         // setup contract
-        await deployments.fixture(['TDX'], {fallbackToGlobal: false});
+        await deployments.fixture(['TDX'], {fallbackToGlobal: true});
         const TDX = await deployments.get('TDX');
         // mintableArtistInstance = await ethers.getContract('TDX', signer);
         mintableArtistInstance = TDX__factory.connect(TDX.address, signer);
