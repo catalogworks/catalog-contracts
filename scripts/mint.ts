@@ -116,7 +116,7 @@ const mintTokens = async () => {
         const tx4 = await deployer.CFR.mint(inputData, proof);
         tx4.wait();
         console.log('\x1b[39m%s\x1b[0m', '(ง ͠° ͟ل͜ ͡°)ง OH YEAH! MINTED TOKEN 4');
-        
+
         // transfer 2 to creator
         console.log('\n \x1b[31m%s\x1b[0m', '(☞ ͡° ͜ʖ ͡°)☞ GOODBYE!');
     } catch (e) {
@@ -125,10 +125,14 @@ const mintTokens = async () => {
     }
 
     try {
-        const tx5 = await deployer.CFR.transferFrom(deployer.address , '0x8a5847fd0e592B058c026C5fDc322AEE834B87F5', 2);
+        const tx5 = await deployer.CFR.transferFrom(
+            deployer.address,
+            '0x8a5847fd0e592B058c026C5fDc322AEE834B87F5',
+            2
+        );
         tx5.wait();
         console.log('\x1b[36m%s\x1b[0m', 'TRANSFERRED TOKEN #2');
-    } catch(e) {
+    } catch (e) {
         console.log('\x1b[31m%s\x1b[0m', '(☞ ͡° ͜ʖ ͡°)☞ ERROR: ', e);
         throw e;
     }
