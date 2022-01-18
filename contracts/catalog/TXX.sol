@@ -195,7 +195,11 @@ contract TXX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
         @dev access controlled, restricted to contract owner 
              when they own the tokenId or the creator (when they own the token)
      */
-    function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external tokenExists(_tokenId) onlyOwner {
+    function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external  {
+        require(
+            msg.sender == owner() || msg.sender == tokenData[_tokenId].creator, 
+            "!creator/admin"
+        );
         // event
         emit MetadataUpdated(_tokenId, _metadataURI);
 
