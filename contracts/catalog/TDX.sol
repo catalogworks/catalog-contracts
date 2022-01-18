@@ -36,8 +36,8 @@ contract TDX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Events
-    event MetadataUpdated(uint256 indexed tokenId, string indexed metadataURI);
-    event ContentUpdated(uint256 indexed tokenId, string indexed contentURI);
+    event MetadataUpdated(uint256 indexed tokenId, string metadataURI);
+    event ContentUpdated(uint256 indexed tokenId, string contentURI);
     event RoyaltyUpdated(uint256 indexed tokenId, address indexed payoutAddress);
 
     /// State

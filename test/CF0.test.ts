@@ -203,8 +203,9 @@ describe('CF0 Test Suite', () => {
                 royaltyBPS: 5000,
             };
 
-            await users[0].CF0.mint(inputTokenData, proof);
-            await expect(await CF0.ownerOf(1)).to.eq(users[0].address);
+            const tx = await users[0].CF0.mint(inputTokenData, proof);
+            tx.wait();
+            expect(await CF0.ownerOf(1)).to.eq(users[0].address);
 
             await expect(
                 deployer.CF0.updateContentURI(
@@ -402,10 +403,9 @@ describe('CF0 Test Suite', () => {
             });
             const newRoot = newTree.getHexRoot();
 
-            await expect(await deployer.CF0.updateRoot(newRoot)).to.emit(
-                CF0,
-                'merkleRootUpdated'
-            );
+            await expect(deployer.CF0.updateRoot(newRoot))
+                .to.emit(CF0, 'merkleRootUpdated')
+                .withArgs(newRoot);
             await expect(await CF0.merkleRoot()).to.eq(newRoot);
 
             // await expect(await deployer.CF0.updateRoot(newRoot)).to.emit(CF0, 'merkleRootUpdated').withArgs(newRoot);

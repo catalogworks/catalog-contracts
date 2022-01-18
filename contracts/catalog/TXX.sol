@@ -36,9 +36,9 @@ contract TXX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Events
-    event MetadataUpdated(uint256 indexed tokenId, string indexed metadataURI);
+    event MetadataUpdated(uint256 indexed tokenId, string metadataURI);
     event CreatorUpdated(uint256 indexed tokenId, address indexed creator);
-    event ContentUpdated(uint256 indexed tokenId, string indexed contentURI);
+    event ContentUpdated(uint256 indexed tokenId, string contentURI);
     event RoyaltyUpdated(uint256 indexed tokenId, address indexed payoutAddress);
 
     /// State
