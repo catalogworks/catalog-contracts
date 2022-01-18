@@ -10,10 +10,10 @@ import {
 } from 'hardhat';
 import keccak256 from 'keccak256';
 
-import {CF0} from '../types/typechain';
+import {CF0} from '../../types/typechain';
 import MerkleTree from 'merkletreejs';
 import {BigNumberish} from '@ethersproject/bignumber';
-import {setupUser, setupUsers} from './utils';
+import {setupUser, setupUsers} from '../../test/utils';
 import {utils} from 'ethers';
 
 function hashAddress(address: string) {

@@ -9,7 +9,7 @@ import {
 } from 'hardhat';
 import keccak256 from 'keccak256';
 
-import {TDX, TDX__factory} from '../types/typechain';
+import {CFR, CFR__factory} from '../types/typechain';
 import MerkleTree from 'merkletreejs';
 import {SignerWithAddress} from '@nomiclabs/hardhat-ethers/signers';
 import {BigNumber, BigNumberish} from '@ethersproject/bignumber';
@@ -31,11 +31,11 @@ function hashAddress(address: string) {
 const setup = async () => {
     const {deployer} = await getNamedAccounts();
 
-    // await deployments.fixture(['TDX'], {fallbackToGlobal: false});
-    await deployments.get('TDX');
+    // await deployments.fixture(['CFR'], {fallbackToGlobal: false});
+    await deployments.get('CFR');
 
     const contracts = {
-        TDX: <TDX>await ethers.getContract('TDX', deployer),
+        CFR: <CFR>await ethers.getContract('CFR', deployer),
     };
     const users = await setupUsers(await getUnnamedAccounts(), contracts);
 
@@ -67,9 +67,9 @@ const setup = async () => {
     });
     const root = tree.getRoot();
     console.log(root.toLocaleString());
-    if (contracts.TDX.merkleRoot().toString() !== root.toString()) {
+    if (contracts.CFR.merkleRoot().toString() !== root.toString()) {
         console.log('make new rooty tooty');
-        await result.TDX.updateRoot(root);
+        await result.CFR.updateRoot(root);
     }
 
     return {
@@ -81,7 +81,7 @@ const setup = async () => {
 };
 
 const mintTokens = async () => {
-    const {deployer, TDX, merkleTree} = await setup();
+    const {deployer, CFR, merkleTree} = await setup();
 
     if (!merkleTree) {
         throw new Error('no merkleTree');
@@ -102,16 +102,16 @@ const mintTokens = async () => {
     };
 
     try {
-        const tx = await deployer.TDX.mint(inputData, proof);
+        const tx = await deployer.CFR.mint(inputData, proof);
         tx.wait();
         console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN');
-        const tx2 = await deployer.TDX.mint(inputData, proof);
+        const tx2 = await deployer.CFR.mint(inputData, proof);
         tx2.wait();
         console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 2');
-        const tx3 = await deployer.TDX.mint(inputData, proof);
+        const tx3 = await deployer.CFR.mint(inputData, proof);
         tx3.wait();
         console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 3');
-        const tx4 = await deployer.TDX.mint(inputData, proof);
+        const tx4 = await deployer.CFR.mint(inputData, proof);
         tx4.wait();
         console.log('\x1b[39m%s\x1b[0m', '(ง ͠° ͟ل͜ ͡°)ง OH YEAH! MINTED TOKEN 4');
         console.log('\n \x1b[31m%s\x1b[0m', '(☞ ͡° ͜ʖ ͡°)☞ GOODBYE!');

@@ -1,4 +1,6 @@
-// CFR.test.ts: test suite for CFR Contract
+// CFR.test.ts
+// Unit test suite for CFT Contract
+// Uses Mocha / Chai
 
 import {expect} from 'chai';
 import '@nomiclabs/hardhat-ethers';

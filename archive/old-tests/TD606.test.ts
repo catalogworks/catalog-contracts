@@ -5,7 +5,7 @@ import '@nomiclabs/hardhat-ethers';
 import {deployments, ethers, getNamedAccounts} from 'hardhat';
 import keccak256 from 'keccak256';
 
-import {TD606, TD606__factory} from '../types/typechain';
+import {TD606, TD606__factory} from '../../types/typechain';
 import MerkleTree from 'merkletreejs';
 import {SignerWithAddress} from '@nomiclabs/hardhat-ethers/signers';
 import {BigNumberish} from '@ethersproject/bignumber';
