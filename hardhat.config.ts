@@ -127,7 +127,6 @@ const config: HardhatUserConfig = {
         : undefined,
         
     },
-    
     localhost: {
       url: node_url('localhost'),
       // why use two line when one line do job
@@ -164,7 +163,7 @@ const config: HardhatUserConfig = {
       accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('goerli'),
       blockGasLimit: 10000000,
       etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
-    }
+    },
   },
 
   paths: {
@@ -183,7 +182,7 @@ const config: HardhatUserConfig = {
   },
 
   mocha: {
-    timeout: 500000,
+    timeout: 5000000,
   },
 
   abiExporter: {
@@ -200,9 +199,10 @@ const config: HardhatUserConfig = {
   gasReporter: {
     currency: 'USD',
     enabled: process.env.REPORT_GAS ? true : false,
+    gasPrice: 130,
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
     showTimeSpent: true,
-    excludeContracts: ['CLG20.sol', 'TD606.sol', 'CatalogNFT.sol', 'TD606V2.sol', 'contract/zora'],
+    excludeContracts: ['CLG20.sol', 'TD606.sol', 'CatalogNFT.sol', 'TD606V2.sol', 'contract/zora', 'SP1200.sol'],
   },
 
   // etherscan: {
