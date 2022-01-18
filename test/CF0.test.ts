@@ -24,7 +24,7 @@ type TokenData = {
     creator: string;
     royaltyPayout: string;
     contentURI: string;
-    metadataURI: string
+    metadataURI: string;
     royaltyBPS: BigNumberish;
 };
 
@@ -176,11 +176,7 @@ describe('CF0 Test Suite', () => {
 
             await expect(await CF0.ownerOf(1)).to.eq(users[1].address);
             await expect(
-                users[1].CF0.transferFrom(
-                    users[1].address,
-                    users[2].address,
-                    1
-                )
+                users[1].CF0.transferFrom(users[1].address, users[2].address, 1)
             )
                 .to.emit(CF0, 'Transfer')
                 .withArgs(users[1].address, users[2].address, 1);
@@ -411,7 +407,6 @@ describe('CF0 Test Suite', () => {
                 'merkleRootUpdated'
             );
             await expect(await CF0.merkleRoot()).to.eq(newRoot);
-            
 
             // await expect(await deployer.CF0.updateRoot(newRoot)).to.emit(CF0, 'merkleRootUpdated').withArgs(newRoot);
         });
@@ -435,7 +430,6 @@ describe('CF0 Test Suite', () => {
     });
 
     describe('updateCreator', () => {
-
         it('allows admin to update creator', async () => {
             const {users, deployer, merkletree, CF0} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
@@ -458,7 +452,7 @@ describe('CF0 Test Suite', () => {
         });
 
         it('reverts with non-admin attempt', async () => {
-            const { users, deployer, merkletree, CF0 } = await setup();
+            const {users, deployer, merkletree, CF0} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
                 metadataURI: 'https://catalog.works/metadata/uri',
@@ -467,11 +461,13 @@ describe('CF0 Test Suite', () => {
                 royaltyPayout: users[0].address,
                 royaltyBPS: 5000,
             };
-            
+
             await users[0].CF0.mint(inputTokenData, proof);
             await expect(await CF0.ownerOf(1)).to.eq(users[0].address);
 
-            await expect(users[0].CF0.updateCreator(1, users[1].address)).to.be.revertedWith('Ownable: caller is not the owner');
+            await expect(
+                users[0].CF0.updateCreator(1, users[1].address)
+            ).to.be.revertedWith('Ownable: caller is not the owner');
         });
-    })
+    });
 });

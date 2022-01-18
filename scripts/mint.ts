@@ -1,7 +1,12 @@
 // Script for minting tokens on a live network (test)
 // usage: npx hardhat run scripts/mint.ts --network [network]
 
-import {deployments, ethers, getNamedAccounts, getUnnamedAccounts} from 'hardhat';
+import {
+    deployments,
+    ethers,
+    getNamedAccounts,
+    getUnnamedAccounts,
+} from 'hardhat';
 import keccak256 from 'keccak256';
 
 import {TDX, TDX__factory} from '../types/typechain';
@@ -9,7 +14,7 @@ import MerkleTree from 'merkletreejs';
 import {SignerWithAddress} from '@nomiclabs/hardhat-ethers/signers';
 import {BigNumber, BigNumberish} from '@ethersproject/bignumber';
 import {setupUser, setupUsers} from '../test/utils';
-import { utils } from 'ethers';
+import {utils} from 'ethers';
 
 type TokenData = {
     metadataURI: string;
@@ -25,7 +30,6 @@ function hashAddress(address: string) {
 
 const setup = async () => {
     const {deployer} = await getNamedAccounts();
-
 
     // await deployments.fixture(['TDX'], {fallbackToGlobal: false});
     await deployments.get('TDX');
@@ -67,7 +71,6 @@ const setup = async () => {
         console.log('make new rooty tooty');
         await result.TDX.updateRoot(root);
     }
-    
 
     return {
         ...contracts,
@@ -83,12 +86,16 @@ const mintTokens = async () => {
     if (!merkleTree) {
         throw new Error('no merkleTree');
     }
-    const proof = await merkleTree.getHexProof(hashAddress('0x8a5847fd0e592B058c026C5fDc322AEE834B87F5'));
+    const proof = await merkleTree.getHexProof(
+        hashAddress('0x8a5847fd0e592B058c026C5fDc322AEE834B87F5')
+    );
 
     const inputBPS = BigNumber.from(5000);
     const inputData: TokenData = {
-        metadataURI: 'https://bafkreihgrqxdl3g4l2wuahmzmyxp52afzt4tmutpjlh7k66nmaw7fzrlvu.ipfs.dweb.link',
-        contentURI: 'https://bafybeihl43fjf5ns5bk3odbegn6u74ysme5hhkl2o3yekfhm3hkqipkx6q.ipfs.dweb.link',
+        metadataURI:
+            'https://bafkreihgrqxdl3g4l2wuahmzmyxp52afzt4tmutpjlh7k66nmaw7fzrlvu.ipfs.dweb.link',
+        contentURI:
+            'https://bafybeihl43fjf5ns5bk3odbegn6u74ysme5hhkl2o3yekfhm3hkqipkx6q.ipfs.dweb.link',
         creator: '0x8a5847fd0e592B058c026C5fDc322AEE834B87F5',
         royaltyPayout: '0x8a5847fd0e592B058c026C5fDc322AEE834B87F5',
         royaltyBPS: inputBPS,
@@ -112,9 +119,6 @@ const mintTokens = async () => {
         console.log('\x1b[31m%s\x1b[0m', '(☞ ͡° ͜ʖ ͡°)☞ ERROR: ', e);
         throw e;
     }
-
-
-
 };
 
 mintTokens()

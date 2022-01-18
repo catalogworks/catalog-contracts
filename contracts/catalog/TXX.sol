@@ -169,7 +169,6 @@ contract TXX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
         tokenData[_tokenId].contentURI = _contentURI;
     }
 
-
     function updateCreator(uint256 _tokenId, address _creator) external onlyOwner {
         emit CreatorUpdated(_tokenId, _creator);
         tokenData[_tokenId].creator = _creator;
@@ -195,11 +194,8 @@ contract TXX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
         @dev access controlled, restricted to contract owner 
              when they own the tokenId or the creator (when they own the token)
      */
-    function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external  {
-        require(
-            msg.sender == owner() || msg.sender == tokenData[_tokenId].creator, 
-            "!creator/admin"
-        );
+    function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external {
+        require(msg.sender == owner() || msg.sender == tokenData[_tokenId].creator, "!creator/admin");
         // event
         emit MetadataUpdated(_tokenId, _metadataURI);
 

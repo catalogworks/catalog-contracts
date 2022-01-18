@@ -9,7 +9,6 @@ import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Cou
 import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import {AngelaList} from "../AngelaList.sol";
 
-
 /**
 --------------------------------------------------------------------------------------------------------------------
 
@@ -33,7 +32,7 @@ RINKEBY CNFT (V4: CODENAME "CF0")
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
  */
 
- contract CF0 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, AngelaList {
+contract CF0 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, AngelaList {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// ----EVENTS----
@@ -61,7 +60,6 @@ RINKEBY CNFT (V4: CODENAME "CF0")
         _;
     }
 
-
     /// ----CONSTRUCTOR/INITIALIZER----
     function initialize(string memory _name, string memory _symbol) public initializer {
         __ERC721_init(_name, _symbol);
@@ -71,12 +69,10 @@ RINKEBY CNFT (V4: CODENAME "CF0")
         _tokenIdCounter.increment();
     }
 
-
     /// ----BURN FUNCTION----
     function burn(uint256 _tokenId) external {
         require(
-            (msg.sender == tokenData[_tokenId].creator && msg.sender == ownerOf(_tokenId))
-            || msg.sender ==owner(),
+            (msg.sender == tokenData[_tokenId].creator && msg.sender == ownerOf(_tokenId)) || msg.sender == owner(),
             "Only creator or Admin"
         );
         _burn(_tokenId);
@@ -122,11 +118,8 @@ RINKEBY CNFT (V4: CODENAME "CF0")
         updateMerkleRoot(_newRoot);
     }
 
-    function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external  {
-        require(
-            msg.sender == owner() || msg.sender == tokenData[_tokenId].creator, 
-            "!creator/admin"
-        );
+    function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external {
+        require(msg.sender == owner() || msg.sender == tokenData[_tokenId].creator, "!creator/admin");
         emit MetadataUpdated(_tokenId, _metadataURI);
         tokenData[_tokenId].metadataURI = _metadataURI;
     }
@@ -136,7 +129,6 @@ RINKEBY CNFT (V4: CODENAME "CF0")
         tokenData[_tokenId].royaltyPayout = _royaltyPayoutAddress;
     }
 
-
     // ----OVERRIDES----
 
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
@@ -144,12 +136,22 @@ RINKEBY CNFT (V4: CODENAME "CF0")
         return tokenData[_tokenId].metadataURI;
     }
 
-    function royaltyInfo(uint256 _tokenId, uint256 _salePrice) external view override returns (address receiver, uint256 royaltyAmount) {
+    function royaltyInfo(uint256 _tokenId, uint256 _salePrice)
+        external
+        view
+        override
+        returns (address receiver, uint256 royaltyAmount)
+    {
         return (tokenData[_tokenId].royaltyPayout, (_salePrice * tokenData[_tokenId].royaltyBPS) / 10_000);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override (ERC721Upgradeable, IERC165Upgradeable) returns (bool) {
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(ERC721Upgradeable, IERC165Upgradeable)
+        returns (bool)
+    {
         return type(IERC2981Upgradeable).interfaceId == interfaceId || ERC721Upgradeable.supportsInterface(interfaceId);
     }
-
- }
+}

@@ -193,8 +193,8 @@ describe('TXX Tests ', () => {
         ).to.equal(signer1Address);
     });
 
-    // 07 
-    it('allows owner to update creator', async() => {
+    // 07
+    it('allows owner to update creator', async () => {
         const proof = merkletree.getHexProof(hashAddress(signerAddress));
         const inputData: TokenData = {
             metadataURI: 'https://catalog.works/content/metadata',
@@ -205,22 +205,19 @@ describe('TXX Tests ', () => {
         };
 
         const mint = await mintableArtistInstance.mint(inputData, proof);
-        await expect (
+        await expect(
             (await mintableArtistInstance.creator(1)).toString()
         ).to.equal(signerAddress);
 
         await expect(
             mintableArtistInstance.updateCreator(1, signer1Address)
             //@ts-ignore-next
-        ).to.emit(mintableArtistInstance, 'CreatorUpdated').withArgs(
-            1,
-            signer1Address
-        );
-
+        )
+            .to.emit(mintableArtistInstance, 'CreatorUpdated')
+            .withArgs(1, signer1Address);
 
         await expect(
             (await mintableArtistInstance.creator(1)).toString()
         ).to.equal(signer1Address);
-
     });
 });
