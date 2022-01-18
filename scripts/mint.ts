@@ -1,4 +1,6 @@
 // Script for minting tokens on a live network (test)
+// usage: npx hardhat run scripts/mint.ts --network [network]
+
 import {deployments, ethers, getNamedAccounts, getUnnamedAccounts} from 'hardhat';
 import keccak256 from 'keccak256';
 
