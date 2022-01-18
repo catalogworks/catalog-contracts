@@ -13,9 +13,14 @@ import {AngelaList} from "../AngelaList.sol";
 /**
 --------------------------------------------------------------------------------------------------------------------
 
-TXX
+         ___
+       /'___\
+  ___ /\ \__/  _ __
+ /'___\ \ ,__\/\`'__\
+/\ \__/\ \ \_/\ \ \/
+\ \____\\ \_\  \ \_\
+ \/____/ \/_/   \/_/
 
-    v2
 
 ************************************************
 LEGAL DISCLAIMER:
@@ -23,16 +28,16 @@ https://catalog.works/terms
 ************************************************
 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
-RINKEBY CNFT (V3: CODENAME "TXX")
-"TXX"                       :   Creator Shared NFT Media Contract for Catalog Records Inc.
+RINKEBY CNFT (V4: CODENAME "CFR")
+"CFR"                       :   Creator Shared NFT Media Contract for Catalog Records Inc.
 @author                     :   @bretth18 (computerdata) of @catalogworks
-@title                      :   TXX
-@dev                        :   Upgradeable ERC721 Contract.
+@title                      :   CFR
+@dev                        :   Upgradeable ERC721 Contract. Final proposed implementation (CFR), Rinkeby.
                                 Purpose built for optmization over the Zora V1 contracts.
                                 Code relies on implementations thanks to @ isian (iain nash) of Zora. 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
  */
-contract TXX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, AngelaList {
+contract CFR is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, AngelaList {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Events
@@ -141,7 +146,6 @@ contract TXX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
 
      */
     function mint(TokenData calldata _data, bytes32[] calldata _proof) external returns (uint256) {
-        /// call angela
         require(verify(leaf(_data.creator), _proof), "!valid proof");
 
         require(_data.royaltyBPS < 10_000, "royalty !< 10000");
@@ -151,7 +155,6 @@ contract TXX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
 
         tokenData[tokenId] = _data;
 
-        /// increase tokenid
         _tokenIdCounter.increment();
 
         return tokenId;
@@ -229,7 +232,6 @@ contract TXX is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
      */
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
         require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
-
         return tokenData[_tokenId].metadataURI;
     }
 
