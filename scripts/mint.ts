@@ -1,5 +1,5 @@
 // Script for minting tokens on a live network (test)
-import {deployments, ethers, getNamedAccounts} from 'hardhat';
+import {deployments, ethers, getNamedAccounts, getUnnamedAccounts} from 'hardhat';
 import keccak256 from 'keccak256';
 
 import {TDX, TDX__factory} from '../types/typechain';
@@ -24,13 +24,17 @@ function hashAddress(address: string) {
 const setup = async () => {
     const {deployer} = await getNamedAccounts();
 
+
     // await deployments.fixture(['TDX'], {fallbackToGlobal: false});
     await deployments.get('TDX');
 
     const contracts = {
         TDX: <TDX>await ethers.getContract('TDX', deployer),
     };
+    const users = await setupUsers(await getUnnamedAccounts(), contracts);
+
     const result = await setupUser(deployer, contracts);
+    // const result = await users[0];
     console.log('resultdeployer:', result);
 
     console.log('\x1b[36m%s\x1b[0m', 'deployer: ', deployer.toString());
@@ -88,16 +92,25 @@ const mintTokens = async () => {
         royaltyBPS: inputBPS,
     };
 
-    const tx = await deployer.TDX.mint(inputData, proof);
-    tx.wait();
-    console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN');
-    await deployer.TDX.mint(inputData, proof);
-    console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 2');
-    await deployer.TDX.mint(inputData, proof);
-    console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 3');
-    await deployer.TDX.mint(inputData, proof);
-    console.log('\x1b[39m%s\x1b[0m', '(ง ͠° ͟ل͜ ͡°)ง OH YEAH! MINTED TOKEN 4');
-    console.log('\x1b[31m%s\x1b[0m', '(☞ ͡° ͜ʖ ͡°)☞ GOODBYE!');
+    try {
+        const tx = await deployer.TDX.mint(inputData, proof);
+        tx.wait();
+        console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN');
+        const tx2 = await deployer.TDX.mint(inputData, proof);
+        tx2.wait();
+        console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 2');
+        const tx3 = await deployer.TDX.mint(inputData, proof);
+        tx3.wait();
+        console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 3');
+        const tx4 = await deployer.TDX.mint(inputData, proof);
+        tx4.wait();
+        console.log('\x1b[39m%s\x1b[0m', '(ง ͠° ͟ل͜ ͡°)ง OH YEAH! MINTED TOKEN 4');
+        console.log('\n \x1b[31m%s\x1b[0m', '(☞ ͡° ͜ʖ ͡°)☞ GOODBYE!');
+    } catch (e) {
+        console.log('\x1b[31m%s\x1b[0m', '(☞ ͡° ͜ʖ ͡°)☞ ERROR: ', e);
+        throw e;
+    }
+
 
 
 };
