@@ -116,7 +116,6 @@ contract CFR is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
         @dev basic public getter method for creator
      */
     function creator(uint256 _tokenId) public view returns (address) {
-        // require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
         address c = tokenData[_tokenId].creator;
         return c;
     }
@@ -129,7 +128,6 @@ contract CFR is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, Ange
         @dev basic public getter method for royalty payout address 
      */
     function royaltyPayoutAddress(uint256 _tokenId) public view returns (address) {
-        // require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
         address rp = tokenData[_tokenId].royaltyPayout;
         return rp;
     }
