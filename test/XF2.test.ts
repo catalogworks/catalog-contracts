@@ -29,6 +29,11 @@ type TokenData = {
     royaltyBPS: BigNumberish;
 };
 
+type ContentData = {
+    contentURI: string;
+    contentHash: string;
+}
+
 const setup = deployments.createFixture(async () => {
     await deployments.fixture('XF2');
     const {deployer, tokenOwner, multisig} = await getNamedAccounts();
@@ -83,27 +88,30 @@ describe('XF2 Test Suite', () => {
             const inputTokenData: TokenData = {
                 creator: users[0].address,
                 royaltyPayout: users[0].address,
-                contentURI: 'https://catalog.works/content/uri',
                 metadataURI: 'https://catalog.works/metadata/uri',
                 royaltyBPS: 5000,
             };
 
             const contentURI = 'https://catalog.works/content/uri';
-            const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
+            const contentHash = '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
+
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            };
 
             await expect(users[0].XF2.mint(
                 inputTokenData,
-                contentURI,
-                contentHash,
+                inputContentData,
                 proof,
             )).to.emit(XF2, 'ContentUpdated')
             .withArgs(
                 1,
-                contentHash,
+                '0xe1447c16f5da1173c488cd2d3450415e7677d1e65d28cfa957e96a660ffdea97',
                 contentURI,
             );
 
-            await expect(users[0].XF2.mint(inputTokenData, proof))
+            await expect(users[0].XF2.mint(inputTokenData, inputContentData, proof))
                 .to.emit(XF2, 'Transfer')
                 .withArgs(
                     '0x0000000000000000000000000000000000000000',
@@ -124,13 +132,16 @@ describe('XF2 Test Suite', () => {
             };
 
             const contentURI = 'https://catalog.works/content/uri';
-            const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
+            const contentHash = '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
 
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
 
             await expect(users[5].XF2.mint(
                 inputTokenData,
-                contentURI,
-                contentHash,
+                inputContentData,
                 proof,
             )).to.be.revertedWith('!valid proof');
 
@@ -147,13 +158,16 @@ describe('XF2 Test Suite', () => {
                 royaltyBPS: 10000,
             };
             const contentURI = 'https://catalog.works/content/uri';
-            const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
+            const contentHash = '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
 
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
             await expect(
                 users[0].XF2.mint(
                     inputTokenData,
-                    contentURI,
-                    contentHash,
+                    inputContentData,
                     proof,
                 )
             ).to.be.revertedWith('royalty !< 10000');
@@ -172,10 +186,15 @@ describe('XF2 Test Suite', () => {
                 royaltyBPS: 5000,
             };
             const contentURI = 'https://catalog.works/content/uri';
-            const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
+            const contentHash = '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
 
-            await users[0].XF2.mint(inputTokenData, contentURI, contentHash, proof);
-            await users[0].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
+            
+            await users[0].XF2.mint(inputTokenData, inputContentData, proof);
+            await users[0].XF2.mint(inputTokenData, inputContentData, proof);
             await expect(await XF2.ownerOf(1)).to.eq(users[0].address);
 
             await expect(deployer.XF2.burn(1))
@@ -198,10 +217,15 @@ describe('XF2 Test Suite', () => {
                 royaltyPayout: users[2].address,
                 royaltyBPS: 5000,
             };
-            const contentURI = 'https://catalog.works/content/uri';
-            const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
-            await users[1].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+            const contentURI = 'https://catalog.works/content/uri';
+            const contentHash = '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
+
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
+            await users[1].XF2.mint(inputTokenData, inputContentData,  proof);
 
             await expect(await XF2.ownerOf(1)).to.eq(users[1].address);
             await expect(users[1].XF2.burn(1)).to.be.revertedWith(
@@ -220,9 +244,14 @@ describe('XF2 Test Suite', () => {
                 royaltyBPS: 5000,
             };
             const contentURI = 'https://catalog.works/content/uri';
-            const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
+            const contentHash = '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
 
-            await users[1].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
+
+            await users[1].XF2.mint(inputTokenData, inputContentData, proof);
 
             await expect(await XF2.ownerOf(1)).to.eq(users[1].address);
             await expect(
@@ -252,22 +281,32 @@ describe('XF2 Test Suite', () => {
                 royaltyBPS: 5000,
             };
             const contentURI = 'https://catalog.works/content/uri';
-            const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
+            const contentURI2 = 'https://catalog.works/content/uri2';
+            const contentHash =  '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
+            const contentHash2 = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
-            const tx = await users[0].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
+
+            const inputContentData2: ContentData = {
+                contentURI: contentURI2,
+                contentHash: contentHash2,
+            }
+            const tx = await users[0].XF2.mint(inputTokenData, inputContentData, proof);
             tx.wait();
             expect(await XF2.ownerOf(1)).to.eq(users[0].address);
 
             await expect(
                 deployer.XF2.updateContentURI(
                     1,
-                    '0x000000000000000000000000000000000000000000000000000000000000000',
-                    'https://catalog.works/content/uri2',
+                    inputContentData2
        
                 )
             )
                 .to.emit(XF2, 'ContentUpdated')
-                .withArgs(1, '0x000000000000000000000000000000000000000000000000000000000000000', 'https://catalog.works/content/uri2');
+                .withArgs(1, contentHash2, 'https://catalog.works/content/uri2');
 
         });
 
@@ -282,16 +321,24 @@ describe('XF2 Test Suite', () => {
             };
 
             const contentURI = 'https://catalog.works/content/uri';
+            const contentURI2 = 'https://catalog.works/content/uri2';
             const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
+            const inputContentData2: ContentData = {
+                contentURI: contentURI2,
+                contentHash: contentHash,
+            }
 
-            await users[0].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+            await users[0].XF2.mint(inputTokenData, inputContentData, proof);
             await expect(await XF2.creator(1)).to.eq(users[0].address);
 
             await expect(
                 users[0].XF2.updateContentURI(
                     1,
-                    '0x000000000000000000000000000000000000000000000000000000000000000',
-                    'https://catalog.works/content/uri2'
+                    inputContentData2
                 )
             ).to.be.revertedWith('Ownable: caller is not the owner');
 
@@ -312,7 +359,12 @@ describe('XF2 Test Suite', () => {
             const contentURI = 'https://catalog.works/content/uri';
             const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
-            await users[0].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
+
+            await users[0].XF2.mint(inputTokenData, inputContentData, proof);
             await expect(await XF2.ownerOf(1)).to.eq(users[0].address);
 
             await expect(
@@ -343,7 +395,12 @@ describe('XF2 Test Suite', () => {
             const contentURI = 'https://catalog.works/content/uri';
             const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
-            await users[0].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
+
+            await users[0].XF2.mint(inputTokenData, inputContentData, proof);
             await expect(await XF2.ownerOf(1)).to.eq(users[0].address);
             await expect(await XF2.creator(1)).to.eq(users[3].address);
 
@@ -374,7 +431,12 @@ describe('XF2 Test Suite', () => {
             const contentURI = 'https://catalog.works/content/uri';
             const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
-            await users[0].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
+
+            await users[0].XF2.mint(inputTokenData, inputContentData, proof);
             await expect(await XF2.ownerOf(1)).to.eq(users[0].address);
             await expect(await XF2.creator(1)).to.eq(users[3].address);
 
@@ -402,7 +464,12 @@ describe('XF2 Test Suite', () => {
             const contentURI = 'https://catalog.works/content/uri';
             const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
-            await users[0].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
+
+            await users[0].XF2.mint(inputTokenData, inputContentData, proof);
             await expect(await XF2.ownerOf(1)).to.eq(users[0].address);
 
             await expect(deployer.XF2.updateRoyaltyInfo(1, users[1].address))
@@ -433,7 +500,13 @@ describe('XF2 Test Suite', () => {
             const contentURI = 'https://catalog.works/content/uri';
             const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
-            await users[0].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
+
+
+            await users[0].XF2.mint(inputTokenData, inputContentData, proof);
             await expect(await XF2.creator(1)).to.eq(users[0].address);
 
             await expect(
@@ -499,8 +572,14 @@ describe('XF2 Test Suite', () => {
             const contentURI = 'https://catalog.works/content/uri';
             const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
 
-            await users[0].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+
+
+            await users[0].XF2.mint(inputTokenData, inputContentData, proof);
             await expect(await XF2.ownerOf(1)).to.eq(users[0].address);
 
             await expect(deployer.XF2.updateCreator(1, users[1].address))
@@ -523,8 +602,14 @@ describe('XF2 Test Suite', () => {
             const contentURI = 'https://catalog.works/content/uri';
             const contentHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
+            const inputContentData: ContentData = {
+                contentURI: contentURI,
+                contentHash: contentHash,
+            }
 
-            await users[0].XF2.mint(inputTokenData, contentURI, contentHash, proof);
+
+
+            await users[0].XF2.mint(inputTokenData, inputContentData, proof);
             await expect(await XF2.ownerOf(1)).to.eq(users[0].address);
 
             await expect(

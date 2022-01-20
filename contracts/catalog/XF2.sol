@@ -36,7 +36,7 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
     /// Events
     event MetadataUpdated(uint256 indexed tokenId, string metadataURI);
     event CreatorUpdated(uint256 indexed tokenId, address indexed creator);
-    event ContentUpdated(uint256 indexed tokenId, bytes indexed contentHash, string contentURI);
+    event ContentUpdated(uint256 indexed tokenId, bytes32 indexed contentHash, string contentURI);
     event RoyaltyUpdated(uint256 indexed tokenId, address indexed payoutAddress);
     event MerkleRootUpdated(bytes32 indexed _merkleRoot);
 
@@ -46,6 +46,11 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
         address creator;
         address royaltyPayout;
         uint16 royaltyBPS;
+    }
+    // Calldata
+    struct ContentData {
+        string contentURI;
+        bytes32 contentHash;
     }
 
     bytes32 public merkleRoot;
@@ -119,18 +124,16 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
     /**
         mint Function
         @notice mints a new token
-        @param _data TokenData struct, see ITB303
+        @param _data TokenData struct, containing metadataURI, creator, royaltyPayout, royaltyBPS
+        @param _content ContentData struct, containing contentURI, contentHash. not stored in memory, only in calldata
         @param _proof bytes32[] merkle proof of artist wallet. 
                                 this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
         @return uint256 tokenId of minted token (useful since we are not using Enumerable)
-        @dev mints a new token to allowlisted msg.sender with a valid merkle proof. params can and should
-             be changed to calldata for gas efficiency. rename to "allowlist"
-
+        @dev mints a new token to allowlisted msg.sender with a valid merkle proof. 
      */
     function mint(
         TokenData calldata _data,
-        string calldata _contentURI,
-        bytes calldata _contentHash,
+        ContentData calldata _content,
         bytes32[] calldata _proof
     ) external returns (uint256) {
         require(
@@ -144,7 +147,7 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
         _mint(msg.sender, tokenId);
 
         tokenData[tokenId] = _data;
-        emit ContentUpdated(tokenId, _contentHash, _contentURI);
+        emit ContentUpdated(tokenId, _content.contentHash, _content.contentURI);
 
         _tokenIdCounter.increment();
 
@@ -153,17 +156,16 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
 
     /**
         updateContentURI Function
-        @notice updates the content URI of a token, emits an event
+        @notice Emits an event to be used track content updates on a token
         @param _tokenId uint256 token id corresponding to the token to update
-        @param _contentURI string containing new/updated media content (subject to change, new EIP)
+        @param _content struct containing new/updated contentURI and hash.
         @dev access controlled function, restricted to owner/admim.
      */
     function updateContentURI(
         uint256 _tokenId,
-        bytes calldata _contentHash,
-        string calldata _contentURI
+        ContentData calldata _content
     ) external onlyOwner {
-        emit ContentUpdated(_tokenId, _contentHash, _contentURI);
+        emit ContentUpdated(_tokenId, _content.contentHash, _content.contentURI);
     }
 
     /**
