@@ -58,7 +58,6 @@ const setup = async () => {
         '0x25a1735D2490F8f6a72874B8d1084E0745DC01f2',
     ];
 
-
     const leafs = allowed.reduce((last, allowedItem) => {
         last[allowedItem] = hashAddress(allowedItem);
         return last;
@@ -75,9 +74,20 @@ const setup = async () => {
         tx.wait();
         console.log('ROOT UPDATED', tx);
 
-        console.log('\x1b[36m%s\x1b[0m', 'PROOF FOR:0x25a1735D2490F8f6a72874B8d1084E0745DC01f2 :: ', tree.getHexProof(hashAddress('0x25a1735D2490F8f6a72874B8d1084E0745DC01f2')));
-        console.log('\x1b[36m%s\x1b[0m', 'PROOF FOR:0x8a5847fd0e592B058c026C5fDc322AEE834B87F5 :: ', tree.getHexProof(hashAddress('0x8a5847fd0e592B058c026C5fDc322AEE834B87F5')));
-
+        console.log(
+            '\x1b[36m%s\x1b[0m',
+            'PROOF FOR:0x25a1735D2490F8f6a72874B8d1084E0745DC01f2 :: ',
+            tree.getHexProof(
+                hashAddress('0x25a1735D2490F8f6a72874B8d1084E0745DC01f2')
+            )
+        );
+        console.log(
+            '\x1b[36m%s\x1b[0m',
+            'PROOF FOR:0x8a5847fd0e592B058c026C5fDc322AEE834B87F5 :: ',
+            tree.getHexProof(
+                hashAddress('0x8a5847fd0e592B058c026C5fDc322AEE834B87F5')
+            )
+        );
     }
 
     return {

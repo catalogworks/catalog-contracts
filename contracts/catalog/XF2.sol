@@ -9,7 +9,6 @@ import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Cou
 import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import {MerkleProofUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
 
-
 /**
 --------------------------------------------------------------------------------------------------------------------
 
@@ -128,7 +127,12 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
              be changed to calldata for gas efficiency. rename to "allowlist"
 
      */
-    function mint(TokenData calldata _data, string calldata _contentURI, bytes calldata _contentHash,  bytes32[] calldata _proof) external returns (uint256) {
+    function mint(
+        TokenData calldata _data,
+        string calldata _contentURI,
+        bytes calldata _contentHash,
+        bytes32[] calldata _proof
+    ) external returns (uint256) {
         require(
             MerkleProofUpgradeable.verify(_proof, merkleRoot, keccak256(abi.encodePacked(_data.creator))),
             "!valid proof"
@@ -154,7 +158,11 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
         @param _contentURI string containing new/updated media content (subject to change, new EIP)
         @dev access controlled function, restricted to owner/admim.
      */
-    function updateContentURI(uint256 _tokenId, bytes calldata _contentHash, string calldata _contentURI) external onlyOwner {
+    function updateContentURI(
+        uint256 _tokenId,
+        bytes calldata _contentHash,
+        string calldata _contentURI
+    ) external onlyOwner {
         emit ContentUpdated(_tokenId, _contentHash, _contentURI);
     }
 
