@@ -26,7 +26,7 @@ RINKEBY CNFT (V4: CODENAME "XF2")
 @author                     :   @bretth18 (computerdata) of @catalogworks
 @title                      :   XF2
 @dev                        :   Upgradeable ERC721 Contract. Final proposed implementation (XF2), Rinkeby.
-                                Purpose built for optmization over the Zora V1 contracts.
+                                Purpose built for optimization over the Zora V1 contracts.
                                 Code relies on implementations thanks to @ isian (iain nash) of Zora. 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
  */
