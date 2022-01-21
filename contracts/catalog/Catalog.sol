@@ -6,14 +6,21 @@ import {ERC721Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC72
 import {IERC2981Upgradeable, IERC165Upgradeable} from "@openzeppelin/contracts-upgradeable/interfaces/IERC2981Upgradeable.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
-import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import {MerkleProofUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
 
 /**
 --------------------------------------------------------------------------------------------------------------------
 
-    XF2
-
+                                    ,,
+  .g8"""bgd         mm            `7MM
+.dP'     `M         MM              MM
+dM'       ` ,6"Yb.mmMMmm  ,6"Yb.    MM  ,pW"Wq.   .P"Ybmmm
+MM         8)   MM  MM   8)   MM    MM 6W'   `Wb :MI  I8
+MM.         ,pm9MM  MM    ,pm9MM    MM 8M     M8  WmmmP"
+`Mb.     ,'8M   MM  MM   8M   MM    MM YA.   ,A9 8M
+  `"bmmmd' `Moo9^Yo.`Mbmo`Moo9^Yo..JMML.`Ybmd9'   YMMMMMb
+                                                 6'     dP
+                                                 Ybmmmd'
 
 ************************************************
 LEGAL DISCLAIMER:
@@ -21,24 +28,25 @@ https://catalog.works/terms
 ************************************************
 
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
-RINKEBY CNFT (V4: CODENAME "XF2")
-"XF2"                       :   Creator Shared NFT Media Contract for Catalog Records Inc.
+
+"Catalog"                   :   Creator Shared NFT Media Contract for Catalog Records Inc.
 @author                     :   @bretth18 (computerdata) of @catalogworks
-@title                      :   XF2
+@title                      :   Catalog
 @dev                        :   Upgradeable ERC721 Contract. Final proposed implementation (XF2), Rinkeby.
                                 Purpose built for optimization over the Zora V1 contracts.
                                 Code relies on implementations thanks to @ isian (iain nash) of Zora. 
----------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
+
+---------------------------------------------------------------------------------------------------------------------    
  */
-contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
+contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Events
-    event MetadataUpdated(uint256 indexed tokenId, string metadataURI);
     event CreatorUpdated(uint256 indexed tokenId, address indexed creator);
     event ContentUpdated(uint256 indexed tokenId, bytes32 indexed contentHash, string contentURI);
+    event MetadataUpdated(uint256 indexed tokenId, string metadataURI);
+    event MerkleRootUpdated(bytes32 indexed merkleRoot);
     event RoyaltyUpdated(uint256 indexed tokenId, address indexed payoutAddress);
-    event MerkleRootUpdated(bytes32 indexed _merkleRoot);
 
     /// State
     struct TokenData {
@@ -47,26 +55,17 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
         address royaltyPayout;
         uint16 royaltyBPS;
     }
-    // Calldata
+    /// Calldata
     struct ContentData {
         string contentURI;
         bytes32 contentHash;
     }
 
-    bytes32 public merkleRoot;
-
-    /// Mappings
-    /// Maps tokenId to data struct
+    /// Mapping and Storage
     mapping(uint256 => TokenData) private tokenData;
 
-    /// Tracking token Id
     CountersUpgradeable.Counter private _tokenIdCounter;
-
-    /// Modifiers
-    modifier tokenExists(uint256 _tokenId) {
-        require(_exists(_tokenId), "Token does not exist");
-        _;
-    }
+    bytes32 public merkleRoot;
 
     /**
         initialize Function
@@ -79,7 +78,7 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
         __ERC721_init(_name, _symbol);
         __Ownable_init();
 
-        // Set tokenId to start @ 1
+        /// Start tokenId @ 1
         _tokenIdCounter.increment();
     }
 
@@ -129,7 +128,8 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
         @param _proof bytes32[] merkle proof of artist wallet. 
                                 this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
         @return uint256 tokenId of minted token (useful since we are not using Enumerable)
-        @dev mints a new token to allowlisted msg.sender with a valid merkle proof. 
+        @dev mints a new token to allowlisted msg.sender with a valid merkle proof. Emits a ContentUpdated event to track
+            contentURI updates.
      */
     function mint(
         TokenData calldata _data,
@@ -140,17 +140,17 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
             MerkleProofUpgradeable.verify(_proof, merkleRoot, keccak256(abi.encodePacked(_data.creator))),
             "!valid proof"
         );
-
         require(_data.royaltyBPS < 10_000, "royalty !< 10000");
 
         uint256 tokenId = _tokenIdCounter.current();
-        _mint(msg.sender, tokenId);
 
+        _mint(msg.sender, tokenId);
         tokenData[tokenId] = _data;
+
+        // Emit Event to track ContentURI
         emit ContentUpdated(tokenId, _content.contentHash, _content.contentURI);
 
         _tokenIdCounter.increment();
-
         return tokenId;
     }
 
@@ -200,7 +200,6 @@ contract XF2 is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
     function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external {
         require(msg.sender == owner() || msg.sender == tokenData[_tokenId].creator, "!creator/admin");
         emit MetadataUpdated(_tokenId, _metadataURI);
-
         tokenData[_tokenId].metadataURI = _metadataURI;
     }
 

@@ -26,7 +26,7 @@ type TokenData = {
 type ContentData = {
     contentURI: string;
     contentHash: string;
-}
+};
 
 function hashAddress(address: string) {
     return ethers.utils.solidityKeccak256(['address'], [address]);
@@ -76,8 +76,14 @@ const setup = async () => {
         console.log('make new rooty tooty');
         const gasEstimate = await result.XF2.estimateGas.updateRoot(root);
         const paddedEstimate = gasEstimate.mul(110).div(100);
-        console.log('\x1b[36m%s\x1b[0m', 'UPDATING ROOT, GASPAD EST: ', paddedEstimate.toString());
-        const tx = await result.XF2.updateRoot(root, {gasLimit: paddedEstimate.toString()});
+        console.log(
+            '\x1b[36m%s\x1b[0m',
+            'UPDATING ROOT, GASPAD EST: ',
+            paddedEstimate.toString()
+        );
+        const tx = await result.XF2.updateRoot(root, {
+            gasLimit: paddedEstimate.toString(),
+        });
         tx.wait();
         console.log('ROOT UPDATED', tx);
 
@@ -126,11 +132,10 @@ const mintTokens = async () => {
 
     const inputContent: ContentData = {
         contentURI:
-        'https://bafybeihl43fjf5ns5bk3odbegn6u74ysme5hhkl2o3yekfhm3hkqipkx6q.ipfs.dweb.link',
+            'https://bafybeihl43fjf5ns5bk3odbegn6u74ysme5hhkl2o3yekfhm3hkqipkx6q.ipfs.dweb.link',
         contentHash:
-        '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97',
+            '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97',
     };
-
 
     try {
         const tx = await deployer.XF2.mint(inputData, inputContent, proof);
@@ -142,7 +147,7 @@ const mintTokens = async () => {
         const tx3 = await deployer.XF2.mint(inputData, inputContent, proof);
         tx3.wait();
         console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 3');
-        const tx4 = await deployer.XF2.mint(inputData, inputContent,  proof);
+        const tx4 = await deployer.XF2.mint(inputData, inputContent, proof);
         tx4.wait();
         console.log('\x1b[39m%s\x1b[0m', '(ง ͠° ͟ل͜ ͡°)ง OH YEAH! MINTED TOKEN 4');
 
