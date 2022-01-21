@@ -32,7 +32,7 @@ https://catalog.works/terms
 "Catalog"                   :   Creator Shared NFT Media Contract for Catalog Records Inc.
 @author                     :   @bretth18 (computerdata) of @catalogworks
 @title                      :   Catalog
-@dev                        :   Upgradeable ERC721 Contract. Final proposed implementation (XF2), Rinkeby.
+@dev                        :   Upgradeable ERC721 Contract, inherits functionality from ERC721Upgradeable.
                                 Purpose built for optimization over the Zora V1 contracts.
                                 Code relies on implementations thanks to @ isian (iain nash) of Zora. 
 
@@ -124,12 +124,13 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
         mint Function
         @notice mints a new token
         @param _data TokenData struct, containing metadataURI, creator, royaltyPayout, royaltyBPS
-        @param _content ContentData struct, containing contentURI, contentHash. not stored in memory, only in calldata
+        @param _content ContentData struct, containing contentURI, contentHash. 
+                        not stored in memory, only in calldata
         @param _proof bytes32[] merkle proof of artist wallet. 
-                                this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
+                        this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
         @return uint256 tokenId of minted token (useful since we are not using Enumerable)
-        @dev mints a new token to allowlisted msg.sender with a valid merkle proof. Emits a ContentUpdated event to track
-            contentURI updates.
+        @dev mints a new token to allowlisted msg.sender with a valid merkle proof. 
+                        Emits a ContentUpdated event to trackcontentURI updates.
      */
     function mint(
         TokenData calldata _data,
