@@ -24,8 +24,8 @@ ____
 ## Info
 
 Current Implementation of Catalog Shared Creator Contract (cNFT): 
-[CFR.sol](./contracts/catalog/CFR.sol)
-[Docs](./docs/CFR.md)
+[Catalog.sol](./contracts/catalog/Catalog.sol)
+[Docs](./docs/Catalog.md)
 
 
 ### Rinkeby Multisig (Gnosis Safe)
@@ -38,6 +38,31 @@ ____
 
 
 ## Current Deployments 
+
+(CNFT V5: Finalized Implementation // CODENAME: "CATALOGV1")
+
+| Contract          | Address                                    | Etherscan                                                                                     |
+| ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
+| CFR Proxy       | 0xF7cD5720143C340A5B1270958FD2C4C3ecC05699 | [link](https://rinkeby.etherscan.io/address/0xF7cD5720143C340A5B1270958FD2C4C3ecC05699)  |
+| V1 Implementation | 0x825005D7d8B191cB4605CEd8602fb337A44Bdc53 | [link](https://rinkeby.etherscan.io/address/0x825005D7d8B191cB4605CEd8602fb337A44Bdc53)       |
+| ProxyAdmin        | 0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9 | [link](https://rinkeby.etherscan.io/address/0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9)       |
+
+
+Gas Stats (measured at 130 gwei/gas):
+
+- `burn` (40065 avg)
+- `mint` (200284 avg) ***ohhhh yeahhhh***
+- `updateContentURI` (33054 avg)
+- `updateCreator` (35879 avg)
+- `updateMetadataURI` (46680 avg)
+- `updateRoot` (40947 avg)
+- `updateRoyaltyInfo` (35924 avg)
+- `transferFrom` (62737 avg)
+
+
+____
+
+## Past Deployments
 
 Proposed Final Implementation
 (CNFT V4: CODENAME "CFR")
@@ -59,12 +84,6 @@ Gas Stats (measured at 130 gwei/gas):
 - `updateRoot` (40914 avg)
 - `updateRoyaltyInfo` (35881 avg)
 - `transferFrom` (62759 avg)
-
-
-____
-
-## Past Deployments
-
 
 (CNFT V1: CODENAME "TD606")
 

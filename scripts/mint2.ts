@@ -1,5 +1,5 @@
-// Script for minting tokens on a live network (test)
-// usage: npx hardhat run scripts/mint.ts --network [network]
+// 2nd Script for minting tokens on a live network (test)
+// usage: npx hardhat run scripts/mint2.ts --network [network]
 
 import {
     deployments,
@@ -9,7 +9,7 @@ import {
 } from 'hardhat';
 import keccak256 from 'keccak256';
 
-import {CFR, CFR__factory} from '../types/typechain';
+import {XF2, XF2__factory} from '../types/typechain';
 import MerkleTree from 'merkletreejs';
 import {SignerWithAddress} from '@nomiclabs/hardhat-ethers/signers';
 import {BigNumber, BigNumberish} from '@ethersproject/bignumber';
@@ -18,10 +18,14 @@ import {utils} from 'ethers';
 
 type TokenData = {
     metadataURI: string;
-    contentURI: string;
     creator: string;
     royaltyPayout: string;
     royaltyBPS: BigNumberish;
+};
+
+type ContentData = {
+    contentURI: string;
+    contentHash: string;
 };
 
 function hashAddress(address: string) {
@@ -31,11 +35,11 @@ function hashAddress(address: string) {
 const setup = async () => {
     const {deployer} = await getNamedAccounts();
 
-    // await deployments.fixture(['CFR'], {fallbackToGlobal: false});
-    await deployments.get('CFR');
+    // await deployments.fixture(['XF2'], {fallbackToGlobal: false});
+    await deployments.get('XF2');
 
     const contracts = {
-        CFR: <CFR>await ethers.getContract('CFR', deployer),
+        XF2: <XF2>await ethers.getContract('XF2', deployer),
     };
     const users = await setupUsers(await getUnnamedAccounts(), contracts);
 
@@ -68,9 +72,18 @@ const setup = async () => {
     });
     const root = tree.getRoot();
     console.log(root.toLocaleString());
-    if (contracts.CFR.merkleRoot().toString() !== root.toString()) {
+    if (contracts.XF2.merkleRoot().toString() !== root.toString()) {
         console.log('make new rooty tooty');
-        const tx = await result.CFR.updateRoot(root);
+        const gasEstimate = await result.XF2.estimateGas.updateRoot(root);
+        const paddedEstimate = gasEstimate.mul(110).div(100);
+        console.log(
+            '\x1b[36m%s\x1b[0m',
+            'UPDATING ROOT, GASPAD EST: ',
+            paddedEstimate.toString()
+        );
+        const tx = await result.XF2.updateRoot(root, {
+            gasLimit: paddedEstimate.toString(),
+        });
         tx.wait();
         console.log('ROOT UPDATED', tx);
 
@@ -99,7 +112,7 @@ const setup = async () => {
 };
 
 const mintTokens = async () => {
-    const {deployer, CFR, merkleTree} = await setup();
+    const {deployer, XF2, merkleTree} = await setup();
 
     if (!merkleTree) {
         throw new Error('no merkleTree');
@@ -112,24 +125,29 @@ const mintTokens = async () => {
     const inputData: TokenData = {
         metadataURI:
             'https://bafkreihgrqxdl3g4l2wuahmzmyxp52afzt4tmutpjlh7k66nmaw7fzrlvu.ipfs.dweb.link',
-        contentURI:
-            'https://bafybeihl43fjf5ns5bk3odbegn6u74ysme5hhkl2o3yekfhm3hkqipkx6q.ipfs.dweb.link',
         creator: '0x8a5847fd0e592B058c026C5fDc322AEE834B87F5',
         royaltyPayout: '0x8a5847fd0e592B058c026C5fDc322AEE834B87F5',
         royaltyBPS: inputBPS,
     };
 
+    const inputContent: ContentData = {
+        contentURI:
+            'https://bafybeihl43fjf5ns5bk3odbegn6u74ysme5hhkl2o3yekfhm3hkqipkx6q.ipfs.dweb.link',
+        contentHash:
+            '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97',
+    };
+
     try {
-        const tx = await deployer.CFR.mint(inputData, proof);
+        const tx = await deployer.XF2.mint(inputData, inputContent, proof);
         tx.wait();
         console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN');
-        const tx2 = await deployer.CFR.mint(inputData, proof);
+        const tx2 = await deployer.XF2.mint(inputData, inputContent, proof);
         tx2.wait();
         console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 2');
-        const tx3 = await deployer.CFR.mint(inputData, proof);
+        const tx3 = await deployer.XF2.mint(inputData, inputContent, proof);
         tx3.wait();
         console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 3');
-        const tx4 = await deployer.CFR.mint(inputData, proof);
+        const tx4 = await deployer.XF2.mint(inputData, inputContent, proof);
         tx4.wait();
         console.log('\x1b[39m%s\x1b[0m', '(ง ͠° ͟ل͜ ͡°)ง OH YEAH! MINTED TOKEN 4');
 
@@ -141,7 +159,7 @@ const mintTokens = async () => {
     }
 
     try {
-        const tx5 = await deployer.CFR.transferFrom(
+        const tx5 = await deployer.XF2.transferFrom(
             deployer.address,
             '0x8a5847fd0e592B058c026C5fDc322AEE834B87F5',
             2
