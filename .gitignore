@@ -9,6 +9,7 @@ node_modules
 .DS_Store
 .vscode/
 bytes.json
+currentproofs.txt
 
 # logs
 npm-debug.log*

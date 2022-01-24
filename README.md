@@ -43,7 +43,7 @@ ____
 
 | Contract          | Address                                    | Etherscan                                                                                     |
 | ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
-| CFR Proxy       | 0xF7cD5720143C340A5B1270958FD2C4C3ecC05699 | [link](https://rinkeby.etherscan.io/address/0xF7cD5720143C340A5B1270958FD2C4C3ecC05699)  |
+| Catalog Proxy       | 0xF7cD5720143C340A5B1270958FD2C4C3ecC05699 | [link](https://rinkeby.etherscan.io/address/0xF7cD5720143C340A5B1270958FD2C4C3ecC05699)  |
 | V1 Implementation | 0x825005D7d8B191cB4605CEd8602fb337A44Bdc53 | [link](https://rinkeby.etherscan.io/address/0x825005D7d8B191cB4605CEd8602fb337A44Bdc53)       |
 | ProxyAdmin        | 0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9 | [link](https://rinkeby.etherscan.io/address/0xBEa50aa9a19671E50304B43C2E2AEaAB069870e9)       |
 

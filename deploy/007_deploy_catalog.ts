@@ -24,7 +24,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             execute: {
                 methodName: 'initialize',
                 // address _owner, string memory _name, string memory _symbol
-                args: ['Catalog NFT', 'Catalog'],
+                args: ['Catalog', 'cNFT'],
             },
         },
         log: true,

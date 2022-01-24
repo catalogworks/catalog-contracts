@@ -63,8 +63,9 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
 
     /// Mapping and Storage
     mapping(uint256 => TokenData) private tokenData;
-
+    /// Tracking tokenIds
     CountersUpgradeable.Counter private _tokenIdCounter;
+    /// Merkle Root
     bytes32 public merkleRoot;
 
     /**

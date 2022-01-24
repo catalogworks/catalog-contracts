@@ -149,7 +149,7 @@ const config: HardhatUserConfig = {
     },
     rinkeby: {
       url: node_url('rinkeby'),
-      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('rinkeby'),
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY_RINKEBY_DEPLOYER}`, `${process.env.PRIVATE_KEY_RINKEBY_DEPLOYER}`] : accounts('rinkeby'),
       blockGasLimit: 10000000,
       etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
     },

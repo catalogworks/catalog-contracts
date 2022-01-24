@@ -9,7 +9,7 @@ import {
 } from 'hardhat';
 import keccak256 from 'keccak256';
 
-import {XF2, XF2__factory} from '../types/typechain';
+import {Catalog, Catalog__factory} from '../types/typechain';
 import MerkleTree from 'merkletreejs';
 import {SignerWithAddress} from '@nomiclabs/hardhat-ethers/signers';
 import {BigNumber, BigNumberish} from '@ethersproject/bignumber';
@@ -35,11 +35,11 @@ function hashAddress(address: string) {
 const setup = async () => {
     const {deployer} = await getNamedAccounts();
 
-    // await deployments.fixture(['XF2'], {fallbackToGlobal: false});
-    await deployments.get('XF2');
+    // await deployments.fixture(['Catalog'], {fallbackToGlobal: false});
+    await deployments.get('Catalog');
 
     const contracts = {
-        XF2: <XF2>await ethers.getContract('XF2', deployer),
+        Catalog: <Catalog>await ethers.getContract('Catalog', deployer),
     };
     const users = await setupUsers(await getUnnamedAccounts(), contracts);
 
@@ -72,16 +72,16 @@ const setup = async () => {
     });
     const root = tree.getRoot();
     console.log(root.toLocaleString());
-    if (contracts.XF2.merkleRoot().toString() !== root.toString()) {
+    if (contracts.Catalog.merkleRoot().toString() !== root.toString()) {
         console.log('make new rooty tooty');
-        const gasEstimate = await result.XF2.estimateGas.updateRoot(root);
+        const gasEstimate = await result.Catalog.estimateGas.updateRoot(root);
         const paddedEstimate = gasEstimate.mul(110).div(100);
         console.log(
             '\x1b[36m%s\x1b[0m',
             'UPDATING ROOT, GASPAD EST: ',
             paddedEstimate.toString()
         );
-        const tx = await result.XF2.updateRoot(root, {
+        const tx = await result.Catalog.updateRoot(root, {
             gasLimit: paddedEstimate.toString(),
         });
         tx.wait();
@@ -108,11 +108,20 @@ const setup = async () => {
         deployer: result,
         merkleTree: tree,
         merkleRoot: root,
+        allowed,
     };
 };
 
 const mintTokens = async () => {
-    const {deployer, XF2, merkleTree} = await setup();
+    const {deployer, Catalog, merkleTree, allowed} = await setup();
+
+    const poop = allowed.map((allowedItem) => {
+        console.log(
+            '\x1b[36m%s\x1b[0m',
+            `proof for: ${allowedItem} ::`,
+            merkleTree.getHexProof(hashAddress(allowedItem))
+        );
+    });
 
     if (!merkleTree) {
         throw new Error('no merkleTree');
@@ -138,18 +147,18 @@ const mintTokens = async () => {
     };
 
     try {
-        const tx = await deployer.XF2.mint(inputData, inputContent, proof);
+        const tx = await deployer.Catalog.mint(inputData, inputContent, proof);
         tx.wait();
         console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN');
-        const tx2 = await deployer.XF2.mint(inputData, inputContent, proof);
+        const tx2 = await deployer.Catalog.mint(inputData, inputContent, proof);
         tx2.wait();
-        console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 2');
-        const tx3 = await deployer.XF2.mint(inputData, inputContent, proof);
-        tx3.wait();
-        console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 3');
-        const tx4 = await deployer.XF2.mint(inputData, inputContent, proof);
-        tx4.wait();
-        console.log('\x1b[39m%s\x1b[0m', '(ง ͠° ͟ل͜ ͡°)ง OH YEAH! MINTED TOKEN 4');
+        // console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 2');
+        // const tx3 = await deployer.Catalog.mint(inputData, inputContent, proof);
+        // tx3.wait();
+        // console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 3');
+        // const tx4 = await deployer.Catalog.mint(inputData, inputContent, proof);
+        // tx4.wait();
+        // console.log('\x1b[39m%s\x1b[0m', '(ง ͠° ͟ل͜ ͡°)ง OH YEAH! MINTED TOKEN 4');
 
         // transfer 2 to creator
         console.log('\n \x1b[31m%s\x1b[0m', '(☞ ͡° ͜ʖ ͡°)☞ GOODBYE!');
@@ -159,7 +168,7 @@ const mintTokens = async () => {
     }
 
     try {
-        const tx5 = await deployer.XF2.transferFrom(
+        const tx5 = await deployer.Catalog.transferFrom(
             deployer.address,
             '0x8a5847fd0e592B058c026C5fDc322AEE834B87F5',
             2
