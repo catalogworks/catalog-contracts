@@ -69,7 +69,7 @@ contract CatalogUUPS is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeab
     bytes32 public merkleRoot;
 
     /// Constructor to initialize the implementation contract
-    // @custom:oz-upgrades-unsafe-allow constructor
+    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
 
     /**

@@ -1,5 +1,5 @@
 {
-  "address": "0x5c295ca4ee6477DC1AC0a067c595Ae8Edb25A86A",
+  "address": "0x66171d6fE2b2d373A22F6426123E4365E0C8cCD5",
   "abi": [
     {
       "anonymous": false,
@@ -140,6 +140,12 @@
         },
         {
           "indexed": true,
+          "internalType": "bytes32",
+          "name": "contentHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
           "internalType": "string",
           "name": "contentURI",
           "type": "string"
@@ -159,6 +165,38 @@
         },
         {
           "indexed": true,
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        }
+      ],
+      "name": "CreatorUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "merkleRoot",
+          "type": "bytes32"
+        }
+      ],
+      "name": "MerkleRootUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
           "internalType": "string",
           "name": "metadataURI",
           "type": "string"
@@ -228,19 +266,6 @@
         }
       ],
       "name": "Transfer",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "bytes32",
-          "name": "_merkleRoot",
-          "type": "bytes32"
-        }
-      ],
-      "name": "merkleRootUpdated",
       "type": "event"
     },
     {
@@ -396,11 +421,6 @@
               "type": "string"
             },
             {
-              "internalType": "string",
-              "name": "contentURI",
-              "type": "string"
-            },
-            {
               "internalType": "address",
               "name": "creator",
               "type": "address"
@@ -416,8 +436,25 @@
               "type": "uint16"
             }
           ],
-          "internalType": "struct TDX.TokenData",
+          "internalType": "struct Catalog.TokenData",
           "name": "_data",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "contentURI",
+              "type": "string"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "contentHash",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct Catalog.ContentData",
+          "name": "_content",
           "type": "tuple"
         },
         {
@@ -646,25 +683,6 @@
           "type": "uint256"
         }
       ],
-      "name": "tokenContentURI",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_tokenId",
-          "type": "uint256"
-        }
-      ],
       "name": "tokenURI",
       "outputs": [
         {
@@ -720,12 +738,42 @@
           "type": "uint256"
         },
         {
-          "internalType": "string",
-          "name": "_contentURI",
-          "type": "string"
+          "components": [
+            {
+              "internalType": "string",
+              "name": "contentURI",
+              "type": "string"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "contentHash",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct Catalog.ContentData",
+          "name": "_content",
+          "type": "tuple"
         }
       ],
       "name": "updateContentURI",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_creator",
+          "type": "address"
+        }
+      ],
+      "name": "updateCreator",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -801,22 +849,22 @@
       "type": "constructor"
     }
   ],
-  "transactionHash": "0x2be3529a9fa374f8e6e5af237d918148f3a673f2608cc99a6507f985b9689383",
+  "transactionHash": "0xfe608960cf09f050b723b01e6457406aed5c126083bfef4029c2979d677aa730",
   "receipt": {
     "to": null,
     "from": "0x17ff474427dd67E58d3FB785F00200AD8883c31E",
-    "contractAddress": "0x5c295ca4ee6477DC1AC0a067c595Ae8Edb25A86A",
+    "contractAddress": "0x66171d6fE2b2d373A22F6426123E4365E0C8cCD5",
     "transactionIndex": 0,
-    "gasUsed": "565959",
-    "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000020000000000000000000800002000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000800000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000004800000100000000000000000000000000000000000000000000000",
-    "blockHash": "0xe67f7d7cecec7db6412609373b0df1c193db5ff750c68a18844700c53f6444f5",
-    "transactionHash": "0x2be3529a9fa374f8e6e5af237d918148f3a673f2608cc99a6507f985b9689383",
+    "gasUsed": "565949",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000020000000000000000000800000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000800000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000820000000000000000000000000000000000008000000010000000",
+    "blockHash": "0xd1072af7c8a7db674b65d01d8a3045a523d692ddc2a32b616ee8671dbdd29d2a",
+    "transactionHash": "0xfe608960cf09f050b723b01e6457406aed5c126083bfef4029c2979d677aa730",
     "logs": [
       {
         "transactionIndex": 0,
-        "blockNumber": 13674631,
-        "transactionHash": "0x2be3529a9fa374f8e6e5af237d918148f3a673f2608cc99a6507f985b9689383",
-        "address": "0x5c295ca4ee6477DC1AC0a067c595Ae8Edb25A86A",
+        "blockNumber": 22,
+        "transactionHash": "0xfe608960cf09f050b723b01e6457406aed5c126083bfef4029c2979d677aa730",
+        "address": "0x66171d6fE2b2d373A22F6426123E4365E0C8cCD5",
         "topics": [
           "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
           "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -824,18 +872,18 @@
         ],
         "data": "0x",
         "logIndex": 0,
-        "blockHash": "0xe67f7d7cecec7db6412609373b0df1c193db5ff750c68a18844700c53f6444f5"
+        "blockHash": "0xd1072af7c8a7db674b65d01d8a3045a523d692ddc2a32b616ee8671dbdd29d2a"
       }
     ],
-    "blockNumber": 13674631,
-    "cumulativeGasUsed": "565959",
+    "blockNumber": 22,
+    "cumulativeGasUsed": "565949",
     "status": 1,
     "byzantium": true
   },
   "args": [
-    "0xfC42AB337B2aC7D66e35aCdCf77307d8a78C5bCb",
+    "0x8C65e4fe08eb10721cBc42C433348B905655bd36",
     "0x39537e050Edf482Fa5e1CA3dF49c1905853c9472",
-    "0x4cd88b76000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000007544458204e46540000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000035444580000000000000000000000000000000000000000000000000000000000"
+    "0x4cd88b76000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000007436174616c6f67000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004634e465400000000000000000000000000000000000000000000000000000000"
   ],
   "numDeployments": 1,
   "solcInputHash": "1635d55d57a0a2552952c0d22586ed23",
@@ -845,11 +893,11 @@
   "execute": {
     "methodName": "initialize",
     "args": [
-      "TDX NFT",
-      "TDX"
+      "Catalog",
+      "cNFT"
     ]
   },
-  "implementation": "0xfC42AB337B2aC7D66e35aCdCf77307d8a78C5bCb",
+  "implementation": "0x8C65e4fe08eb10721cBc42C433348B905655bd36",
   "devdoc": {
     "details": "This contract implements a proxy that is upgradeable by an admin. To avoid https://medium.com/nomic-labs-blog/malicious-backdoors-in-ethereum-proxies-62629adf3357[proxy selector clashing], which can potentially be used in an attack, this contract uses the https://blog.openzeppelin.com/the-transparent-proxy-pattern/[transparent proxy pattern]. This pattern implies two things that go hand in hand: 1. If any account other than the admin calls the proxy, the call will be forwarded to the implementation, even if that call matches one of the admin functions exposed by the proxy itself. 2. If the admin calls the proxy, it can access the admin functions, but its calls will never be forwarded to the implementation. If the admin tries to call a function on the implementation it will fail with an error that says \"admin cannot fallback to proxy target\". These properties mean that the admin account can only be used for admin actions like upgrading the proxy or changing the admin, so it's best if it's a dedicated account that is not used for anything else. This will avoid headaches due to sudden errors when trying to call a function from the proxy implementation. Our recommendation is for the dedicated account to be an instance of the {ProxyAdmin} contract. If set up this way, you should think of the `ProxyAdmin` instance as the real administrative inerface of your proxy.",
     "kind": "dev",
