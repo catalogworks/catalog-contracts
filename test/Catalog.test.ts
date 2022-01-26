@@ -1,4 +1,4 @@
-// CatalogUUPS.test.ts
+// Catalog.test.ts
 // Unit test suite for CFT Contract
 // Uses Mocha / Chai
 
@@ -12,7 +12,7 @@ import {
 } from 'hardhat';
 import keccak256 from 'keccak256';
 
-import {CatalogUUPS} from '../types/typechain';
+import {Catalog} from '../types/typechain';
 import MerkleTree from 'merkletreejs';
 import {BigNumberish} from '@ethersproject/bignumber';
 import {setupUser, setupUsers} from './utils';
@@ -35,11 +35,11 @@ type ContentData = {
 };
 
 const setup = deployments.createFixture(async () => {
-    await deployments.fixture('CatalogUUPS');
+    await deployments.fixture('Catalog');
     const {deployer, tokenOwner, multisig} = await getNamedAccounts();
 
     const contracts = {
-        CatalogUUPS: <CatalogUUPS>await ethers.getContract('CatalogUUPS'),
+        Catalog: <Catalog>await ethers.getContract('Catalog'),
     };
 
     const users = await setupUsers(await getUnnamedAccounts(), contracts);
@@ -66,7 +66,7 @@ const setup = deployments.createFixture(async () => {
     const merkleRoot = merkletree.getRoot();
     console.log(merkleRoot);
     // update root
-    await result.CatalogUUPS.updateRoot(merkleRoot);
+    await result.Catalog.updateRoot(merkleRoot);
 
     return {
         ...contracts,
@@ -77,22 +77,22 @@ const setup = deployments.createFixture(async () => {
     };
 });
 
-describe('CatalogUUPS Test Suite', () => {
+describe('Catalog Test Suite', () => {
     // 01
 
     describe('Minting', () => {
         // 01
         it('mints token', async () => {
-            const {users, merkletree, CatalogUUPS} = await setup();
+            const {users, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
                 creator: users[0].address,
                 royaltyPayout: users[0].address,
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 royaltyBPS: 5000,
             };
 
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
 
@@ -102,9 +102,9 @@ describe('CatalogUUPS Test Suite', () => {
             };
 
             await expect(
-                users[0].CatalogUUPS.mint(inputTokenData, inputContentData, proof)
+                users[0].Catalog.mint(inputTokenData, inputContentData, proof)
             )
-                .to.emit(CatalogUUPS, 'ContentUpdated')
+                .to.emit(Catalog, 'ContentUpdated')
                 .withArgs(
                     1,
                     '0xe1447c16f5da1173c488cd2d3450415e7677d1e65d28cfa957e96a660ffdea97',
@@ -112,9 +112,9 @@ describe('CatalogUUPS Test Suite', () => {
                 );
 
             await expect(
-                users[0].CatalogUUPS.mint(inputTokenData, inputContentData, proof)
+                users[0].Catalog.mint(inputTokenData, inputContentData, proof)
             )
-                .to.emit(CatalogUUPS, 'Transfer')
+                .to.emit(Catalog, 'Transfer')
                 .withArgs(
                     '0x0000000000000000000000000000000000000000',
                     users[0].address,
@@ -124,16 +124,16 @@ describe('CatalogUUPS Test Suite', () => {
 
         // 02
         it('fails to mint for invalid creator proof', async () => {
-            const {users, merkletree, CatalogUUPS} = await setup();
+            const {users, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[5].address));
             const inputTokenData: TokenData = {
                 creator: users[6].address,
                 royaltyPayout: users[6].address,
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 royaltyBPS: 5000,
             };
 
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
 
@@ -143,21 +143,21 @@ describe('CatalogUUPS Test Suite', () => {
             };
 
             await expect(
-                users[5].CatalogUUPS.mint(inputTokenData, inputContentData, proof)
+                users[5].Catalog.mint(inputTokenData, inputContentData, proof)
             ).to.be.revertedWith('!valid proof');
         });
 
         // 03
         it('reverts if royaltyBPS is >= 10k', async () => {
-            const {users, merkletree, CatalogUUPS} = await setup();
+            const {users, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
                 creator: users[0].address,
                 royaltyPayout: users[0].address,
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 royaltyBPS: 10000,
             };
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
 
@@ -166,7 +166,7 @@ describe('CatalogUUPS Test Suite', () => {
                 contentHash: contentHash,
             };
             await expect(
-                users[0].CatalogUUPS.mint(inputTokenData, inputContentData, proof)
+                users[0].Catalog.mint(inputTokenData, inputContentData, proof)
             ).to.be.revertedWith('royalty !< 10000');
         });
     });
@@ -174,15 +174,15 @@ describe('CatalogUUPS Test Suite', () => {
     describe('burning', () => {
         // 01
         it('burns token from admin account', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[0].address,
                 royaltyPayout: users[0].address,
                 royaltyBPS: 5000,
             };
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
 
@@ -191,40 +191,40 @@ describe('CatalogUUPS Test Suite', () => {
                 contentHash: contentHash,
             };
 
-            await users[0].CatalogUUPS.mint(
+            await users[0].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
-            await users[0].CatalogUUPS.mint(
+            await users[0].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
-            await expect(await CatalogUUPS.ownerOf(1)).to.eq(users[0].address);
+            await expect(await Catalog.ownerOf(1)).to.eq(users[0].address);
 
-            await expect(deployer.CatalogUUPS.burn(1))
-                .to.emit(CatalogUUPS, 'Transfer')
+            await expect(deployer.Catalog.burn(1))
+                .to.emit(Catalog, 'Transfer')
                 .withArgs(
                     users[0].address,
                     '0x0000000000000000000000000000000000000000',
                     1
                 );
-            await expect(await CatalogUUPS.ownerOf(2)).to.eq(users[0].address);
+            await expect(await Catalog.ownerOf(2)).to.eq(users[0].address);
         });
 
         // 02
         it('does not allow non-creator or non-admin to burn', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[2].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[2].address,
                 royaltyPayout: users[2].address,
                 royaltyBPS: 5000,
             };
 
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
 
@@ -232,29 +232,29 @@ describe('CatalogUUPS Test Suite', () => {
                 contentURI: contentURI,
                 contentHash: contentHash,
             };
-            await users[1].CatalogUUPS.mint(
+            await users[1].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
 
-            await expect(await CatalogUUPS.ownerOf(1)).to.eq(users[1].address);
-            await expect(users[1].CatalogUUPS.burn(1)).to.be.revertedWith(
+            await expect(await Catalog.ownerOf(1)).to.eq(users[1].address);
+            await expect(users[1].Catalog.burn(1)).to.be.revertedWith(
                 'Only creator or Admin'
             );
         });
 
         // 03
         it('burns from creator account', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[2].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[2].address,
                 royaltyPayout: users[2].address,
                 royaltyBPS: 5000,
             };
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
 
@@ -263,24 +263,24 @@ describe('CatalogUUPS Test Suite', () => {
                 contentHash: contentHash,
             };
 
-            await users[1].CatalogUUPS.mint(
+            await users[1].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
 
-            await expect(await CatalogUUPS.ownerOf(1)).to.eq(users[1].address);
+            await expect(await Catalog.ownerOf(1)).to.eq(users[1].address);
             await expect(
-                users[1].CatalogUUPS.transferFrom(
+                users[1].Catalog.transferFrom(
                     users[1].address,
                     users[2].address,
                     1
                 )
             )
-                .to.emit(CatalogUUPS, 'Transfer')
+                .to.emit(Catalog, 'Transfer')
                 .withArgs(users[1].address, users[2].address, 1);
-            await expect(users[2].CatalogUUPS.burn(1))
-                .to.emit(CatalogUUPS, 'Transfer')
+            await expect(users[2].Catalog.burn(1))
+                .to.emit(Catalog, 'Transfer')
                 .withArgs(
                     users[2].address,
                     '0x0000000000000000000000000000000000000000',
@@ -292,16 +292,16 @@ describe('CatalogUUPS Test Suite', () => {
     describe('updating content', () => {
         // 01
         it('updates the contentURI from an admin account', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[0].address,
                 royaltyPayout: users[0].address,
                 royaltyBPS: 5000,
             };
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
-            const contentURI2 = 'https://CatalogUUPS.works/content/uri2';
+            const contentURI = 'https://Catalog.works/content/uri';
+            const contentURI2 = 'https://Catalog.works/content/uri2';
             const contentHash =
                 '0xE1447C16F5DA1173C488CD2D3450415E7677D1E65D28CFA957E96A660FFDEA97';
             const contentHash2 =
@@ -316,37 +316,37 @@ describe('CatalogUUPS Test Suite', () => {
                 contentURI: contentURI2,
                 contentHash: contentHash2,
             };
-            const tx = await users[0].CatalogUUPS.mint(
+            const tx = await users[0].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
             tx.wait();
-            expect(await CatalogUUPS.ownerOf(1)).to.eq(users[0].address);
+            expect(await Catalog.ownerOf(1)).to.eq(users[0].address);
 
             await expect(
-                deployer.CatalogUUPS.updateContentURI(1, inputContentData2)
+                deployer.Catalog.updateContentURI(1, inputContentData2)
             )
-                .to.emit(CatalogUUPS, 'ContentUpdated')
+                .to.emit(Catalog, 'ContentUpdated')
                 .withArgs(
                     1,
                     contentHash2,
-                    'https://CatalogUUPS.works/content/uri2'
+                    'https://Catalog.works/content/uri2'
                 );
         });
 
         it('only allows the admin to update the content uri', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[0].address,
                 royaltyPayout: users[0].address,
                 royaltyBPS: 5000,
             };
 
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
-            const contentURI2 = 'https://CatalogUUPS.works/content/uri2';
+            const contentURI = 'https://Catalog.works/content/uri';
+            const contentURI2 = 'https://Catalog.works/content/uri2';
             const contentHash =
                 '0x0000000000000000000000000000000000000000000000000000000000000000';
             const inputContentData: ContentData = {
@@ -358,15 +358,15 @@ describe('CatalogUUPS Test Suite', () => {
                 contentHash: contentHash,
             };
 
-            await users[0].CatalogUUPS.mint(
+            await users[0].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
-            await expect(await CatalogUUPS.creator(1)).to.eq(users[0].address);
+            await expect(await Catalog.creator(1)).to.eq(users[0].address);
 
             await expect(
-                users[0].CatalogUUPS.updateContentURI(1, inputContentData2)
+                users[0].Catalog.updateContentURI(1, inputContentData2)
             ).to.be.revertedWith('Ownable: caller is not the owner');
         });
     });
@@ -374,15 +374,15 @@ describe('CatalogUUPS Test Suite', () => {
     describe('updating metadata', () => {
         // 01
         it('updates the metadataURI from an admin account', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[0].address,
                 royaltyPayout: users[0].address,
                 royaltyBPS: 5000,
             };
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -391,39 +391,39 @@ describe('CatalogUUPS Test Suite', () => {
                 contentHash: contentHash,
             };
 
-            await users[0].CatalogUUPS.mint(
+            await users[0].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
-            await expect(await CatalogUUPS.ownerOf(1)).to.eq(users[0].address);
+            await expect(await Catalog.ownerOf(1)).to.eq(users[0].address);
 
             await expect(
-                deployer.CatalogUUPS.updateMetadataURI(
+                deployer.Catalog.updateMetadataURI(
                     1,
-                    'https://CatalogUUPS.works/metadata/uri2'
+                    'https://Catalog.works/metadata/uri2'
                 )
             )
-                .to.emit(CatalogUUPS, 'MetadataUpdated')
-                .withArgs(1, 'https://CatalogUUPS.works/metadata/uri2');
+                .to.emit(Catalog, 'MetadataUpdated')
+                .withArgs(1, 'https://Catalog.works/metadata/uri2');
 
-            await expect(await CatalogUUPS.tokenURI(1)).to.eq(
-                'https://CatalogUUPS.works/metadata/uri2'
+            await expect(await Catalog.tokenURI(1)).to.eq(
+                'https://Catalog.works/metadata/uri2'
             );
         });
 
         // 02
         it('allows the creator to update the metadataURI', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[3].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[3].address,
                 royaltyPayout: users[3].address,
                 royaltyBPS: 5000,
             };
 
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -432,39 +432,39 @@ describe('CatalogUUPS Test Suite', () => {
                 contentHash: contentHash,
             };
 
-            await users[0].CatalogUUPS.mint(
+            await users[0].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
-            await expect(await CatalogUUPS.ownerOf(1)).to.eq(users[0].address);
-            await expect(await CatalogUUPS.creator(1)).to.eq(users[3].address);
+            await expect(await Catalog.ownerOf(1)).to.eq(users[0].address);
+            await expect(await Catalog.creator(1)).to.eq(users[3].address);
 
             await expect(
-                users[3].CatalogUUPS.updateMetadataURI(
+                users[3].Catalog.updateMetadataURI(
                     1,
-                    'https://CatalogUUPS.works/metadata/uri2'
+                    'https://Catalog.works/metadata/uri2'
                 )
             )
-                .to.emit(CatalogUUPS, 'MetadataUpdated')
-                .withArgs(1, 'https://CatalogUUPS.works/metadata/uri2');
+                .to.emit(Catalog, 'MetadataUpdated')
+                .withArgs(1, 'https://Catalog.works/metadata/uri2');
 
-            await expect(await CatalogUUPS.tokenURI(1)).to.eq(
-                'https://CatalogUUPS.works/metadata/uri2'
+            await expect(await Catalog.tokenURI(1)).to.eq(
+                'https://Catalog.works/metadata/uri2'
             );
         });
 
         // 03
         it('only allows creator/admin to update metadataURI', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[3].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[3].address,
                 royaltyPayout: users[3].address,
                 royaltyBPS: 5000,
             };
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -473,18 +473,18 @@ describe('CatalogUUPS Test Suite', () => {
                 contentHash: contentHash,
             };
 
-            await users[0].CatalogUUPS.mint(
+            await users[0].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
-            await expect(await CatalogUUPS.ownerOf(1)).to.eq(users[0].address);
-            await expect(await CatalogUUPS.creator(1)).to.eq(users[3].address);
+            await expect(await Catalog.ownerOf(1)).to.eq(users[0].address);
+            await expect(await Catalog.creator(1)).to.eq(users[3].address);
 
             await expect(
-                users[0].CatalogUUPS.updateMetadataURI(
+                users[0].Catalog.updateMetadataURI(
                     1,
-                    'https://CatalogUUPS.works/metadata/uri2'
+                    'https://Catalog.works/metadata/uri2'
                 )
             ).to.be.revertedWith('!creator/admin');
         });
@@ -493,16 +493,16 @@ describe('CatalogUUPS Test Suite', () => {
     describe('updating royalty payout address', () => {
         // 01
         it('allows an admin account to update payout address', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[0].address,
                 royaltyPayout: users[0].address,
                 royaltyBPS: 5000,
             };
 
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -511,24 +511,24 @@ describe('CatalogUUPS Test Suite', () => {
                 contentHash: contentHash,
             };
 
-            await users[0].CatalogUUPS.mint(
+            await users[0].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
-            await expect(await CatalogUUPS.ownerOf(1)).to.eq(users[0].address);
+            await expect(await Catalog.ownerOf(1)).to.eq(users[0].address);
 
             await expect(
-                deployer.CatalogUUPS.updateRoyaltyInfo(1, users[1].address)
+                deployer.Catalog.updateRoyaltyInfo(1, users[1].address)
             )
-                .to.emit(CatalogUUPS, 'RoyaltyUpdated')
+                .to.emit(Catalog, 'RoyaltyUpdated')
                 .withArgs(1, users[1].address);
 
-            expect(await CatalogUUPS.royaltyPayoutAddress(1)).to.equal(
+            expect(await Catalog.royaltyPayoutAddress(1)).to.equal(
                 users[1].address
             );
 
-            const res = await CatalogUUPS.royaltyInfo(1, 100);
+            const res = await Catalog.royaltyInfo(1, 100);
             expect(res.receiver).to.equal(users[1].address);
             expect(res.royaltyAmount).to.equal({
                 _hex: utils.hexValue(50),
@@ -537,15 +537,15 @@ describe('CatalogUUPS Test Suite', () => {
         });
 
         it('does not allow non admin to update payout address', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[0].address,
                 royaltyPayout: users[0].address,
                 royaltyBPS: 5000,
             };
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -554,18 +554,18 @@ describe('CatalogUUPS Test Suite', () => {
                 contentHash: contentHash,
             };
 
-            await users[0].CatalogUUPS.mint(
+            await users[0].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
-            await expect(await CatalogUUPS.creator(1)).to.eq(users[0].address);
+            await expect(await Catalog.creator(1)).to.eq(users[0].address);
 
             await expect(
-                users[0].CatalogUUPS.updateRoyaltyInfo(1, users[1].address)
+                users[0].Catalog.updateRoyaltyInfo(1, users[1].address)
             ).to.be.revertedWith('Ownable: caller is not the owner');
 
-            await expect(await CatalogUUPS.royaltyPayoutAddress(1)).to.equal(
+            await expect(await Catalog.royaltyPayoutAddress(1)).to.equal(
                 users[0].address
             );
         });
@@ -574,7 +574,7 @@ describe('CatalogUUPS Test Suite', () => {
     describe('updateRoot', () => {
         // 01
         it('allows an admin account to update the root', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const newLeafs = [
                 users[0].address,
                 users[1].address,
@@ -585,16 +585,16 @@ describe('CatalogUUPS Test Suite', () => {
             });
             const newRoot = newTree.getHexRoot();
 
-            await expect(deployer.CatalogUUPS.updateRoot(newRoot))
-                .to.emit(CatalogUUPS, 'MerkleRootUpdated')
+            await expect(deployer.Catalog.updateRoot(newRoot))
+                .to.emit(Catalog, 'MerkleRootUpdated')
                 .withArgs(newRoot);
-            await expect(await CatalogUUPS.merkleRoot()).to.eq(newRoot);
+            await expect(await Catalog.merkleRoot()).to.eq(newRoot);
 
-            // await expect(await deployer.CatalogUUPS.updateRoot(newRoot)).to.emit(CatalogUUPS, 'merkleRootUpdated').withArgs(newRoot);
+            // await expect(await deployer.Catalog.updateRoot(newRoot)).to.emit(Catalog, 'merkleRootUpdated').withArgs(newRoot);
         });
         // 02
         it('does not allow non admin to update the root', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const newLeafs = [
                 users[0].address,
                 users[1].address,
@@ -606,22 +606,22 @@ describe('CatalogUUPS Test Suite', () => {
             const newRoot = newTree.getHexRoot();
 
             await expect(
-                users[0].CatalogUUPS.updateRoot(newRoot)
+                users[0].Catalog.updateRoot(newRoot)
             ).to.be.revertedWith('Ownable: caller is not the owner');
         });
     });
 
     describe('updateCreator', () => {
         it('allows admin to update creator', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[0].address,
                 royaltyPayout: users[0].address,
                 royaltyBPS: 5000,
             };
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -630,31 +630,31 @@ describe('CatalogUUPS Test Suite', () => {
                 contentHash: contentHash,
             };
 
-            await users[0].CatalogUUPS.mint(
+            await users[0].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
-            await expect(await CatalogUUPS.ownerOf(1)).to.eq(users[0].address);
+            await expect(await Catalog.ownerOf(1)).to.eq(users[0].address);
 
-            await expect(deployer.CatalogUUPS.updateCreator(1, users[1].address))
-                .to.emit(CatalogUUPS, 'CreatorUpdated')
+            await expect(deployer.Catalog.updateCreator(1, users[1].address))
+                .to.emit(Catalog, 'CreatorUpdated')
                 .withArgs(1, users[1].address);
 
-            expect(await CatalogUUPS.creator(1)).to.equal(users[1].address);
+            expect(await Catalog.creator(1)).to.equal(users[1].address);
         });
 
         it('reverts with non-admin attempt', async () => {
-            const {users, deployer, merkletree, CatalogUUPS} = await setup();
+            const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
-                metadataURI: 'https://CatalogUUPS.works/metadata/uri',
+                metadataURI: 'https://Catalog.works/metadata/uri',
                 creator: users[0].address,
                 royaltyPayout: users[0].address,
                 royaltyBPS: 5000,
             };
 
-            const contentURI = 'https://CatalogUUPS.works/content/uri';
+            const contentURI = 'https://Catalog.works/content/uri';
             const contentHash =
                 '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -663,15 +663,15 @@ describe('CatalogUUPS Test Suite', () => {
                 contentHash: contentHash,
             };
 
-            await users[0].CatalogUUPS.mint(
+            await users[0].Catalog.mint(
                 inputTokenData,
                 inputContentData,
                 proof
             );
-            await expect(await CatalogUUPS.ownerOf(1)).to.eq(users[0].address);
+            await expect(await Catalog.ownerOf(1)).to.eq(users[0].address);
 
             await expect(
-                users[0].CatalogUUPS.updateCreator(1, users[1].address)
+                users[0].Catalog.updateCreator(1, users[1].address)
             ).to.be.revertedWith('Ownable: caller is not the owner');
         });
     });

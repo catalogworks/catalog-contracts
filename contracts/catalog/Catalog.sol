@@ -39,7 +39,7 @@ https://catalog.works/terms
 
 ---------------------------------------------------------------------------------------------------------------------    
  */
-contract CatalogUUPS is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, UUPSUpgradeable {
+contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, UUPSUpgradeable {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Events
@@ -225,7 +225,8 @@ contract CatalogUUPS is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeab
     }
 
 
-    /// --- OVERRIDES --- ///
+    /// ----- OVERRIDES --- ///
+    
 
     /**
         _authorizeUpgrade Function

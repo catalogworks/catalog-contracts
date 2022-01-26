@@ -1,4 +1,4 @@
-// deploy script for CatalogUUPS
+// deploy script for Catalog(UUPS)
 
 // Uses Hardhat deploy compatible with OZ ERC1967Proxy 
 
@@ -13,8 +13,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const {deployer, tokenOwner, multisig} = await getNamedAccounts();
 
 
-    const deployCatalogUUPS = await deploy('CatalogUUPS', {
-        contract: 'CatalogUUPS',
+    const deployCatalogUUPS = await deploy('Catalog', {
+        contract: 'Catalog',
         from: deployer,
         args: [],
         proxy: {
@@ -52,4 +52,4 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 export default func;
 
 // Deployment tags
-func.tags = ['CatalogUUPS'];
+func.tags = ['Catalog'];
