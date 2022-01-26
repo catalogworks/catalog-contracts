@@ -43,7 +43,6 @@ types
 ./bin/contracts/
 ./bin/contracts
 /bin/contracts
-.openzeppelin/
 
 
 gasReporterOutput.json

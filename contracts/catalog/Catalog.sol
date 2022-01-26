@@ -69,7 +69,6 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     /// Merkle Root
     bytes32 public merkleRoot;
 
-
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
 
@@ -224,9 +223,7 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         tokenData[_tokenId].royaltyPayout = _royaltyPayoutAddress;
     }
 
-
     /// ----- OVERRIDES --- ///
-    
 
     /**
         _authorizeUpgrade Function
@@ -235,8 +232,7 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         @param newImplementation address of the new implementation contract
         @dev access controlled to owner only, issues upgrade. 
      */
-    function _authorizeUpgrade(address newImplementation) internal onlyOwner override {}
-
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
     /**
         tokenURI Function

@@ -1,6 +1,6 @@
 // deploy script for Catalog(UUPS)
 
-// Uses Hardhat deploy compatible with OZ ERC1967Proxy 
+// Uses Hardhat deploy compatible with OZ ERC1967Proxy
 
 import {HardhatRuntimeEnvironment} from 'hardhat/types';
 import {DeployFunction} from 'hardhat-deploy/types';
@@ -11,7 +11,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
     // Get accounts
     const {deployer, tokenOwner, multisig} = await getNamedAccounts();
-
 
     const deployCatalogUUPS = await deploy('Catalog', {
         contract: 'Catalog',
@@ -24,15 +23,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
                 init: {
                     methodName: 'initialize',
                     args: ['Catalog', 'CNFT'],
-                }
-            }
+                },
+            },
         },
         log: true,
         autoMine: true, // speeds deployment on local network. no effect on testnet/mainnet
     });
-
-
-
 
     if (deployCatalogUUPS && deployCatalogUUPS.newlyDeployed) {
         log(
@@ -46,7 +42,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             `
         );
     }
-
 };
 
 export default func;

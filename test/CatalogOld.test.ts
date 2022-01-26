@@ -102,7 +102,11 @@ describe('CatalogOld Test Suite', () => {
             };
 
             await expect(
-                users[0].CatalogOld.mint(inputTokenData, inputContentData, proof)
+                users[0].CatalogOld.mint(
+                    inputTokenData,
+                    inputContentData,
+                    proof
+                )
             )
                 .to.emit(CatalogOld, 'ContentUpdated')
                 .withArgs(
@@ -112,7 +116,11 @@ describe('CatalogOld Test Suite', () => {
                 );
 
             await expect(
-                users[0].CatalogOld.mint(inputTokenData, inputContentData, proof)
+                users[0].CatalogOld.mint(
+                    inputTokenData,
+                    inputContentData,
+                    proof
+                )
             )
                 .to.emit(CatalogOld, 'Transfer')
                 .withArgs(
@@ -143,7 +151,11 @@ describe('CatalogOld Test Suite', () => {
             };
 
             await expect(
-                users[5].CatalogOld.mint(inputTokenData, inputContentData, proof)
+                users[5].CatalogOld.mint(
+                    inputTokenData,
+                    inputContentData,
+                    proof
+                )
             ).to.be.revertedWith('!valid proof');
         });
 
@@ -166,7 +178,11 @@ describe('CatalogOld Test Suite', () => {
                 contentHash: contentHash,
             };
             await expect(
-                users[0].CatalogOld.mint(inputTokenData, inputContentData, proof)
+                users[0].CatalogOld.mint(
+                    inputTokenData,
+                    inputContentData,
+                    proof
+                )
             ).to.be.revertedWith('royalty !< 10000');
         });
     });

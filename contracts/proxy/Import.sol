@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 
-
 pragma solidity ^0.8.9;
 
 /// Import here forces hardhat to compile contracts we use in tests.
