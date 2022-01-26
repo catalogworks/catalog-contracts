@@ -39,11 +39,35 @@ ____
 
 ## Current Deployments 
 
-(CNFT V5: Finalized Implementation // CODENAME: "CATALOGV1")
+(CNFT V6: Finalized Implementation // CODENAME: "CATALOGV1")
 
 Rinkeby Deployer Address: `0x43C4D51dE4b7bf046d92c324678a1a3969703632`
 
 
+| Contract          | Address                                    | Etherscan                                                                                     |
+| ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
+| Catalog Proxy       | 0x232Dd4a3AB377C9225E49c5932Ae8A694aa7c0b5 | [link](https://rinkeby.etherscan.io/address/0x232Dd4a3AB377C9225E49c5932Ae8A694aa7c0b5)  |
+| V1 Implementation | 0xd25E883Ba97a851252b2459827503b829d1c4b40 | [link](https://rinkeby.etherscan.io/address/0xd25E883Ba97a851252b2459827503b829d1c4b40)       |
+
+
+
+Gas Stats (measured at 130 gwei/gas):
+
+- `burn` (39905 avg)
+- `mint` (200089 avg) ***ohhhh yeahhhh***
+- `updateContentURI` (32810 avg)
+- `updateCreator` (35680 avg)
+- `updateMetadataURI` (46477 avg)
+- `updateRoot` (35052 avg)
+- `updateRoyaltyInfo` (35660 avg)
+- `transferFrom` (62538 avg)
+
+
+____
+
+## Past Deployments
+
+(nullified) Final implementation (TRANSPARENT PROXY)
 | Contract          | Address                                    | Etherscan                                                                                     |
 | ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
 | Catalog Proxy       | 0x86e9dA93658807F8343A8D7B6ABc405d200e566F | [link](https://rinkeby.etherscan.io/address/0x86e9dA93658807F8343A8D7B6ABc405d200e566F)  |
@@ -62,10 +86,6 @@ Gas Stats (measured at 130 gwei/gas):
 - `updateRoyaltyInfo` (35924 avg)
 - `transferFrom` (62737 avg)
 
-
-____
-
-## Past Deployments
 
 Proposed Final Implementation
 (CNFT V4: CODENAME "CFR")
@@ -270,6 +290,26 @@ ____
 ## Linting 
 
 Repo is setup with ESLint/Prettier/Solhint
+
+Running Prettier:
+
+```bash
+yarn format
+```
+
+```bash
+yarn format:fix
+```
+
+Running ESLint/Solhint:
+
+```bash
+yarn lint
+```
+
+```bash
+yarn lint:fix
+```
 
 ____
 

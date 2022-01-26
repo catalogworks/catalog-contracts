@@ -70,8 +70,8 @@ const setup = async () => {
     const tree = new MerkleTree(Object.values(leafs), keccak256, {
         sortPairs: true,
     });
-    const root = tree.getRoot();
-    console.log(root.toLocaleString());
+    const root = tree.getHexRoot();
+    console.log(root.toString());
     if (contracts.Catalog.merkleRoot().toString() !== root.toString()) {
         console.log('make new rooty tooty');
         const gasEstimate = await result.Catalog.estimateGas.updateRoot(root);

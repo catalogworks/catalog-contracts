@@ -7,7 +7,6 @@ import {IERC2981Upgradeable, IERC165Upgradeable} from "@openzeppelin/contracts-u
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import {MerkleProofUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
-import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 /**
 --------------------------------------------------------------------------------------------------------------------
@@ -28,6 +27,8 @@ LEGAL DISCLAIMER:
 https://catalog.works/terms
 ************************************************
 
+old transparent proxy version. previously Catalog.sol
+
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
 
 "Catalog"                   :   Creator Shared NFT Media Contract for Catalog Records Inc.
@@ -39,7 +40,7 @@ https://catalog.works/terms
 
 ---------------------------------------------------------------------------------------------------------------------    
  */
-contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, UUPSUpgradeable {
+contract CatalogOld is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Events
@@ -69,9 +70,6 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     /// Merkle Root
     bytes32 public merkleRoot;
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() initializer {}
-
     /**
         initialize Function
         @notice Initializes contract with default values, acts as a constructor
@@ -82,7 +80,6 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     function initialize(string memory _name, string memory _symbol) public initializer {
         __ERC721_init(_name, _symbol);
         __Ownable_init();
-        __UUPSUpgradeable_init();
 
         /// Start tokenId @ 1
         _tokenIdCounter.increment();
@@ -222,17 +219,6 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         emit RoyaltyUpdated(_tokenId, _royaltyPayoutAddress);
         tokenData[_tokenId].royaltyPayout = _royaltyPayoutAddress;
     }
-
-    /// ----- OVERRIDES --- ///
-
-    /**
-        _authorizeUpgrade Function
-        @notice override of UUPSUpgradeable authorizeUpgrade function. 
-                Can be modified to supportv different authorization schemes.
-        @param newImplementation address of the new implementation contract
-        @dev access controlled to owner only, issues upgrade. 
-     */
-    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
     /**
         tokenURI Function

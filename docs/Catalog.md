@@ -155,7 +155,7 @@ function isApprovedForAll(address owner, address operator) external view returns
 function merkleRoot() external view returns (bytes32)
 ```
 
-
+Merkle Root
 
 
 
@@ -518,9 +518,59 @@ updateRoyaltyInfo Functionupdates the royalty payout address and royalty BPS of 
 | _tokenId | uint256 | uint256 token id corresponding to the token of which to update royalty payout
 | _royaltyPayoutAddress | address | address of new royalty payout address
 
+### upgradeTo
+
+```solidity
+function upgradeTo(address newImplementation) external nonpayable
+```
+
+
+
+*Upgrade the implementation of the proxy to `newImplementation`. Calls {_authorizeUpgrade}. Emits an {Upgraded} event.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| newImplementation | address | undefined
+
+### upgradeToAndCall
+
+```solidity
+function upgradeToAndCall(address newImplementation, bytes data) external payable
+```
+
+
+
+*Upgrade the implementation of the proxy to `newImplementation`, and subsequently execute the function call encoded in `data`. Calls {_authorizeUpgrade}. Emits an {Upgraded} event.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| newImplementation | address | undefined
+| data | bytes | undefined
+
 
 
 ## Events
+
+### AdminChanged
+
+```solidity
+event AdminChanged(address previousAdmin, address newAdmin)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| previousAdmin  | address | undefined |
+| newAdmin  | address | undefined |
 
 ### Approval
 
@@ -557,6 +607,22 @@ event ApprovalForAll(address indexed owner, address indexed operator, bool appro
 | owner `indexed` | address | undefined |
 | operator `indexed` | address | undefined |
 | approved  | bool | undefined |
+
+### BeaconUpgraded
+
+```solidity
+event BeaconUpgraded(address indexed beacon)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| beacon `indexed` | address | undefined |
 
 ### ContentUpdated
 
@@ -677,6 +743,22 @@ event Transfer(address indexed from, address indexed to, uint256 indexed tokenId
 | from `indexed` | address | undefined |
 | to `indexed` | address | undefined |
 | tokenId `indexed` | uint256 | undefined |
+
+### Upgraded
+
+```solidity
+event Upgraded(address indexed implementation)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| implementation `indexed` | address | undefined |
 
 
 

@@ -1,12 +1,12 @@
-# TB303V3
+# CatalogOld
 
 *:   @bretth18 (computerdata) of @catalogworks*
 
-> :   TB303V3
+> :   Catalog
 
--------------------------------------------------------------------------------------------------------------------- ooooooooooooo oooooooooo.    .oooo.     .oooo.     .oooo.    8&#39;   888   `8 `888&#39;   `Y8b .dP&quot;&quot;Y88b   d8P&#39;`Y8b  .dP&quot;&quot;Y88b   888       888     888       ]8P&#39; 888    888       ]8P&#39;  888       888oooo888&#39;     &lt;88b.  888    888     &lt;88b.   888       888    `88b      `88b. 888    888      `88b.  888       888    .88P o.   .88P  `88b  d88&#39; o.   .88P   o888o     o888bood8P&#39;  `8bd88P&#39;    `Y8bd8P&#39;  `8bd88P&#39;           v3************************************************ LEGAL DISCLAIMER: &lt;legal go here&gt;************************************************ ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                            RINKEBY CNFT (V0: CODENAME &quot;TB303&quot;) &quot;TB303V3&quot;                   :   Creator Shared NFT Media Contract for Catalog Records Inc.
+-------------------------------------------------------------------------------------------------------------------- ,, .g8&quot;&quot;&quot;bgd         mm            `7MM .dP&#39;     `M         MM              MM dM&#39;       ` ,6&quot;Yb.mmMMmm  ,6&quot;Yb.    MM  ,pW&quot;Wq.   .P&quot;Ybmmm MM         8)   MM  MM   8)   MM    MM 6W&#39;   `Wb :MI  I8 MM.         ,pm9MM  MM    ,pm9MM    MM 8M     M8  WmmmP&quot; `Mb.     ,&#39;8M   MM  MM   8M   MM    MM YA.   ,A9 8M `&quot;bmmmd&#39; `Moo9^Yo.`Mbmo`Moo9^Yo..JMML.`Ybmd9&#39;   YMMMMMb 6&#39;     dP Ybmmmd&#39;************************************************ LEGAL DISCLAIMER: https://catalog.works/terms************************************************ old transparent proxy version. previously Catalog.sol ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                            &quot;Catalog&quot;                   :   Creator Shared NFT Media Contract for Catalog Records Inc.
 
-*:   Upgradeable ERC721 Contract. See interface for further implemntation details. Purpose built for optmization over the Zora V1 contracts. isian (iain nash) of Zora.  ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           *
+*:   Upgradeable ERC721 Contract, inherits functionality from ERC721Upgradeable. Purpose built for optimization over the Zora V1 contracts. isian (iain nash) of Zora.  ---------------------------------------------------------------------------------------------------------------------    *
 
 ## Methods
 
@@ -55,9 +55,9 @@ function balanceOf(address owner) external view returns (uint256)
 function burn(uint256 _tokenId) external nonpayable
 ```
 
-Burn Function
+Burn FunctionBurns a token
 
-*burns given tokenId, restrited to owner (approved artists should burn?)*
+*burns given tokenId, restrited to owner and creator (when owned)*
 
 #### Parameters
 
@@ -71,9 +71,9 @@ Burn Function
 function creator(uint256 _tokenId) external view returns (address)
 ```
 
-creator Function
+creator Functiongets the creator of a token
 
-*idk what this should be called, and do we need?*
+*basic public getter method for creator*
 
 #### Parameters
 
@@ -117,7 +117,7 @@ function initialize(string _name, string _symbol) external nonpayable
 
 initialize FunctionInitializes contract with default values, acts as a constructor
 
-*OZ proxy*
+*Initializes contract with default values, for upgradeable proxy purposes*
 
 #### Parameters
 
@@ -155,7 +155,7 @@ function isApprovedForAll(address owner, address operator) external view returns
 function merkleRoot() external view returns (bytes32)
 ```
 
-State variable containing merkle root  see {IAngelaList}
+Merkle Root
 
 
 
@@ -169,19 +169,20 @@ State variable containing merkle root  see {IAngelaList}
 ### mint
 
 ```solidity
-function mint(ITB303.TokenData _data, bytes32[] _proof) external nonpayable returns (uint256)
+function mint(CatalogOld.TokenData _data, CatalogOld.ContentData _content, bytes32[] _proof) external nonpayable returns (uint256)
 ```
 
-mint Function
+mint Functionmints a new token
 
-*mints a new token to allowlisted msg.sender with a valid merkle proof. params can and should be changed to calldata for gas efficiency. rename to &quot;allowlist&quot;*
+*mints a new token to allowlisted msg.sender with a valid merkle proof.  Emits a ContentUpdated event to trackcontentURI updates.*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _data | ITB303.TokenData | TokenData struct, see ITB303
-| _proof | bytes32[] | bytes32[] merkle proof of artist wallet. this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
+| _data | CatalogOld.TokenData | TokenData struct, containing metadataURI, creator, royaltyPayout, royaltyBPS
+| _content | CatalogOld.ContentData | ContentData struct, containing contentURI, contentHash.  not stored in memory, only in calldata
+| _proof | bytes32[] | bytes32[] merkle proof of artist wallet.  this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
 
 #### Returns
 
@@ -262,7 +263,7 @@ function renounceOwnership() external nonpayable
 function royaltyInfo(uint256 _tokenId, uint256 _salePrice) external view returns (address receiver, uint256 royaltyAmount)
 ```
 
-royaltyInfo Function
+royaltyInfo Functionoverride function gets royalty information for a token (EIP-2981)
 
 *override, conforms to EIP-2981*
 
@@ -286,9 +287,9 @@ royaltyInfo Function
 function royaltyPayoutAddress(uint256 _tokenId) external view returns (address)
 ```
 
-royaltyPayoutAddress Function
+royaltyPayoutAddress Functiongets the address of the royalty payout for a token
 
-*not part of EIP2981, but useful *
+*basic public getter method for royalty payout address *
 
 #### Parameters
 
@@ -344,7 +345,7 @@ function setApprovalForAll(address operator, bool approved) external nonpayable
 function supportsInterface(bytes4 interfaceId) external view returns (bool)
 ```
 
-supportsInterface Function
+supportsInterface Functionoverride function to check if contract supports an interface
 
 *override *
 
@@ -377,35 +378,13 @@ function symbol() external view returns (string)
 |---|---|---|
 | _0 | string | undefined
 
-### tokenContentURI
-
-```solidity
-function tokenContentURI(uint256 _tokenId) external view returns (string)
-```
-
-tokenContentURI Functioncan be retrofitted/replaced with proposed draft &#39;content&#39; EIP 
-
-*basic public getter method for content URI*
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _tokenId | uint256 | uint256 identifier of token to get content URI for
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | string | string content URI for given tokenId
-
 ### tokenURI
 
 ```solidity
 function tokenURI(uint256 _tokenId) external view returns (string)
 ```
 
-tokenURI Function
+tokenURI Functionoverride function to get the URI of a token. returns stored metadataURI
 
 *override function, returns metadataURI of token stored in tokenData*
 
@@ -458,19 +437,36 @@ function transferOwnership(address newOwner) external nonpayable
 ### updateContentURI
 
 ```solidity
-function updateContentURI(uint256 _tokenId, string _contentURI) external nonpayable
+function updateContentURI(uint256 _tokenId, CatalogOld.ContentData _content) external nonpayable
 ```
 
-updateContentURI Function
+updateContentURI FunctionEmits an event to be used track content updates on a token
 
-*access controlled function, restricted to owner/admim. subject to change.*
+*access controlled function, restricted to owner/admim.*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
 | _tokenId | uint256 | uint256 token id corresponding to the token to update
-| _contentURI | string | string containing new/updated media content (subject to change, new EIP)
+| _content | CatalogOld.ContentData | struct containing new/updated contentURI and hash.
+
+### updateCreator
+
+```solidity
+function updateCreator(uint256 _tokenId, address _creator) external nonpayable
+```
+
+updateCreator Functionupdates the creator of a token, emits an event
+
+*access controlled function, restricted to owner/admim. used in case of compromised artist wallet.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _tokenId | uint256 | uint256 token id corresponding to the token to update
+| _creator | address | address new creator of the token
 
 ### updateMetadataURI
 
@@ -478,9 +474,9 @@ updateContentURI Function
 function updateMetadataURI(uint256 _tokenId, string _metadataURI) external nonpayable
 ```
 
-updateMetadataURI Function
+updateMetadataURI Functionupdates the metadata URI of a token, emits an event
 
-*access controlled, restricted to contract owner when they own the tokenId or the creator (when they own the token)*
+*access controlled, restricted to contract owner/admin or the creator of the token*
 
 #### Parameters
 
@@ -495,7 +491,7 @@ updateMetadataURI Function
 function updateRoot(bytes32 _newRoot) external nonpayable
 ```
 
-updateRoot Functionthis function is inherits from Angela.sol, and may not be necessary depending on role based configuration.
+updateRoot Functionupdates the merkleroot of the allowlistthis function is inherits from Angela.sol, and may not be necessary depending on role based configuration.
 
 *access controlled function, restricted to owner/admim.*
 
@@ -511,9 +507,9 @@ updateRoot Functionthis function is inherits from Angela.sol, and may not be nec
 function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) external nonpayable
 ```
 
-updateRoyaltyInfo Function
+updateRoyaltyInfo Functionupdates the royalty payout address and royalty BPS of a token, emits an event
 
-*access controlled to owner only, subject to change. this function allows for emergency royalty control (i.e compromised wallet)*
+*access controlled to owner only, subject to change.  this function allows for emergency royalty control (i.e compromised wallet)*
 
 #### Parameters
 
@@ -565,7 +561,7 @@ event ApprovalForAll(address indexed owner, address indexed operator, bool appro
 ### ContentUpdated
 
 ```solidity
-event ContentUpdated(uint256indexed , string)
+event ContentUpdated(uint256 indexed tokenId, bytes32 indexed contentHash, string contentURI)
 ```
 
 
@@ -576,13 +572,14 @@ event ContentUpdated(uint256indexed , string)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 `indexed` | uint256 | undefined |
-| _1  | string | undefined |
+| tokenId `indexed` | uint256 | undefined |
+| contentHash `indexed` | bytes32 | undefined |
+| contentURI  | string | undefined |
 
-### MetadataUpdated
+### CreatorUpdated
 
 ```solidity
-event MetadataUpdated(uint256indexed , string)
+event CreatorUpdated(uint256 indexed tokenId, address indexed creator)
 ```
 
 Events
@@ -593,8 +590,41 @@ Events
 
 | Name | Type | Description |
 |---|---|---|
-| _0 `indexed` | uint256 | undefined |
-| _1  | string | undefined |
+| tokenId `indexed` | uint256 | undefined |
+| creator `indexed` | address | undefined |
+
+### MerkleRootUpdated
+
+```solidity
+event MerkleRootUpdated(bytes32 indexed merkleRoot)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| merkleRoot `indexed` | bytes32 | undefined |
+
+### MetadataUpdated
+
+```solidity
+event MetadataUpdated(uint256 indexed tokenId, string metadataURI)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| tokenId `indexed` | uint256 | undefined |
+| metadataURI  | string | undefined |
 
 ### OwnershipTransferred
 
@@ -616,7 +646,7 @@ event OwnershipTransferred(address indexed previousOwner, address indexed newOwn
 ### RoyaltyUpdated
 
 ```solidity
-event RoyaltyUpdated(uint256indexed , addressindexed )
+event RoyaltyUpdated(uint256 indexed tokenId, address indexed payoutAddress)
 ```
 
 
@@ -627,8 +657,8 @@ event RoyaltyUpdated(uint256indexed , addressindexed )
 
 | Name | Type | Description |
 |---|---|---|
-| _0 `indexed` | uint256 | undefined |
-| _1 `indexed` | address | undefined |
+| tokenId `indexed` | uint256 | undefined |
+| payoutAddress `indexed` | address | undefined |
 
 ### Transfer
 
@@ -647,22 +677,6 @@ event Transfer(address indexed from, address indexed to, uint256 indexed tokenId
 | from `indexed` | address | undefined |
 | to `indexed` | address | undefined |
 | tokenId `indexed` | uint256 | undefined |
-
-### merkleRootUpdated
-
-```solidity
-event merkleRootUpdated(bytes32 _merkleRoot)
-```
-
-Events
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _merkleRoot  | bytes32 | undefined |
 
 
 

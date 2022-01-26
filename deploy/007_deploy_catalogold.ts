@@ -1,5 +1,5 @@
-// deploy script for Catalog
-// 009_deploy_Catalog.ts
+// deploy script for CatalogOld
+// 009_deploy_CatalogOld.ts
 
 // Modify this script for upgrades
 
@@ -14,9 +14,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const {deployer, tokenOwner, multisig} = await getNamedAccounts();
 
     // Proxy deploy for OZ
-    const deployCatalog = await deploy('Catalog', {
+    const deployCatalogOld = await deploy('CatalogOld', {
         from: deployer,
-        contract: 'Catalog',
+        contract: 'CatalogOld',
         proxy: {
             // upgradeIndex: 0,
             // owner: multisig,
@@ -32,15 +32,15 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         // skipIfAlreadyDeployed: true
     });
 
-    if (deployCatalog && deployCatalog.newlyDeployed) {
+    if (deployCatalogOld && deployCatalogOld.newlyDeployed) {
         log(
             '\x1b[36m%s\x1b[0m',
             `
-            contract: Catalog deployed at ${deployCatalog.address} 
-            using ${deployCatalog.receipt?.gasUsed} gas. 
-            Owner (to): ${deployCatalog.receipt?.to}
-            implementation: ${deployCatalog.implementation}
-            Signed from    : ${deployCatalog.receipt?.from}
+            contract: Catalog deployed at ${deployCatalogOld.address} 
+            using ${deployCatalogOld.receipt?.gasUsed} gas. 
+            Owner (to): ${deployCatalogOld.receipt?.to}
+            implementation: ${deployCatalogOld.implementation}
+            Signed from    : ${deployCatalogOld.receipt?.from}
             `
         );
     }
@@ -78,4 +78,4 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 export default func;
 
 // Deployment tags
-func.tags = ['Catalog'];
+func.tags = ['CatalogOld'];
