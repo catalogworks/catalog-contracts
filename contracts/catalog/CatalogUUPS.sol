@@ -8,6 +8,7 @@ import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/Own
 import {CountersUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import {MerkleProofUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+
 /**
 --------------------------------------------------------------------------------------------------------------------
 
@@ -21,7 +22,7 @@ MM.         ,pm9MM  MM    ,pm9MM    MM 8M     M8  WmmmP"
   `"bmmmd' `Moo9^Yo.`Mbmo`Moo9^Yo..JMML.`Ybmd9'   YMMMMMb
                                                  6'     dP
                                                  Ybmmmd'
-UUPS version
+
 ************************************************
 LEGAL DISCLAIMER:
 https://catalog.works/terms
@@ -68,7 +69,7 @@ contract CatalogUUPS is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeab
     /// Merkle Root
     bytes32 public merkleRoot;
 
-    /// Constructor to initialize the implementation contract
+
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
 
@@ -226,6 +227,13 @@ contract CatalogUUPS is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeab
 
     /// --- OVERRIDES --- ///
 
+    /**
+        _authorizeUpgrade Function
+        @notice override of UUPSUpgradeable authorizeUpgrade function. 
+                Can be modified to supportv different authorization schemes.
+        @param newImplementation address of the new implementation contract
+        @dev access controlled to owner only, issues upgrade. 
+     */
     function _authorizeUpgrade(address newImplementation) internal onlyOwner override {}
 
 

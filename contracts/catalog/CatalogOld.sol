@@ -27,6 +27,8 @@ LEGAL DISCLAIMER:
 https://catalog.works/terms
 ************************************************
 
+old transparent proxy version. previously Catalog.sol
+
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
 
 "Catalog"                   :   Creator Shared NFT Media Contract for Catalog Records Inc.
@@ -38,7 +40,7 @@ https://catalog.works/terms
 
 ---------------------------------------------------------------------------------------------------------------------    
  */
-contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
+contract CatalogOld is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
     /// Events
