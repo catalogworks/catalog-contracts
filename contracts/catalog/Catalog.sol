@@ -69,9 +69,6 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     /// Merkle Root
     bytes32 public merkleRoot;
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() initializer {}
-
     /**
         initialize Function
         @notice Initializes contract with default values, acts as a constructor
