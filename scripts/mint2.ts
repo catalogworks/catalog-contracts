@@ -72,7 +72,10 @@ const setup = async () => {
     });
     const root = tree.getHexRoot();
     console.log(root.toString());
-    if (contracts.Catalog.merkleRoot().toString() !== root.toString()) {
+
+    const currentRoot = await contracts.Catalog.merkleRoot();
+    console.log('Current Root:', currentRoot.toString());
+    if (currentRoot.toString() !== root.toString()) {
         console.log('make new rooty tooty');
         const gasEstimate = await result.Catalog.estimateGas.updateRoot(root);
         const paddedEstimate = gasEstimate.mul(110).div(100);
@@ -147,11 +150,11 @@ const mintTokens = async () => {
     };
 
     try {
-        const tx = await deployer.Catalog.mint(inputData, inputContent, proof);
-        tx.wait();
-        console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN');
-        const tx2 = await deployer.Catalog.mint(inputData, inputContent, proof);
-        tx2.wait();
+        // const tx = await deployer.Catalog.mint(inputData, inputContent, proof);
+        // tx.wait();
+        // console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN');
+        // const tx2 = await deployer.Catalog.mint(inputData, inputContent, proof);
+        // tx2.wait();
         // console.log('\x1b[36m%s\x1b[0m', 'MINTED TOKEN 2');
         // const tx3 = await deployer.Catalog.mint(inputData, inputContent, proof);
         // tx3.wait();
