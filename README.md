@@ -48,6 +48,7 @@ Rinkeby Deployer Address: `0x43C4D51dE4b7bf046d92c324678a1a3969703632`
 | ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
 | Catalog Proxy       | 0x775B572e0CEB816625Af9779Bb686A8b47975876 | [link](https://rinkeby.etherscan.io/address/0x775B572e0CEB816625Af9779Bb686A8b47975876)  |
 | V1 Implementation | 0x6b4d0c257830FeC10833ec868F5eb774AF5044a9 | [link](https://rinkeby.etherscan.io/address/0x6b4d0c257830FeC10833ec868F5eb774AF5044a9)       |
+| V2 Implementation (Current) | 0xa29B0C46FB3C0133C03ba7e7665F90Df547781FD | [link](https://rinkeby.etherscan.io/address/0xa29B0C46FB3C0133C03ba7e7665F90Df547781FD)       |
 
 
 
