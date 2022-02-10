@@ -372,7 +372,6 @@ describe('Catalog Test Suite', () => {
     });
 
     describe('updating metadata', () => {
-
         // 01
         it('allows the creator to update the metadataURI', async () => {
             const {users, deployer, merkletree, Catalog} = await setup();
