@@ -30,24 +30,26 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         autoMine: true, // speeds deployment on local network. no effect on testnet/mainnet
     });
 
-    const deployCatalogUUPSUpgrade = await catchUnknownSigner(
-        deploy('Catalog', {
-            contract: 'Catalog',
-            from: multisig,
-            args: [],
-            proxy: {
-                proxyContract: 'ERC1967Proxy',
-                proxyArgs: ['{implementation}', '{data}'],
-                execute: {
-                    init: {
-                        methodName: 'initialize',
-                        args: ['Catalog', 'CNFT'],
-                    },
-                },
-            },
-        })
-    );
-    
+    // const deployCatalogUUPSUpgrade = await catchUnknownSigner(
+    //     deploy('Catalog', {
+    //         contract: 'Catalog',
+    //         from: multisig,
+    //         args: [],
+    //         proxy: {
+    //             proxyContract: 'ERC1967Proxy',
+    //             proxyArgs: ['{implementation}', '{data}'],
+    //             execute: {
+    //                 init: {
+    //                     methodName: 'initialize',
+    //                     args: ['Catalog', 'CNFT'],
+    //                 },
+    //             },
+    //         },
+    //         log: true,
+    //     })
+    // );
+
+    // console.log(deployCatalogUUPSUpgrade);
 
     if (deployCatalogUUPS && deployCatalogUUPS.newlyDeployed) {
         log(
