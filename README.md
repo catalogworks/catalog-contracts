@@ -48,16 +48,17 @@ Rinkeby Deployer Address: `0x43C4D51dE4b7bf046d92c324678a1a3969703632`
 | ----------------- |:------------------------------------------:| ---------------------------------------------------------------------------------------------:|
 | Catalog Proxy       | 0x775B572e0CEB816625Af9779Bb686A8b47975876 | [link](https://rinkeby.etherscan.io/address/0x775B572e0CEB816625Af9779Bb686A8b47975876)  |
 | V1 Implementation | 0x6b4d0c257830FeC10833ec868F5eb774AF5044a9 | [link](https://rinkeby.etherscan.io/address/0x6b4d0c257830FeC10833ec868F5eb774AF5044a9)       |
+| V2 Implementation (Current) | 0xa29B0C46FB3C0133C03ba7e7665F90Df547781FD | [link](https://rinkeby.etherscan.io/address/0xa29B0C46FB3C0133C03ba7e7665F90Df547781FD)       |
 
 
 
 Gas Stats (measured at 130 gwei/gas):
 
 - `burn` (39905 avg)
-- `mint` (200089 avg) ***ohhhh yeahhhh***
+- `mint` (199934 avg) ***ohhhh yeahhhh***
 - `updateContentURI` (32810 avg)
 - `updateCreator` (35680 avg)
-- `updateMetadataURI` (46477 avg)
+- `updateMetadataURI` (45432 avg)
 - `updateRoot` (35052 avg)
 - `updateRoyaltyInfo` (35660 avg)
 - `transferFrom` (62538 avg)

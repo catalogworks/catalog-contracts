@@ -199,10 +199,10 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         @notice updates the metadata URI of a token, emits an event
         @param _tokenId uint256 token id corresponding to the token to update
         @param _metadataURI string containing new/updated metadata (e.g IPFS URI pointing to metadata.json)
-        @dev access controlled, restricted to contract owner/admin or the creator of the token
+        @dev access controlled, restricted to creator of token
      */
     function updateMetadataURI(uint256 _tokenId, string memory _metadataURI) external {
-        require(msg.sender == owner() || msg.sender == tokenData[_tokenId].creator, "!creator/admin");
+        require(msg.sender == tokenData[_tokenId].creator, "!creator");
         emit MetadataUpdated(_tokenId, _metadataURI);
         tokenData[_tokenId].metadataURI = _metadataURI;
     }

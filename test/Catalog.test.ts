@@ -373,46 +373,6 @@ describe('Catalog Test Suite', () => {
 
     describe('updating metadata', () => {
         // 01
-        it('updates the metadataURI from an admin account', async () => {
-            const {users, deployer, merkletree, Catalog} = await setup();
-            const proof = merkletree.getHexProof(hashAddress(users[0].address));
-            const inputTokenData: TokenData = {
-                metadataURI: 'https://Catalog.works/metadata/uri',
-                creator: users[0].address,
-                royaltyPayout: users[0].address,
-                royaltyBPS: 5000,
-            };
-            const contentURI = 'https://Catalog.works/content/uri';
-            const contentHash =
-                '0x0000000000000000000000000000000000000000000000000000000000000000';
-
-            const inputContentData: ContentData = {
-                contentURI: contentURI,
-                contentHash: contentHash,
-            };
-
-            await users[0].Catalog.mint(
-                inputTokenData,
-                inputContentData,
-                proof
-            );
-            await expect(await Catalog.ownerOf(1)).to.eq(users[0].address);
-
-            await expect(
-                deployer.Catalog.updateMetadataURI(
-                    1,
-                    'https://Catalog.works/metadata/uri2'
-                )
-            )
-                .to.emit(Catalog, 'MetadataUpdated')
-                .withArgs(1, 'https://Catalog.works/metadata/uri2');
-
-            await expect(await Catalog.tokenURI(1)).to.eq(
-                'https://Catalog.works/metadata/uri2'
-            );
-        });
-
-        // 02
         it('allows the creator to update the metadataURI', async () => {
             const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[3].address));
@@ -454,7 +414,7 @@ describe('Catalog Test Suite', () => {
             );
         });
 
-        // 03
+        // 02
         it('only allows creator/admin to update metadataURI', async () => {
             const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[3].address));
@@ -486,7 +446,7 @@ describe('Catalog Test Suite', () => {
                     1,
                     'https://Catalog.works/metadata/uri2'
                 )
-            ).to.be.revertedWith('!creator/admin');
+            ).to.be.revertedWith('!creator');
         });
     });
 
