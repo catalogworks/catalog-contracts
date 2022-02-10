@@ -55,10 +55,10 @@ Rinkeby Deployer Address: `0x43C4D51dE4b7bf046d92c324678a1a3969703632`
 Gas Stats (measured at 130 gwei/gas):
 
 - `burn` (39905 avg)
-- `mint` (200089 avg) ***ohhhh yeahhhh***
+- `mint` (199934 avg) ***ohhhh yeahhhh***
 - `updateContentURI` (32810 avg)
 - `updateCreator` (35680 avg)
-- `updateMetadataURI` (46477 avg)
+- `updateMetadataURI` (45432 avg)
 - `updateRoot` (35052 avg)
 - `updateRoyaltyInfo` (35660 avg)
 - `transferFrom` (62538 avg)
