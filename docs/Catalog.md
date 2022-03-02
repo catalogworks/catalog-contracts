@@ -476,7 +476,7 @@ function updateMetadataURI(uint256 _tokenId, string _metadataURI) external nonpa
 
 updateMetadataURI Functionupdates the metadata URI of a token, emits an event
 
-*access controlled, restricted to contract owner/admin or the creator of the token*
+*access controlled, restricted to creator of token*
 
 #### Parameters
 
@@ -648,7 +648,7 @@ event ContentUpdated(uint256 indexed tokenId, bytes32 indexed contentHash, strin
 event CreatorUpdated(uint256 indexed tokenId, address indexed creator)
 ```
 
-Events
+
 
 
 
