@@ -160,51 +160,6 @@ tests use deployment fixtures from `hardhat-deploy`
 ____ 
 
 
-## Utility Scripts
-
-The [./scripts](./scripts) directory contains several utility scripts for testing and 
-developing Catalog smart contracts.
-
-
-**tree.ts**
-
-Merkle Tree utility script.
-Generates a merkle root and proof given input wallet address
-Used for Allowlisting.
-
-
-run with
-
-```bash
-yarn tree
-```
-
-**ipfsUpload.ts**
-
-IPFS URI utility script.
-Setup to upload a basic metadata.json to ipfs, presents a URI for input
-Use for easy testing.
-
-run with 
-
-```bash
-yarn ipfs
-```
-
-**getArtists.ts**
-
-Wallet Address List utility scripts.
-Pulls valid artist wallet addresses from hasura, and saves them in `artists.json`
-Intended for use with Allowlisting utilities.
-
-run with 
-
-```bash
-yarn getartists
-```
-
-____
-
 
 ## Types
 
