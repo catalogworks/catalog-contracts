@@ -205,11 +205,6 @@ const config: HardhatUserConfig = {
     excludeContracts: ['CLG20.sol', 'TD606.sol', 'CatalogNFT.sol', 'TD606V2.sol', 'contract/zora', 'SP1200.sol'],
   },
 
-  // etherscan: {
-  //   apiKey: process.env.ETHERSCAN_API_KEY,
-
-  // },
-
   external: process.env.HARDHAT_FORK
     ? {
       deployments: {
@@ -225,10 +220,6 @@ const config: HardhatUserConfig = {
     runOnCompile: false,
     exclude: ['CatalogNFT.sol','BasicContract.sol', 'Royalties.sol']
   },
-
-
-
-
 };
 
 export default config;

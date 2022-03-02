@@ -42,21 +42,27 @@ https://catalog.works/terms
 contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, UUPSUpgradeable {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
-    /// Events
+    /*///////////////////////////////////////////////////////////////
+                                 EVENTS
+    //////////////////////////////////////////////////////////////*/
+
     event CreatorUpdated(uint256 indexed tokenId, address indexed creator);
     event ContentUpdated(uint256 indexed tokenId, bytes32 indexed contentHash, string contentURI);
     event MetadataUpdated(uint256 indexed tokenId, string metadataURI);
     event MerkleRootUpdated(bytes32 indexed merkleRoot);
     event RoyaltyUpdated(uint256 indexed tokenId, address indexed payoutAddress);
 
-    /// State
+    /*///////////////////////////////////////////////////////////////
+                          STATE/STORAGE/CALLDATA
+    //////////////////////////////////////////////////////////////*/
+
     struct TokenData {
         string metadataURI;
         address creator;
         address royaltyPayout;
         uint16 royaltyBPS;
     }
-    /// Calldata
+
     struct ContentData {
         string contentURI;
         bytes32 contentHash;
@@ -68,6 +74,10 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     CountersUpgradeable.Counter private _tokenIdCounter;
     /// Merkle Root
     bytes32 public merkleRoot;
+
+    /*///////////////////////////////////////////////////////////////
+                              INITIALIZATION
+    //////////////////////////////////////////////////////////////*/
 
     /**
         initialize Function
@@ -85,6 +95,10 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         _tokenIdCounter.increment();
     }
 
+    /*///////////////////////////////////////////////////////////////
+                            BURN 
+    //////////////////////////////////////////////////////////////*/
+
     /**
         Burn Function
         @notice Burns a token
@@ -92,12 +106,13 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         @dev burns given tokenId, restrited to owner and creator (when owned)
      */
     function burn(uint256 _tokenId) external {
-        require(
-            (msg.sender == tokenData[_tokenId].creator && msg.sender == ownerOf(_tokenId)) || msg.sender == owner(),
-            "Only creator or Admin"
-        );
+        require((msg.sender == tokenData[_tokenId].creator && msg.sender == ownerOf(_tokenId)), "Only creator");
         _burn(_tokenId);
     }
+
+    /*///////////////////////////////////////////////////////////////
+                            READ 
+    //////////////////////////////////////////////////////////////*/
 
     /**
         creator Function
@@ -122,6 +137,10 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         address r = tokenData[_tokenId].royaltyPayout;
         return r;
     }
+
+    /*///////////////////////////////////////////////////////////////
+                            MINT 
+    //////////////////////////////////////////////////////////////*/
 
     /**
         mint Function
@@ -157,6 +176,10 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         _tokenIdCounter.increment();
         return tokenId;
     }
+
+    /*///////////////////////////////////////////////////////////////
+                            WRITE 
+    //////////////////////////////////////////////////////////////*/
 
     /**
         updateContentURI Function
@@ -220,7 +243,9 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         tokenData[_tokenId].royaltyPayout = _royaltyPayoutAddress;
     }
 
-    /// ----- OVERRIDES --- ///
+    /*///////////////////////////////////////////////////////////////
+                            OVERRIDES
+    //////////////////////////////////////////////////////////////*/
 
     /**
         _authorizeUpgrade Function
