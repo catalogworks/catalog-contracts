@@ -173,7 +173,7 @@ describe('Catalog Test Suite', () => {
 
     describe('burning', () => {
         // 01
-        it('burns token from admin account', async () => {
+        it('does not burn token from admin account', async () => {
             const {users, deployer, merkletree, Catalog} = await setup();
             const proof = merkletree.getHexProof(hashAddress(users[0].address));
             const inputTokenData: TokenData = {
@@ -203,14 +203,9 @@ describe('Catalog Test Suite', () => {
             );
             await expect(await Catalog.ownerOf(1)).to.eq(users[0].address);
 
-            await expect(deployer.Catalog.burn(1))
-                .to.emit(Catalog, 'Transfer')
-                .withArgs(
-                    users[0].address,
-                    '0x0000000000000000000000000000000000000000',
-                    1
-                );
-            await expect(await Catalog.ownerOf(2)).to.eq(users[0].address);
+            await expect(deployer.Catalog.burn(1)).to.be.revertedWith(
+                'Only creator'
+            );
         });
 
         // 02
@@ -240,7 +235,7 @@ describe('Catalog Test Suite', () => {
 
             await expect(await Catalog.ownerOf(1)).to.eq(users[1].address);
             await expect(users[1].Catalog.burn(1)).to.be.revertedWith(
-                'Only creator or Admin'
+                'Only creator'
             );
         });
 
