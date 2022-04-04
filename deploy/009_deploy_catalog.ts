@@ -17,7 +17,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         from: deployer,
         args: [],
         proxy: {
-            proxyContract: 'ERC1967Proxy',
+            proxyContract: 'CatalogProxy',
             proxyArgs: ['{implementation}', '{data}'],
             execute: {
                 init: {

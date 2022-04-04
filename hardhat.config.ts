@@ -182,6 +182,12 @@ const config: HardhatUserConfig = {
       blockGasLimit: 10000000,
       etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
     },
+    ropsten: {
+      url: node_url('ropsten'),
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('goerli'),
+      blockGasLimit: 10000000,
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
+    },
   },
 
   paths: {

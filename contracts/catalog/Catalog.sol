@@ -42,7 +42,7 @@ https://catalog.works/terms
 contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, UUPSUpgradeable {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
-    /*///////////////////////////////////////////////////////////////
+    /*//////////////////////////////////////////////////////////////
                                  EVENTS
     //////////////////////////////////////////////////////////////*/
 
@@ -52,10 +52,16 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     event MerkleRootUpdated(bytes32 indexed merkleRoot);
     event RoyaltyUpdated(uint256 indexed tokenId, address indexed payoutAddress);
 
-    /*///////////////////////////////////////////////////////////////
-                          STATE/STORAGE/CALLDATA
+    /*//////////////////////////////////////////////////////////////
+                         STATE/STORAGE/CALLDATA
     //////////////////////////////////////////////////////////////*/
 
+    /// @notice Storage for readable properties of a Catalog NFT
+    /// @param metadataURI URI of the metadata (ipfs://)
+    /// @param creator Address of the creator
+    /// @param royaltyPayout payout address for royalties (EIP2981)
+    /// @param royaltyBPS royalty percentage (in basis points)
+    /// @dev This struct is used to store the readable properties of a Catalog NFT
     struct TokenData {
         string metadataURI;
         address creator;
@@ -63,6 +69,10 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         uint16 royaltyBPS;
     }
 
+    /// @notice Calldata struct for input ContentData
+    /// @param contentURI URI of the content (ipfs://)
+    /// @param contentHash SHA256 hash of the content
+    /// @dev This struct is not stored in storage, only used to emit events via input calldata
     struct ContentData {
         string contentURI;
         bytes32 contentHash;
@@ -75,15 +85,15 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     /// Merkle Root
     bytes32 public merkleRoot;
 
-    /*///////////////////////////////////////////////////////////////
-                              INITIALIZATION
+    /*//////////////////////////////////////////////////////////////
+                             INITIALIZATION
     //////////////////////////////////////////////////////////////*/
 
     /**
-        @notice Initializes contract with default values, acts as a constructor
+        @notice Initializes contract with default values
         @param _name name of the contract
         @param _symbol symbol of the contract
-        @dev Initializes contract with default values, for upgradeable proxy purposes
+        @dev Contains constructor logic, initializes proxied contract. Must be called upon deployment.
      */
     function initialize(string memory _name, string memory _symbol) public initializer {
         __ERC721_init(_name, _symbol);
@@ -94,24 +104,23 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         _tokenIdCounter.increment();
     }
 
-    /*///////////////////////////////////////////////////////////////
-                            BURN 
+    /*//////////////////////////////////////////////////////////////
+                                  BURN
     //////////////////////////////////////////////////////////////*/
 
     /**
         @notice Burns a token, given input tokenId
         @param _tokenId identifier of token to burn
-        @dev burns given tokenId, restrited to owner and creator (when owned)
+        @dev burns given tokenId, restricted to creator (when owned)
      */
     function burn(uint256 _tokenId) external {
         require((msg.sender == tokenData[_tokenId].creator && msg.sender == ownerOf(_tokenId)), "Only creator");
         _burn(_tokenId);
     }
 
-    /*///////////////////////////////////////////////////////////////
-                            READ 
+    /*//////////////////////////////////////////////////////////////
+                                  READ
     //////////////////////////////////////////////////////////////*/
-
     /**
         @notice returns the creator address of a given tokenId
         @param _tokenId identifier of token to get creator for
@@ -134,10 +143,9 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         return r;
     }
 
-    /*///////////////////////////////////////////////////////////////
-                            MINT 
+    /*//////////////////////////////////////////////////////////////
+                                  MINT
     //////////////////////////////////////////////////////////////*/
-
     /**
         @notice mints a new token
         @param _data input TokenData struct, containing metadataURI, creator, royaltyPayout, royaltyBPS
@@ -158,7 +166,7 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
             MerkleProofUpgradeable.verify(_proof, merkleRoot, keccak256(abi.encodePacked(_data.creator))),
             "!valid proof"
         );
-        require(_data.royaltyBPS < 10_000, "royalty !< 10000");
+        require(_data.royaltyBPS < 10000, "royalty !< 10000");
 
         uint256 tokenId = _tokenIdCounter.current();
 
@@ -172,10 +180,9 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         return tokenId;
     }
 
-    /*///////////////////////////////////////////////////////////////
-                            WRITE 
+    /*//////////////////////////////////////////////////////////////
+                                  WRITE
     //////////////////////////////////////////////////////////////*/
-
     /**
         @notice Emits an event to be used track content updates on a token
         @param _tokenId token id corresponding to the token to update
@@ -233,15 +240,14 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         tokenData[_tokenId].royaltyPayout = _royaltyPayoutAddress;
     }
 
-    /*///////////////////////////////////////////////////////////////
-                            OVERRIDES
+    /*//////////////////////////////////////////////////////////////
+                                OVERRIDES
     //////////////////////////////////////////////////////////////*/
-
     /**
         @notice override of UUPSUpgradeable authorizeUpgrade function. 
-                Can be modified to supportv different authorization schemes.
+                Can be modified to support different authorization schemes.
         @param newImplementation address of the new implementation contract
-        @dev access controlled to owner only, issues upgrade. 
+        @dev access controlled to owner only, upgrades deployed proxy to input implementation. 
      */
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 

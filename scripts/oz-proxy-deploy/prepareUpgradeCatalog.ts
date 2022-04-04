@@ -7,17 +7,18 @@ async function main(inputProxyAddress: string, inputContractName: string) {
     }
     const CatalogUpgrade = await ethers.getContractFactory(inputContractName);
     console.log('preparing upgrade...');
-    const catalog = await upgrades.prepareUpgrade(inputProxyAddress, CatalogUpgrade);
+    const catalog = await upgrades.prepareUpgrade(
+        inputProxyAddress,
+        CatalogUpgrade
+    );
     console.log('prepared upgrade');
     console.log('CatalogUpgrade contract at:', catalog);
     console.log('Catalog upgraded');
-
 }
 
-
-main('','').then(() => process.exit(0)).catch(error => {
-    console.error(error);
-    process.exit(1);
-});
-
-
+main('', '')
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });
