@@ -22,7 +22,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             execute: {
                 init: {
                     methodName: 'initialize',
-                    args: ['Catalog', 'CNFT'],
+                    args: ['Catalog', 'RECORD'],
                 },
             },
         },
@@ -41,7 +41,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     //             execute: {
     //                 init: {
     //                     methodName: 'initialize',
-    //                     args: ['Catalog', 'CNFT'],
+    //                     args: ['Catalog', 'RECORD'],
     //                 },
     //             },
     //         },
