@@ -6,7 +6,7 @@
 
 
 
-*Interface for the NFT Royalty Standard*
+*Interface for the NFT Royalty Standard. A standardized way to retrieve royalty payment information for non-fungible tokens (NFTs) to enable universal support for royalty payments across all NFT marketplaces and ecosystem participants. _Available since v4.5._*
 
 ## Methods
 
@@ -18,21 +18,21 @@ function royaltyInfo(uint256 tokenId, uint256 salePrice) external view returns (
 
 
 
-*Called with the sale price to determine how much royalty is owed and to whom.*
+*Returns how much royalty is owed and to whom, based on a sale price that may be denominated in any unit of exchange. The royalty amount is denominated and should be payed in that same unit of exchange.*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | - the NFT asset queried for royalty information
-| salePrice | uint256 | - the sale price of the NFT asset specified by `tokenId`
+| tokenId | uint256 | undefined
+| salePrice | uint256 | undefined
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| receiver | address | - address of who should be sent the royalty payment
-| royaltyAmount | uint256 | - the royalty payment amount for `salePrice`
+| receiver | address | undefined
+| royaltyAmount | uint256 | undefined
 
 ### supportsInterface
 

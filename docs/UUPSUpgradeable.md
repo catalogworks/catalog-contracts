@@ -10,6 +10,23 @@
 
 ## Methods
 
+### proxiableUUID
+
+```solidity
+function proxiableUUID() external view returns (bytes32)
+```
+
+
+
+*Implementation of the ERC1822 {proxiableUUID} function. This returns the storage slot used by the implementation. It is used to validate that the this implementation remains valid after an upgrade. IMPORTANT: A proxy pointing at a proxiable contract should not be considered proxiable itself, because this risks bricking a proxy that upgrades to it, by delegating to itself until out of gas. Thus it is critical that this function revert if invoked through a proxy. This is guaranteed by the `notDelegated` modifier.*
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | bytes32 | undefined
+
 ### upgradeTo
 
 ```solidity
