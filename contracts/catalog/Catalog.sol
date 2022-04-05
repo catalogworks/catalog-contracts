@@ -31,7 +31,7 @@ https://catalog.works/terms
 ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           
 
 @title                      :   Catalog
-@author                     :   COMPUTER DATA (brett henderson) of @catalogworks
+@author                     :   COMPUTER DATA (brett henderson) of Catalog Records Inc.
 @notice                     :   Catalog Shared Creator Contract
 @dev                        :   Upgradeable ERC721 Contract, inherits functionality from ERC721Upgradeable.
                                 Purpose built for optimization over the Zora V1 contracts.
