@@ -122,40 +122,14 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     }
 
     /*//////////////////////////////////////////////////////////////
-                                  READ
-    //////////////////////////////////////////////////////////////*/
-
-    /**
-        @notice gets the creator address of a given tokenId
-        @param _tokenId identifier of token to get creator for
-        @return creator address of given tokenId
-        @dev basic public getter method for creator
-     */
-    function creator(uint256 _tokenId) public view returns (address) {
-        address c = tokenData[_tokenId].creator;
-        return c;
-    }
-
-    /**
-        @notice gets the address for the royalty payout of a token/record
-        @param _tokenId identifier of token to get royalty payout address for
-        @return royalty payout address of given tokenId
-        @dev basic public getter method for royalty payout address 
-     */
-    function royaltyPayoutAddress(uint256 _tokenId) public view returns (address) {
-        address r = tokenData[_tokenId].royaltyPayout;
-        return r;
-    }
-
-    /*//////////////////////////////////////////////////////////////
                                   MINT
     //////////////////////////////////////////////////////////////*/
 
     /**
         @notice mints a new token
         @param _data input TokenData struct, containing metadataURI, creator, royaltyPayout, royaltyBPS
-        @param _content input ContentData struct, containing contentURI, contentHash. not stored in memory, only in calldata
-        @param _proof merkle proof for the artist address. this is created off-chain.  
+        @param _content input ContentData struct, containing contentURI, contentHash.
+        @param _proof merkle proof for the artist address.
         @return tokenId of the minted token 
         @dev mints a new token to msg.sender with a valid input creator address proof. Emits a ContentUpdated event to track contentURI/contentHash updates.
      */
@@ -179,7 +153,7 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         _mint(msg.sender, tokenId);
         tokenData[tokenId] = _data;
 
-        // Emit Event to track ContentURI
+        // Emit event to track ContentURI
         emit ContentUpdated(tokenId, _content.contentHash, _content.contentURI);
 
         _tokenIdCounter.increment();
@@ -194,7 +168,7 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         @notice Emits an event to be used track content updates on a token
         @param _tokenId token id corresponding to the token to update
         @param _content struct containing new/updated contentURI and hash.
-        @dev access controlled function, restricted to owner/admim.
+        @dev access controlled function, restricted to owner/admim. 
      */
     function updateContentURI(uint256 _tokenId, ContentData calldata _content) external onlyOwner {
         emit ContentUpdated(_tokenId, _content.contentHash, _content.contentURI);
@@ -248,26 +222,34 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     }
 
     /*//////////////////////////////////////////////////////////////
-                                OVERRIDES
+                                  READ
     //////////////////////////////////////////////////////////////*/
 
     /**
-        @notice override of UUPSUpgradeable authorizeUpgrade function. 
-        @param newImplementation address of the new implementation contract
-        @dev access controlled to owner only, upgrades deployed proxy to input implementation. Can be modified to support different authorization schemes.
+        @notice gets the creator address of a given tokenId
+        @param _tokenId identifier of token to get creator for
+        @return creator address of given tokenId
+        @dev basic public getter method for creator
      */
-    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
+    function creator(uint256 _tokenId) public view returns (address) {
+        address c = tokenData[_tokenId].creator;
+        return c;
+    }
 
     /**
-        @notice override function to get the URI of a token. 
-        @param _tokenId token id corresponding to the token of which to get metadata from
-        @return string containing metadata URI (example: 'ipfs:///...')
-        @dev override function, returns metadataURI of token stored in tokenData
+        @notice gets the address for the royalty payout of a token/record
+        @param _tokenId identifier of token to get royalty payout address for
+        @return royalty payout address of given tokenId
+        @dev basic public getter method for royalty payout address 
      */
-    function tokenURI(uint256 _tokenId) public view override returns (string memory) {
-        require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
-        return tokenData[_tokenId].metadataURI;
+    function royaltyPayoutAddress(uint256 _tokenId) public view returns (address) {
+        address r = tokenData[_tokenId].royaltyPayout;
+        return r;
     }
+
+    /*//////////////////////////////////////////////////////////////
+                                OVERRIDES
+    //////////////////////////////////////////////////////////////*/
 
     /**
         @notice override function gets royalty information for a token (EIP-2981)
@@ -304,4 +286,22 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
             type(IERC2981Upgradeable).interfaceId == interfaceId ||
             ERC721Upgradeable.supportsInterface(interfaceId);
     }
+
+    /**
+        @notice override function to get the URI of a token. 
+        @param _tokenId token id corresponding to the token of which to get metadata from
+        @return string containing metadata URI (example: 'ipfs:///...')
+        @dev override function, returns metadataURI of token stored in tokenData
+     */
+    function tokenURI(uint256 _tokenId) public view override returns (string memory) {
+        require(_exists(_tokenId), "ERC721Metadata: URI query for nonexistent token");
+        return tokenData[_tokenId].metadataURI;
+    }
+
+    /**
+        @notice override of UUPSUpgradeable authorizeUpgrade function. 
+        @param newImplementation address of the new implementation contract
+        @dev access controlled to owner only, upgrades deployed proxy to input implementation. Can be modified to support different authorization schemes.
+     */
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 }
