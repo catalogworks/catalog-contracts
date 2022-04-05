@@ -19,7 +19,10 @@ contract Royalties is IERC2981, ERC165 {
     mapping(uint256 => RoyaltyInfo) public royalties;
 
     /// setter functions for updating royalty info for given tokenId
-    function _setPayoutAddressForToken(address _royaltyReceiver, uint256 _tokenId) internal virtual {
+    function _setPayoutAddressForToken(address _royaltyReceiver, uint256 _tokenId)
+        internal
+        virtual
+    {
         /// emit event
         emit RoyaltyUpdated(_tokenId, _royaltyReceiver, royalties[_tokenId].royaltyBPS);
 
@@ -34,7 +37,10 @@ contract Royalties is IERC2981, ERC165 {
         /// emit event
         emit RoyaltyUpdated(_tokenId, _royaltyReceiver, _royaltyBPS);
 
-        royalties[_tokenId] = RoyaltyInfo({royaltyBPS: _royaltyBPS, royaltyReceiver: _royaltyReceiver});
+        royalties[_tokenId] = RoyaltyInfo({
+            royaltyBPS: _royaltyBPS,
+            royaltyReceiver: _royaltyReceiver
+        });
     }
 
     /// called w/ sale price to determine royalties owed
@@ -49,7 +55,14 @@ contract Royalties is IERC2981, ERC165 {
         return (royalty.royaltyReceiver, (_salePrice * royalty.royaltyBPS) / 10000);
     }
 
-    function supportsInterface(bytes4 _interfaceId) public view virtual override(ERC165) returns (bool) {
-        return (_interfaceId == type(IERC2981).interfaceId || super.supportsInterface(_interfaceId));
+    function supportsInterface(bytes4 _interfaceId)
+        public
+        view
+        virtual
+        override(ERC165)
+        returns (bool)
+    {
+        return (_interfaceId == type(IERC2981).interfaceId ||
+            super.supportsInterface(_interfaceId));
     }
 }

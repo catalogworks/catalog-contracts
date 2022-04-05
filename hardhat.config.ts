@@ -58,7 +58,7 @@ const config: HardhatUserConfig = {
         settings: {
           optimizer: {
             enabled: true,
-            runs: 200
+            runs: 1000
           },
         },
       },
@@ -241,7 +241,7 @@ const config: HardhatUserConfig = {
     : undefined,
 
   dodoc: {
-    runOnCompile: true,
+    runOnCompile: false,
     exclude: ['CatalogNFT.sol','BasicContract.sol', 'Royalties.sol']
   },
 };

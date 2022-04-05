@@ -32,10 +32,10 @@ https://catalog.works/terms
 
 @title                      :   Catalog
 @author                     :   COMPUTER DATA (brett henderson) of Catalog Records Inc.
-@notice                     :   Catalog Shared Creator Contract
-@dev                        :   Upgradeable ERC721 Contract, inherits functionality from ERC721Upgradeable.
-                                Purpose built for optimization over the Zora V1 contracts.
-                                Code relies on implementations thanks to @ isian (iain nash) of Zora. 
+@notice                     :   The Catalog Shared Creator Contract is an upgradeable ERC721 contract, purpose built 
+                                to facilitate the creation of Catalog records.
+@dev                        :   Upgradeable ERC721 Contract, inherits functionality from ERC721Upgradeable. 
+                                This contract conforms to the EIP-2981 NFT Royalty Standard.
 
 ---------------------------------------------------------------------------------------------------------------------    
  */
@@ -114,15 +114,19 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         @dev burns given tokenId, restricted to creator (when owned)
      */
     function burn(uint256 _tokenId) external {
-        require((msg.sender == tokenData[_tokenId].creator && msg.sender == ownerOf(_tokenId)), "Only creator");
+        require(
+            (msg.sender == tokenData[_tokenId].creator && msg.sender == ownerOf(_tokenId)),
+            "Only creator"
+        );
         _burn(_tokenId);
     }
 
     /*//////////////////////////////////////////////////////////////
                                   READ
     //////////////////////////////////////////////////////////////*/
+
     /**
-        @notice returns the creator address of a given tokenId
+        @notice gets the creator address of a given tokenId
         @param _tokenId identifier of token to get creator for
         @return creator address of given tokenId
         @dev basic public getter method for creator
@@ -133,7 +137,7 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     }
 
     /**
-        @notice gets the address of the royalty payout for a token
+        @notice gets the address for the royalty payout of a token/record
         @param _tokenId identifier of token to get royalty payout address for
         @return royalty payout address of given tokenId
         @dev basic public getter method for royalty payout address 
@@ -146,16 +150,14 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     /*//////////////////////////////////////////////////////////////
                                   MINT
     //////////////////////////////////////////////////////////////*/
+
     /**
         @notice mints a new token
         @param _data input TokenData struct, containing metadataURI, creator, royaltyPayout, royaltyBPS
-        @param _content input ContentData struct, containing contentURI, contentHash. 
-                        not stored in memory, only in calldata
-        @param _proof merkle proof of artist wallet. 
-                        this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
-        @return tokenId of minted token (useful since we are not using Enumerable)
-        @dev mints a new token to allowlisted msg.sender with a valid merkle proof. 
-                        Emits a ContentUpdated event to trackcontentURI updates.
+        @param _content input ContentData struct, containing contentURI, contentHash. not stored in memory, only in calldata
+        @param _proof merkle proof for the artist address. this is created off-chain.  
+        @return tokenId of the minted token 
+        @dev mints a new token to msg.sender with a valid input creator address proof. Emits a ContentUpdated event to track contentURI/contentHash updates.
      */
     function mint(
         TokenData calldata _data,
@@ -163,7 +165,11 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         bytes32[] calldata _proof
     ) external returns (uint256) {
         require(
-            MerkleProofUpgradeable.verify(_proof, merkleRoot, keccak256(abi.encodePacked(_data.creator))),
+            MerkleProofUpgradeable.verify(
+                _proof,
+                merkleRoot,
+                keccak256(abi.encodePacked(_data.creator))
+            ),
             "!valid proof"
         );
         require(_data.royaltyBPS < 10000, "royalty !< 10000");
@@ -183,6 +189,7 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     /*//////////////////////////////////////////////////////////////
                                   WRITE
     //////////////////////////////////////////////////////////////*/
+
     /**
         @notice Emits an event to be used track content updates on a token
         @param _tokenId token id corresponding to the token to update
@@ -208,8 +215,6 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         @notice updates the merkleroot of the allowlist
         @param _newRoot containing the new root hash, generated off-chain
         @dev access controlled function, restricted to owner/admim.
-        @notice this function is inherits from Angela.sol, and may not be necessary depending
-                on role based configuration.
      */
     function updateRoot(bytes32 _newRoot) external onlyOwner {
         emit MerkleRootUpdated(_newRoot);
@@ -232,10 +237,12 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         @notice updates the royalty payout address and royalty BPS of a token, emits an event
         @param _tokenId token id corresponding to the token of which to update royalty payout
         @param _royaltyPayoutAddress address of new royalty payout address
-        @dev access controlled to owner only, subject to change. 
-             this function allows for emergency royalty control (i.e compromised wallet)
+        @dev access controlled to owner only. this function allows for emergency royalty control (i.e compromised wallet)
      */
-    function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) external onlyOwner {
+    function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress)
+        external
+        onlyOwner
+    {
         emit RoyaltyUpdated(_tokenId, _royaltyPayoutAddress);
         tokenData[_tokenId].royaltyPayout = _royaltyPayoutAddress;
     }
@@ -243,16 +250,16 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     /*//////////////////////////////////////////////////////////////
                                 OVERRIDES
     //////////////////////////////////////////////////////////////*/
+
     /**
         @notice override of UUPSUpgradeable authorizeUpgrade function. 
-                Can be modified to support different authorization schemes.
         @param newImplementation address of the new implementation contract
-        @dev access controlled to owner only, upgrades deployed proxy to input implementation. 
+        @dev access controlled to owner only, upgrades deployed proxy to input implementation. Can be modified to support different authorization schemes.
      */
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
     /**
-        @notice override function to get the URI of a token. returns stored metadataURI
+        @notice override function to get the URI of a token. 
         @param _tokenId token id corresponding to the token of which to get metadata from
         @return string containing metadata URI (example: 'ipfs:///...')
         @dev override function, returns metadataURI of token stored in tokenData
@@ -266,7 +273,8 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         @notice override function gets royalty information for a token (EIP-2981)
         @param _tokenId token id corresponding to the token of which to get royalty information
         @param _salePrice final sale price of token used to calculate royalty payout
-        @dev override, conforms to EIP-2981
+        @dev conforms to EIP-2981
+        @inheritdoc IERC2981Upgradeable
      */
     function royaltyInfo(uint256 _tokenId, uint256 _salePrice)
         external
@@ -274,13 +282,16 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         override
         returns (address receiver, uint256 royaltyAmount)
     {
-        return (tokenData[_tokenId].royaltyPayout, (_salePrice * tokenData[_tokenId].royaltyBPS) / 10000);
+        return (
+            tokenData[_tokenId].royaltyPayout,
+            (_salePrice * tokenData[_tokenId].royaltyBPS) / 10000
+        );
     }
 
     /**
-        @notice override function to check if contract supports an interface
+        @notice override function to check if contract supports given interface
         @param interfaceId id of interface to check
-        @dev override 
+        @inheritdoc IERC165Upgradeable
      */
     function supportsInterface(bytes4 interfaceId)
         public
@@ -289,6 +300,8 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         override(ERC721Upgradeable, IERC165Upgradeable)
         returns (bool)
     {
-        return type(IERC2981Upgradeable).interfaceId == interfaceId || ERC721Upgradeable.supportsInterface(interfaceId);
+        return
+            type(IERC2981Upgradeable).interfaceId == interfaceId ||
+            ERC721Upgradeable.supportsInterface(interfaceId);
     }
 }
