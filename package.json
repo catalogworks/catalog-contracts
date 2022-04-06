@@ -38,9 +38,6 @@
     "build:contracts": "yarn compile --no-typechain && yarn typechain",
     "build:package": "rm -rf ./dist && tsc && cp types/typechain/*.d.ts dist/types/typechain && cp -R addresses dist && cp -R artifacts/contracts dist/artifacts && cp -R contracts dist",
     "prepublishOnly": "yarn build",
-    "tree": "npx hardhat run scripts/tree.ts",
-    "ipfs": "npx hardhat run scripts/ipfsUpload.ts",
-    "getartists": "npx hardhat run scripts/getArtists.ts",
     "exportabi": "npx hardhat export-abi --no-compile"
   },
   "devDependencies": {

@@ -1,10 +1,10 @@
 # Catalog
 
-*:   @bretth18 (computerdata) of @catalogworks*
+*:   COMPUTER DATA (brett henderson) of Catalog Records Inc.*
 
 > :   Catalog
 
--------------------------------------------------------------------------------------------------------------------- ,, .g8&quot;&quot;&quot;bgd         mm            `7MM .dP&#39;     `M         MM              MM dM&#39;       ` ,6&quot;Yb.mmMMmm  ,6&quot;Yb.    MM  ,pW&quot;Wq.   .P&quot;Ybmmm MM         8)   MM  MM   8)   MM    MM 6W&#39;   `Wb :MI  I8 MM.         ,pm9MM  MM    ,pm9MM    MM 8M     M8  WmmmP&quot; `Mb.     ,&#39;8M   MM  MM   8M   MM    MM YA.   ,A9 8M `&quot;bmmmd&#39; `Moo9^Yo.`Mbmo`Moo9^Yo..JMML.`Ybmd9&#39;   YMMMMMb 6&#39;     dP Ybmmmd&#39;************************************************ LEGAL DISCLAIMER: https://catalog.works/terms************************************************ ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                            &quot;Catalog&quot;                   :   Creator Shared NFT Media Contract for Catalog Records Inc.
+-------------------------------------------------------------------------------------------------------------------- ,, .g8&quot;&quot;&quot;bgd         mm            `7MM .dP&#39;     `M         MM              MM dM&#39;       ` ,6&quot;Yb.mmMMmm  ,6&quot;Yb.    MM  ,pW&quot;Wq.   .P&quot;Ybmmm MM         8)   MM  MM   8)   MM    MM 6W&#39;   `Wb :MI  I8 MM.         ,pm9MM  MM    ,pm9MM    MM 8M     M8  WmmmP&quot; `Mb.     ,&#39;8M   MM  MM   8M   MM    MM YA.   ,A9 8M `&quot;bmmmd&#39; `Moo9^Yo.`Mbmo`Moo9^Yo..JMML.`Ybmd9&#39;   YMMMMMb 6&#39;     dP Ybmmmd&#39;************************************************ LEGAL DISCLAIMER: https://catalog.works/terms************************************************ ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           :   Catalog Shared Creator Contract
 
 *:   Upgradeable ERC721 Contract, inherits functionality from ERC721Upgradeable. Purpose built for optimization over the Zora V1 contracts. isian (iain nash) of Zora.  ---------------------------------------------------------------------------------------------------------------------    *
 
@@ -55,15 +55,15 @@ function balanceOf(address owner) external view returns (uint256)
 function burn(uint256 _tokenId) external nonpayable
 ```
 
-Burn FunctionBurns a token
+Burns a token, given input tokenId
 
-*burns given tokenId, restrited to owner and creator (when owned)*
+*burns given tokenId, restricted to creator (when owned)*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | uint256 identifier of token to burn
+| _tokenId | uint256 | identifier of token to burn
 
 ### creator
 
@@ -71,7 +71,7 @@ Burn FunctionBurns a token
 function creator(uint256 _tokenId) external view returns (address)
 ```
 
-creator Functiongets the creator of a token
+returns the creator address of a given tokenId
 
 *basic public getter method for creator*
 
@@ -79,13 +79,13 @@ creator Functiongets the creator of a token
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | uint256 identifier of token to get creator for
+| _tokenId | uint256 | identifier of token to get creator for
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | address creator of given tokenId
+| _0 | address | creator address of given tokenId
 
 ### getApproved
 
@@ -115,16 +115,16 @@ function getApproved(uint256 tokenId) external view returns (address)
 function initialize(string _name, string _symbol) external nonpayable
 ```
 
-initialize FunctionInitializes contract with default values, acts as a constructor
+Initializes contract with default values
 
-*Initializes contract with default values, for upgradeable proxy purposes*
+*Contains constructor logic, initializes proxied contract. Must be called upon deployment.*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _name | string | string name of the contract
-| _symbol | string | string symbol of the contract
+| _name | string | name of the contract
+| _symbol | string | symbol of the contract
 
 ### isApprovedForAll
 
@@ -172,7 +172,7 @@ Merkle Root
 function mint(Catalog.TokenData _data, Catalog.ContentData _content, bytes32[] _proof) external nonpayable returns (uint256)
 ```
 
-mint Functionmints a new token
+mints a new token
 
 *mints a new token to allowlisted msg.sender with a valid merkle proof.  Emits a ContentUpdated event to trackcontentURI updates.*
 
@@ -180,15 +180,15 @@ mint Functionmints a new token
 
 | Name | Type | Description |
 |---|---|---|
-| _data | Catalog.TokenData | TokenData struct, containing metadataURI, creator, royaltyPayout, royaltyBPS
-| _content | Catalog.ContentData | ContentData struct, containing contentURI, contentHash.  not stored in memory, only in calldata
-| _proof | bytes32[] | bytes32[] merkle proof of artist wallet.  this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
+| _data | Catalog.TokenData | input TokenData struct, containing metadataURI, creator, royaltyPayout, royaltyBPS
+| _content | Catalog.ContentData | input ContentData struct, containing contentURI, contentHash.  not stored in memory, only in calldata
+| _proof | bytes32[] | merkle proof of artist wallet.  this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | uint256 tokenId of minted token (useful since we are not using Enumerable)
+| _0 | uint256 | tokenId of minted token (useful since we are not using Enumerable)
 
 ### name
 
@@ -246,6 +246,23 @@ function ownerOf(uint256 tokenId) external view returns (address)
 |---|---|---|
 | _0 | address | undefined
 
+### proxiableUUID
+
+```solidity
+function proxiableUUID() external view returns (bytes32)
+```
+
+
+
+*Implementation of the ERC1822 {proxiableUUID} function. This returns the storage slot used by the implementation. It is used to validate that the this implementation remains valid after an upgrade. IMPORTANT: A proxy pointing at a proxiable contract should not be considered proxiable itself, because this risks bricking a proxy that upgrades to it, by delegating to itself until out of gas. Thus it is critical that this function revert if invoked through a proxy. This is guaranteed by the `notDelegated` modifier.*
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | bytes32 | undefined
+
 ### renounceOwnership
 
 ```solidity
@@ -263,7 +280,7 @@ function renounceOwnership() external nonpayable
 function royaltyInfo(uint256 _tokenId, uint256 _salePrice) external view returns (address receiver, uint256 royaltyAmount)
 ```
 
-royaltyInfo Functionoverride function gets royalty information for a token (EIP-2981)
+override function gets royalty information for a token (EIP-2981)
 
 *override, conforms to EIP-2981*
 
@@ -271,8 +288,8 @@ royaltyInfo Functionoverride function gets royalty information for a token (EIP-
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | uint256 token id corresponding to the token of which to get royalty information
-| _salePrice | uint256 | uint256 final sale price of token used to calculate royalty payout
+| _tokenId | uint256 | token id corresponding to the token of which to get royalty information
+| _salePrice | uint256 | final sale price of token used to calculate royalty payout
 
 #### Returns
 
@@ -287,7 +304,7 @@ royaltyInfo Functionoverride function gets royalty information for a token (EIP-
 function royaltyPayoutAddress(uint256 _tokenId) external view returns (address)
 ```
 
-royaltyPayoutAddress Functiongets the address of the royalty payout for a token
+gets the address of the royalty payout for a token
 
 *basic public getter method for royalty payout address *
 
@@ -295,13 +312,13 @@ royaltyPayoutAddress Functiongets the address of the royalty payout for a token
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | uint256 identifier of token to get royalty payout address for
+| _tokenId | uint256 | identifier of token to get royalty payout address for
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | address royalty payout address of given tokenId
+| _0 | address | royalty payout address of given tokenId
 
 ### safeTransferFrom
 
@@ -345,7 +362,7 @@ function setApprovalForAll(address operator, bool approved) external nonpayable
 function supportsInterface(bytes4 interfaceId) external view returns (bool)
 ```
 
-supportsInterface Functionoverride function to check if contract supports an interface
+override function to check if contract supports an interface
 
 *override *
 
@@ -353,7 +370,7 @@ supportsInterface Functionoverride function to check if contract supports an int
 
 | Name | Type | Description |
 |---|---|---|
-| interfaceId | bytes4 | bytes4 id of interface to check
+| interfaceId | bytes4 | id of interface to check
 
 #### Returns
 
@@ -384,7 +401,7 @@ function symbol() external view returns (string)
 function tokenURI(uint256 _tokenId) external view returns (string)
 ```
 
-tokenURI Functionoverride function to get the URI of a token. returns stored metadataURI
+override function to get the URI of a token. returns stored metadataURI
 
 *override function, returns metadataURI of token stored in tokenData*
 
@@ -392,13 +409,13 @@ tokenURI Functionoverride function to get the URI of a token. returns stored met
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | uint256 token id corresponding to the token of which to get metadata from
+| _tokenId | uint256 | token id corresponding to the token of which to get metadata from
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | string containing metadata URI
+| _0 | string | string containing metadata URI (example: &#39;ipfs:///...&#39;)
 
 ### transferFrom
 
@@ -440,7 +457,7 @@ function transferOwnership(address newOwner) external nonpayable
 function updateContentURI(uint256 _tokenId, Catalog.ContentData _content) external nonpayable
 ```
 
-updateContentURI FunctionEmits an event to be used track content updates on a token
+Emits an event to be used track content updates on a token
 
 *access controlled function, restricted to owner/admim.*
 
@@ -448,7 +465,7 @@ updateContentURI FunctionEmits an event to be used track content updates on a to
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | uint256 token id corresponding to the token to update
+| _tokenId | uint256 | token id corresponding to the token to update
 | _content | Catalog.ContentData | struct containing new/updated contentURI and hash.
 
 ### updateCreator
@@ -457,7 +474,7 @@ updateContentURI FunctionEmits an event to be used track content updates on a to
 function updateCreator(uint256 _tokenId, address _creator) external nonpayable
 ```
 
-updateCreator Functionupdates the creator of a token, emits an event
+updates the creator of a token, emits an event
 
 *access controlled function, restricted to owner/admim. used in case of compromised artist wallet.*
 
@@ -465,7 +482,7 @@ updateCreator Functionupdates the creator of a token, emits an event
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | uint256 token id corresponding to the token to update
+| _tokenId | uint256 | token id corresponding to the token to update
 | _creator | address | address new creator of the token
 
 ### updateMetadataURI
@@ -474,7 +491,7 @@ updateCreator Functionupdates the creator of a token, emits an event
 function updateMetadataURI(uint256 _tokenId, string _metadataURI) external nonpayable
 ```
 
-updateMetadataURI Functionupdates the metadata URI of a token, emits an event
+updates the metadata URI of a token, emits an event
 
 *access controlled, restricted to creator of token*
 
@@ -482,7 +499,7 @@ updateMetadataURI Functionupdates the metadata URI of a token, emits an event
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | uint256 token id corresponding to the token to update
+| _tokenId | uint256 | token id corresponding to the token to update
 | _metadataURI | string | string containing new/updated metadata (e.g IPFS URI pointing to metadata.json)
 
 ### updateRoot
@@ -491,7 +508,7 @@ updateMetadataURI Functionupdates the metadata URI of a token, emits an event
 function updateRoot(bytes32 _newRoot) external nonpayable
 ```
 
-updateRoot Functionupdates the merkleroot of the allowlistthis function is inherits from Angela.sol, and may not be necessary depending on role based configuration.
+updates the merkleroot of the allowlistthis function is inherits from Angela.sol, and may not be necessary depending on role based configuration.
 
 *access controlled function, restricted to owner/admim.*
 
@@ -499,7 +516,7 @@ updateRoot Functionupdates the merkleroot of the allowlistthis function is inher
 
 | Name | Type | Description |
 |---|---|---|
-| _newRoot | bytes32 | bytes32 containing the new root hash, generated off-chain
+| _newRoot | bytes32 | containing the new root hash, generated off-chain
 
 ### updateRoyaltyInfo
 
@@ -507,7 +524,7 @@ updateRoot Functionupdates the merkleroot of the allowlistthis function is inher
 function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) external nonpayable
 ```
 
-updateRoyaltyInfo Functionupdates the royalty payout address and royalty BPS of a token, emits an event
+updates the royalty payout address and royalty BPS of a token, emits an event
 
 *access controlled to owner only, subject to change.  this function allows for emergency royalty control (i.e compromised wallet)*
 
@@ -515,7 +532,7 @@ updateRoyaltyInfo Functionupdates the royalty payout address and royalty BPS of 
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | uint256 token id corresponding to the token of which to update royalty payout
+| _tokenId | uint256 | token id corresponding to the token of which to update royalty payout
 | _royaltyPayoutAddress | address | address of new royalty payout address
 
 ### upgradeTo

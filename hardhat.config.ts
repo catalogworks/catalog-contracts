@@ -54,6 +54,24 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
+        version: "0.8.13",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 1000
+          },
+        },
+      },
+      {
+        version: "0.8.11",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200
+          },
+        },
+      },
+      {
         version: "0.8.10",
         settings: {
           optimizer: {
@@ -160,6 +178,12 @@ const config: HardhatUserConfig = {
     },
     goerli: {
       url: node_url('goerli'),
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('goerli'),
+      blockGasLimit: 10000000,
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
+    },
+    ropsten: {
+      url: node_url('ropsten'),
       accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('goerli'),
       blockGasLimit: 10000000,
       etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
