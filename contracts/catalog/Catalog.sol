@@ -61,7 +61,7 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     /// @param creator Address of the creator
     /// @param royaltyPayout payout address for royalties (EIP2981)
     /// @param royaltyBPS royalty percentage (in basis points)
-    /// @dev This struct is used to store the readable properties of a Catalog NFT
+    /// @dev this struct is used to store the readable properties of a Catalog NFT
     struct TokenData {
         string metadataURI;
         address creator;
@@ -72,7 +72,7 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     /// @notice Calldata struct for input ContentData
     /// @param contentURI URI of the content (ipfs://)
     /// @param contentHash SHA256 hash of the content
-    /// @dev This struct is not stored in storage, only used to emit events via input calldata
+    /// @dev this struct is not stored in storage, only used to emit events via input calldata
     struct ContentData {
         string contentURI;
         bytes32 contentHash;
@@ -93,7 +93,7 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         @notice Initializes contract with default values
         @param _name name of the contract
         @param _symbol symbol of the contract
-        @dev Contains constructor logic, initializes proxied contract. Must be called upon deployment.
+        @dev contains constructor logic, initializes proxied contract. must be called upon deployment.
      */
     function initialize(string memory _name, string memory _symbol) public initializer {
         __ERC721_init(_name, _symbol);
@@ -165,10 +165,10 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     //////////////////////////////////////////////////////////////*/
 
     /**
-        @notice Emits an event to be used track content updates on a token
+        @notice Emits an event to be used to track content updates on a token
         @param _tokenId token id corresponding to the token to update
         @param _content struct containing new/updated contentURI and hash.
-        @dev access controlled function, restricted to owner/admim. 
+        @dev access controlled function, restricted to owner/admin. 
      */
     function updateContentURI(uint256 _tokenId, ContentData calldata _content) external onlyOwner {
         emit ContentUpdated(_tokenId, _content.contentHash, _content.contentURI);
@@ -178,7 +178,7 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
         @notice updates the creator of a token, emits an event
         @param _tokenId token id corresponding to the token to update
         @param _creator address new creator of the token
-        @dev access controlled function, restricted to owner/admim. used in case of compromised artist wallet.
+        @dev access controlled function, restricted to owner/admin. used in case of compromised artist wallet.
      */
     function updateCreator(uint256 _tokenId, address _creator) external onlyOwner {
         emit CreatorUpdated(_tokenId, _creator);
@@ -186,9 +186,9 @@ contract Catalog is ERC721Upgradeable, IERC2981Upgradeable, OwnableUpgradeable, 
     }
 
     /**
-        @notice updates the merkleroot of the allowlist
+        @notice updates the merkle root of the allowlist
         @param _newRoot containing the new root hash, generated off-chain
-        @dev access controlled function, restricted to owner/admim.
+        @dev access controlled function, restricted to owner/admin.
      */
     function updateRoot(bytes32 _newRoot) external onlyOwner {
         emit MerkleRootUpdated(_newRoot);

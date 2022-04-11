@@ -117,7 +117,7 @@ function initialize(string _name, string _symbol) external nonpayable
 
 Initializes contract with default values
 
-*Contains constructor logic, initializes proxied contract. Must be called upon deployment.*
+*contains constructor logic, initializes proxied contract. must be called upon deployment.*
 
 #### Parameters
 
@@ -494,7 +494,7 @@ function updateCreator(uint256 _tokenId, address _creator) external nonpayable
 
 updates the creator of a token, emits an event
 
-*access controlled function, restricted to owner/admim. used in case of compromised artist wallet.*
+*access controlled function, restricted to owner/admin. used in case of compromised artist wallet.*
 
 #### Parameters
 
@@ -526,9 +526,9 @@ updates the metadata URI of a token, emits an event
 function updateRoot(bytes32 _newRoot) external nonpayable
 ```
 
-updates the merkleroot of the allowlist
+updates the merkle root of the allowlist
 
-*access controlled function, restricted to owner/admim.*
+*access controlled function, restricted to owner/admin.*
 
 #### Parameters
 

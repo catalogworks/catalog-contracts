@@ -147,7 +147,6 @@ const config: HardhatUserConfig = {
     },
     localhost: {
       url: node_url('localhost'),
-      // why use two line when one line do job
       accounts: process.env.DEPLOYER ?  [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('localhost'),
     },
     staging: {
@@ -162,7 +161,7 @@ const config: HardhatUserConfig = {
     },
     mainnet: {
       url: node_url('mainnet'),
-      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('mainnet'),
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY_RINKEBY_DEPLOYER}`, `${process.env.PRIVATE_KEY_RINKEBY_DEPLOYER}`] : accounts('mainnet'),
       etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
     },
     rinkeby: {

@@ -6,7 +6,7 @@ async function main() {
     const CatalogContract = await ethers.getContractFactory('Catalog');
     const catalog = await upgrades.deployProxy(
         CatalogContract,
-        ['Catalog', 'CatalogNFT'],
+        ['Catalog', 'RECORD'],
         {
             kind: 'uups',
         }
