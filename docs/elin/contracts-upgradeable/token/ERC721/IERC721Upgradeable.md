@@ -1,12 +1,12 @@
-# IERC721MetadataUpgradeable
+# IERC721Upgradeable
 
 
 
-> ERC-721 Non-Fungible Token Standard, optional metadata extension
 
 
 
-*See https://eips.ethereum.org/EIPS/eip-721*
+
+*Required interface of an ERC721 compliant contract.*
 
 ## Methods
 
@@ -24,8 +24,8 @@ function approve(address to, uint256 tokenId) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| to | address | undefined
-| tokenId | uint256 | undefined
+| to | address | undefined |
+| tokenId | uint256 | undefined |
 
 ### balanceOf
 
@@ -41,13 +41,13 @@ function balanceOf(address owner) external view returns (uint256 balance)
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | undefined
+| owner | address | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| balance | uint256 | undefined
+| balance | uint256 | undefined |
 
 ### getApproved
 
@@ -63,13 +63,13 @@ function getApproved(uint256 tokenId) external view returns (address operator)
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | undefined
+| tokenId | uint256 | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| operator | address | undefined
+| operator | address | undefined |
 
 ### isApprovedForAll
 
@@ -85,31 +85,14 @@ function isApprovedForAll(address owner, address operator) external view returns
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | undefined
-| operator | address | undefined
+| owner | address | undefined |
+| operator | address | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bool | undefined
-
-### name
-
-```solidity
-function name() external view returns (string)
-```
-
-
-
-*Returns the token collection name.*
-
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | string | undefined
+| _0 | bool | undefined |
 
 ### ownerOf
 
@@ -125,13 +108,31 @@ function ownerOf(uint256 tokenId) external view returns (address owner)
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | undefined
+| tokenId | uint256 | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | undefined
+| owner | address | undefined |
+
+### safeTransferFrom
+
+```solidity
+function safeTransferFrom(address from, address to, uint256 tokenId) external nonpayable
+```
+
+
+
+*Safely transfers `tokenId` token from `from` to `to`, checking first that contract recipients are aware of the ERC721 protocol to prevent tokens from being forever locked. Requirements: - `from` cannot be the zero address. - `to` cannot be the zero address. - `tokenId` token must exist and be owned by `from`. - If the caller is not `from`, it must be have been allowed to move this token by either {approve} or {setApprovalForAll}. - If `to` refers to a smart contract, it must implement {IERC721Receiver-onERC721Received}, which is called upon a safe transfer. Emits a {Transfer} event.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| from | address | undefined |
+| to | address | undefined |
+| tokenId | uint256 | undefined |
 
 ### safeTransferFrom
 
@@ -147,10 +148,10 @@ function safeTransferFrom(address from, address to, uint256 tokenId, bytes data)
 
 | Name | Type | Description |
 |---|---|---|
-| from | address | undefined
-| to | address | undefined
-| tokenId | uint256 | undefined
-| data | bytes | undefined
+| from | address | undefined |
+| to | address | undefined |
+| tokenId | uint256 | undefined |
+| data | bytes | undefined |
 
 ### setApprovalForAll
 
@@ -166,8 +167,8 @@ function setApprovalForAll(address operator, bool _approved) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| operator | address | undefined
-| _approved | bool | undefined
+| operator | address | undefined |
+| _approved | bool | undefined |
 
 ### supportsInterface
 
@@ -183,52 +184,13 @@ function supportsInterface(bytes4 interfaceId) external view returns (bool)
 
 | Name | Type | Description |
 |---|---|---|
-| interfaceId | bytes4 | undefined
+| interfaceId | bytes4 | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bool | undefined
-
-### symbol
-
-```solidity
-function symbol() external view returns (string)
-```
-
-
-
-*Returns the token collection symbol.*
-
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | string | undefined
-
-### tokenURI
-
-```solidity
-function tokenURI(uint256 tokenId) external view returns (string)
-```
-
-
-
-*Returns the Uniform Resource Identifier (URI) for `tokenId` token.*
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| tokenId | uint256 | undefined
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | string | undefined
+| _0 | bool | undefined |
 
 ### transferFrom
 
@@ -244,9 +206,9 @@ function transferFrom(address from, address to, uint256 tokenId) external nonpay
 
 | Name | Type | Description |
 |---|---|---|
-| from | address | undefined
-| to | address | undefined
-| tokenId | uint256 | undefined
+| from | address | undefined |
+| to | address | undefined |
+| tokenId | uint256 | undefined |
 
 
 
@@ -260,7 +222,7 @@ event Approval(address indexed owner, address indexed approved, uint256 indexed 
 
 
 
-
+*Emitted when `owner` enables `approved` to manage the `tokenId` token.*
 
 #### Parameters
 
@@ -278,7 +240,7 @@ event ApprovalForAll(address indexed owner, address indexed operator, bool appro
 
 
 
-
+*Emitted when `owner` enables or disables (`approved`) `operator` to manage all of its assets.*
 
 #### Parameters
 
@@ -296,7 +258,7 @@ event Transfer(address indexed from, address indexed to, uint256 indexed tokenId
 
 
 
-
+*Emitted when `tokenId` token is transferred from `from` to `to`.*
 
 #### Parameters
 

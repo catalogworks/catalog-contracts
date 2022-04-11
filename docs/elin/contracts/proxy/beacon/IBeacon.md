@@ -1,4 +1,4 @@
-# IBeaconUpgradeable
+# IBeacon
 
 
 
@@ -25,7 +25,7 @@ function implementation() external view returns (address)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined
+| _0 | address | undefined |
 
 
 

@@ -4,9 +4,9 @@
 
 > :   Catalog
 
--------------------------------------------------------------------------------------------------------------------- ,, .g8&quot;&quot;&quot;bgd         mm            `7MM .dP&#39;     `M         MM              MM dM&#39;       ` ,6&quot;Yb.mmMMmm  ,6&quot;Yb.    MM  ,pW&quot;Wq.   .P&quot;Ybmmm MM         8)   MM  MM   8)   MM    MM 6W&#39;   `Wb :MI  I8 MM.         ,pm9MM  MM    ,pm9MM    MM 8M     M8  WmmmP&quot; `Mb.     ,&#39;8M   MM  MM   8M   MM    MM YA.   ,A9 8M `&quot;bmmmd&#39; `Moo9^Yo.`Mbmo`Moo9^Yo..JMML.`Ybmd9&#39;   YMMMMMb 6&#39;     dP Ybmmmd&#39;************************************************ LEGAL DISCLAIMER: https://catalog.works/terms************************************************ ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           :   Catalog Shared Creator Contract
+-------------------------------------------------------------------------------------------------------------------- ,, .g8&quot;&quot;&quot;bgd         mm            `7MM .dP&#39;     `M         MM              MM dM&#39;       ` ,6&quot;Yb.mmMMmm  ,6&quot;Yb.    MM  ,pW&quot;Wq.   .P&quot;Ybmmm MM         8)   MM  MM   8)   MM    MM 6W&#39;   `Wb :MI  I8 MM.         ,pm9MM  MM    ,pm9MM    MM 8M     M8  WmmmP&quot; `Mb.     ,&#39;8M   MM  MM   8M   MM    MM YA.   ,A9 8M `&quot;bmmmd&#39; `Moo9^Yo.`Mbmo`Moo9^Yo..JMML.`Ybmd9&#39;   YMMMMMb 6&#39;     dP Ybmmmd&#39;************************************************ LEGAL DISCLAIMER: https://catalog.works/terms************************************************ ---------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                           :   The Catalog Shared Creator Contract is an upgradeable ERC721 contract, purpose built  to facilitate the creation of Catalog records.
 
-*:   Upgradeable ERC721 Contract, inherits functionality from ERC721Upgradeable. Purpose built for optimization over the Zora V1 contracts. isian (iain nash) of Zora.  ---------------------------------------------------------------------------------------------------------------------    *
+*:   Upgradeable ERC721 Contract, inherits functionality from ERC721Upgradeable.  This contract conforms to the EIP-2981 NFT Royalty Standard. ---------------------------------------------------------------------------------------------------------------------    *
 
 ## Methods
 
@@ -24,8 +24,8 @@ function approve(address to, uint256 tokenId) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| to | address | undefined
-| tokenId | uint256 | undefined
+| to | address | undefined |
+| tokenId | uint256 | undefined |
 
 ### balanceOf
 
@@ -41,13 +41,13 @@ function balanceOf(address owner) external view returns (uint256)
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | undefined
+| owner | address | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined
+| _0 | uint256 | undefined |
 
 ### burn
 
@@ -63,7 +63,7 @@ Burns a token, given input tokenId
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | identifier of token to burn
+| _tokenId | uint256 | identifier of token to burn |
 
 ### creator
 
@@ -71,7 +71,7 @@ Burns a token, given input tokenId
 function creator(uint256 _tokenId) external view returns (address)
 ```
 
-returns the creator address of a given tokenId
+gets the creator address of a given tokenId
 
 *basic public getter method for creator*
 
@@ -79,13 +79,13 @@ returns the creator address of a given tokenId
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | identifier of token to get creator for
+| _tokenId | uint256 | identifier of token to get creator for |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | creator address of given tokenId
+| _0 | address | creator address of given tokenId |
 
 ### getApproved
 
@@ -101,13 +101,13 @@ function getApproved(uint256 tokenId) external view returns (address)
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | undefined
+| tokenId | uint256 | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined
+| _0 | address | undefined |
 
 ### initialize
 
@@ -123,8 +123,8 @@ Initializes contract with default values
 
 | Name | Type | Description |
 |---|---|---|
-| _name | string | name of the contract
-| _symbol | string | symbol of the contract
+| _name | string | name of the contract |
+| _symbol | string | symbol of the contract |
 
 ### isApprovedForAll
 
@@ -140,14 +140,14 @@ function isApprovedForAll(address owner, address operator) external view returns
 
 | Name | Type | Description |
 |---|---|---|
-| owner | address | undefined
-| operator | address | undefined
+| owner | address | undefined |
+| operator | address | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bool | undefined
+| _0 | bool | undefined |
 
 ### merkleRoot
 
@@ -164,7 +164,7 @@ Merkle Root
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bytes32 | undefined
+| _0 | bytes32 | undefined |
 
 ### mint
 
@@ -172,23 +172,23 @@ Merkle Root
 function mint(Catalog.TokenData _data, Catalog.ContentData _content, bytes32[] _proof) external nonpayable returns (uint256)
 ```
 
-mints a new token
 
-*mints a new token to allowlisted msg.sender with a valid merkle proof.  Emits a ContentUpdated event to trackcontentURI updates.*
+
+
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _data | Catalog.TokenData | input TokenData struct, containing metadataURI, creator, royaltyPayout, royaltyBPS
-| _content | Catalog.ContentData | input ContentData struct, containing contentURI, contentHash.  not stored in memory, only in calldata
-| _proof | bytes32[] | merkle proof of artist wallet.  this is created off-chain.  e.g (proof = tree.getHexProof(keccak256(address)))
+| _data | Catalog.TokenData | undefined |
+| _content | Catalog.ContentData | undefined |
+| _proof | bytes32[] | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | tokenId of minted token (useful since we are not using Enumerable)
+| _0 | uint256 | undefined |
 
 ### name
 
@@ -205,7 +205,7 @@ function name() external view returns (string)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | undefined
+| _0 | string | undefined |
 
 ### owner
 
@@ -222,7 +222,7 @@ function owner() external view returns (address)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined
+| _0 | address | undefined |
 
 ### ownerOf
 
@@ -238,13 +238,13 @@ function ownerOf(uint256 tokenId) external view returns (address)
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | undefined
+| tokenId | uint256 | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined
+| _0 | address | undefined |
 
 ### proxiableUUID
 
@@ -261,7 +261,7 @@ function proxiableUUID() external view returns (bytes32)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bytes32 | undefined
+| _0 | bytes32 | undefined |
 
 ### renounceOwnership
 
@@ -282,21 +282,21 @@ function royaltyInfo(uint256 _tokenId, uint256 _salePrice) external view returns
 
 override function gets royalty information for a token (EIP-2981)
 
-*override, conforms to EIP-2981*
+*conforms to EIP-2981*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | token id corresponding to the token of which to get royalty information
-| _salePrice | uint256 | final sale price of token used to calculate royalty payout
+| _tokenId | uint256 | token id corresponding to the token of which to get royalty information |
+| _salePrice | uint256 | final sale price of token used to calculate royalty payout |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| receiver | address | undefined
-| royaltyAmount | uint256 | undefined
+| receiver | address | undefined |
+| royaltyAmount | uint256 | undefined |
 
 ### royaltyPayoutAddress
 
@@ -304,7 +304,7 @@ override function gets royalty information for a token (EIP-2981)
 function royaltyPayoutAddress(uint256 _tokenId) external view returns (address)
 ```
 
-gets the address of the royalty payout for a token
+gets the address for the royalty payout of a token/record
 
 *basic public getter method for royalty payout address *
 
@@ -312,13 +312,31 @@ gets the address of the royalty payout for a token
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | identifier of token to get royalty payout address for
+| _tokenId | uint256 | identifier of token to get royalty payout address for |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | royalty payout address of given tokenId
+| _0 | address | royalty payout address of given tokenId |
+
+### safeTransferFrom
+
+```solidity
+function safeTransferFrom(address from, address to, uint256 tokenId) external nonpayable
+```
+
+
+
+*See {IERC721-safeTransferFrom}.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| from | address | undefined |
+| to | address | undefined |
+| tokenId | uint256 | undefined |
 
 ### safeTransferFrom
 
@@ -334,10 +352,10 @@ function safeTransferFrom(address from, address to, uint256 tokenId, bytes _data
 
 | Name | Type | Description |
 |---|---|---|
-| from | address | undefined
-| to | address | undefined
-| tokenId | uint256 | undefined
-| _data | bytes | undefined
+| from | address | undefined |
+| to | address | undefined |
+| tokenId | uint256 | undefined |
+| _data | bytes | undefined |
 
 ### setApprovalForAll
 
@@ -353,8 +371,8 @@ function setApprovalForAll(address operator, bool approved) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| operator | address | undefined
-| approved | bool | undefined
+| operator | address | undefined |
+| approved | bool | undefined |
 
 ### supportsInterface
 
@@ -362,21 +380,21 @@ function setApprovalForAll(address operator, bool approved) external nonpayable
 function supportsInterface(bytes4 interfaceId) external view returns (bool)
 ```
 
-override function to check if contract supports an interface
+override function to check if contract supports given interface
 
-*override *
+*Returns true if this contract implements the interface defined by `interfaceId`. See the corresponding https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] to learn more about how these ids are created. This function call must use less than 30 000 gas.*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| interfaceId | bytes4 | id of interface to check
+| interfaceId | bytes4 | id of interface to check |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bool | undefined
+| _0 | bool | undefined |
 
 ### symbol
 
@@ -393,7 +411,7 @@ function symbol() external view returns (string)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | undefined
+| _0 | string | undefined |
 
 ### tokenURI
 
@@ -401,7 +419,7 @@ function symbol() external view returns (string)
 function tokenURI(uint256 _tokenId) external view returns (string)
 ```
 
-override function to get the URI of a token. returns stored metadataURI
+override function to get the URI of a token. 
 
 *override function, returns metadataURI of token stored in tokenData*
 
@@ -409,13 +427,13 @@ override function to get the URI of a token. returns stored metadataURI
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | token id corresponding to the token of which to get metadata from
+| _tokenId | uint256 | token id corresponding to the token of which to get metadata from |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | string | string containing metadata URI (example: &#39;ipfs:///...&#39;)
+| _0 | string | string containing metadata URI (example: &#39;ipfs:///...&#39;) |
 
 ### transferFrom
 
@@ -431,9 +449,9 @@ function transferFrom(address from, address to, uint256 tokenId) external nonpay
 
 | Name | Type | Description |
 |---|---|---|
-| from | address | undefined
-| to | address | undefined
-| tokenId | uint256 | undefined
+| from | address | undefined |
+| to | address | undefined |
+| tokenId | uint256 | undefined |
 
 ### transferOwnership
 
@@ -449,7 +467,7 @@ function transferOwnership(address newOwner) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| newOwner | address | undefined
+| newOwner | address | undefined |
 
 ### updateContentURI
 
@@ -457,16 +475,16 @@ function transferOwnership(address newOwner) external nonpayable
 function updateContentURI(uint256 _tokenId, Catalog.ContentData _content) external nonpayable
 ```
 
-Emits an event to be used track content updates on a token
 
-*access controlled function, restricted to owner/admim.*
+
+
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | token id corresponding to the token to update
-| _content | Catalog.ContentData | struct containing new/updated contentURI and hash.
+| _tokenId | uint256 | undefined |
+| _content | Catalog.ContentData | undefined |
 
 ### updateCreator
 
@@ -482,8 +500,8 @@ updates the creator of a token, emits an event
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | token id corresponding to the token to update
-| _creator | address | address new creator of the token
+| _tokenId | uint256 | token id corresponding to the token to update |
+| _creator | address | address new creator of the token |
 
 ### updateMetadataURI
 
@@ -499,8 +517,8 @@ updates the metadata URI of a token, emits an event
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | token id corresponding to the token to update
-| _metadataURI | string | string containing new/updated metadata (e.g IPFS URI pointing to metadata.json)
+| _tokenId | uint256 | token id corresponding to the token to update |
+| _metadataURI | string | string containing new/updated metadata (e.g IPFS URI pointing to metadata.json) |
 
 ### updateRoot
 
@@ -508,7 +526,7 @@ updates the metadata URI of a token, emits an event
 function updateRoot(bytes32 _newRoot) external nonpayable
 ```
 
-updates the merkleroot of the allowlistthis function is inherits from Angela.sol, and may not be necessary depending on role based configuration.
+updates the merkleroot of the allowlist
 
 *access controlled function, restricted to owner/admim.*
 
@@ -516,7 +534,7 @@ updates the merkleroot of the allowlistthis function is inherits from Angela.sol
 
 | Name | Type | Description |
 |---|---|---|
-| _newRoot | bytes32 | containing the new root hash, generated off-chain
+| _newRoot | bytes32 | containing the new root hash, generated off-chain |
 
 ### updateRoyaltyInfo
 
@@ -526,14 +544,14 @@ function updateRoyaltyInfo(uint256 _tokenId, address _royaltyPayoutAddress) exte
 
 updates the royalty payout address and royalty BPS of a token, emits an event
 
-*access controlled to owner only, subject to change.  this function allows for emergency royalty control (i.e compromised wallet)*
+*access controlled to owner only. this function allows for emergency royalty control (i.e compromised wallet)*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | token id corresponding to the token of which to update royalty payout
-| _royaltyPayoutAddress | address | address of new royalty payout address
+| _tokenId | uint256 | token id corresponding to the token of which to update royalty payout |
+| _royaltyPayoutAddress | address | address of new royalty payout address |
 
 ### upgradeTo
 
@@ -549,7 +567,7 @@ function upgradeTo(address newImplementation) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| newImplementation | address | undefined
+| newImplementation | address | undefined |
 
 ### upgradeToAndCall
 
@@ -565,8 +583,8 @@ function upgradeToAndCall(address newImplementation, bytes data) external payabl
 
 | Name | Type | Description |
 |---|---|---|
-| newImplementation | address | undefined
-| data | bytes | undefined
+| newImplementation | address | undefined |
+| data | bytes | undefined |
 
 
 

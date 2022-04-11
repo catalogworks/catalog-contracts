@@ -25,7 +25,7 @@ function proxiableUUID() external view returns (bytes32)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bytes32 | undefined
+| _0 | bytes32 | undefined |
 
 
 
