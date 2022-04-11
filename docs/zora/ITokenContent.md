@@ -24,13 +24,13 @@ function content(uint256 tokenId) external nonpayable returns (struct ContentDat
 
 | Name | Type | Description |
 |---|---|---|
-| tokenId | uint256 | token id to retrieve content for
+| tokenId | uint256 | token id to retrieve content for |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | ContentData | ContentData struct of content information
+| _0 | ContentData | ContentData struct of content information |
 
 
 

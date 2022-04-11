@@ -25,7 +25,7 @@ function proxiableUUID() external view returns (bytes32)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bytes32 | undefined
+| _0 | bytes32 | undefined |
 
 ### upgradeTo
 
@@ -41,7 +41,7 @@ function upgradeTo(address newImplementation) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| newImplementation | address | undefined
+| newImplementation | address | undefined |
 
 ### upgradeToAndCall
 
@@ -57,8 +57,8 @@ function upgradeToAndCall(address newImplementation, bytes data) external payabl
 
 | Name | Type | Description |
 |---|---|---|
-| newImplementation | address | undefined
-| data | bytes | undefined
+| newImplementation | address | undefined |
+| data | bytes | undefined |
 
 
 

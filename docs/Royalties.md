@@ -24,14 +24,14 @@ Mappings
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined
+| _0 | uint256 | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| royaltyBPS | uint256 | undefined
-| royaltyReceiver | address | undefined
+| royaltyBPS | uint256 | undefined |
+| royaltyReceiver | address | undefined |
 
 ### royaltyInfo
 
@@ -47,15 +47,15 @@ called w/ sale price to determine royalties owed
 
 | Name | Type | Description |
 |---|---|---|
-| _tokenId | uint256 | undefined
-| _salePrice | uint256 | undefined
+| _tokenId | uint256 | undefined |
+| _salePrice | uint256 | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _royaltyReceiver | address | undefined
-| _royaltyAmount | uint256 | undefined
+| _royaltyReceiver | address | undefined |
+| _royaltyAmount | uint256 | undefined |
 
 ### supportsInterface
 
@@ -71,13 +71,13 @@ function supportsInterface(bytes4 _interfaceId) external view returns (bool)
 
 | Name | Type | Description |
 |---|---|---|
-| _interfaceId | bytes4 | undefined
+| _interfaceId | bytes4 | undefined |
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bool | undefined
+| _0 | bool | undefined |
 
 
 

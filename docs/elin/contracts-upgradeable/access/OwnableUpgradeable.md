@@ -25,7 +25,7 @@ function owner() external view returns (address)
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined
+| _0 | address | undefined |
 
 ### renounceOwnership
 
@@ -52,7 +52,7 @@ function transferOwnership(address newOwner) external nonpayable
 
 | Name | Type | Description |
 |---|---|---|
-| newOwner | address | undefined
+| newOwner | address | undefined |
 
 
 
