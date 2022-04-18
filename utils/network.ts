@@ -1,4 +1,4 @@
-// config util for hardhat-deploy, helps manage enviroments
+// config util for hardhat-deploy, helps manage env
 
 import 'dotenv/config';
 
