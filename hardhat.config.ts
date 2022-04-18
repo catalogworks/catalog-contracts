@@ -193,9 +193,9 @@ const config: HardhatUserConfig = {
     sepolia: {
       url: node_url('sepolia'),
       accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY_RINKEBY_DEPLOYER}`, `${process.env.PRIVATE_KEY_RINKEBY_DEPLOYER}`] : accounts('sepolia'),
-      blockGasLimit: 10000000,
       etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
       chainId: 11155111,
+      gasPrice: 'auto'
     }
   },
 

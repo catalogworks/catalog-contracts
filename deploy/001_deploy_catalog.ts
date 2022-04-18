@@ -27,7 +27,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             },
         },
         log: true,
-        autoMine: true, // speeds deployment on local network. no effect on testnet/mainnet
+        autoMine: false, // speeds deployment on local network. no effect on testnet/mainnet
     });
 
     if (deployCatalogUUPS && deployCatalogUUPS.newlyDeployed) {
