@@ -44,7 +44,6 @@ if (process.env.DEPLOYER) {
   console.log('\x1b[34m','DEPLOYER flag is set to true, using private keys from .env...','\x1b[0m');
 }
 
-const forkBool = (process.env.HARDHAT_DEPLOY_FORK ? true : false);
 
 
 // SET 'process.env.DEPLOYER = TRUE' TO USE PRIVATE KEY ACCOUNTS STORED IN .env
@@ -109,6 +108,8 @@ const config: HardhatUserConfig = {
       default:0,
       // Rinkeby Catalog MultiSig
       4:'0xDD382e505E92cA8d8575B01593e510Baf74B7566',
+      // Mainnet Catalog MultiSig
+      1: '0x489E043540ff11eC22226CA0a6f6F8e3040c7b5A'
     }
   },
 
@@ -177,9 +178,10 @@ const config: HardhatUserConfig = {
     },
     goerli: {
       url: node_url('goerli'),
-      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY}`, `${process.env.PRIVATE_KEY_OWNER}`] : accounts('goerli'),
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY_RINKEBY_DEPLOYER}`, `${process.env.PRIVATE_KEY_RINKEBY_DEPLOYER}`] : accounts('goerli'),
       blockGasLimit: 10000000,
       etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
+      chainId: 5,
     },
     ropsten: {
       url: node_url('ropsten'),
@@ -187,6 +189,14 @@ const config: HardhatUserConfig = {
       blockGasLimit: 10000000,
       etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
     },
+    // NOTE: Sepolia Testnet does not have public RPC endpoints available yet. This is used with a local node.
+    sepolia: {
+      url: node_url('sepolia'),
+      accounts: process.env.DEPLOYER ? [`${process.env.PRIVATE_KEY_RINKEBY_DEPLOYER}`, `${process.env.PRIVATE_KEY_RINKEBY_DEPLOYER}`] : accounts('sepolia'),
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY },
+      chainId: 11155111,
+      gasPrice: 'auto'
+    }
   },
 
   paths: {

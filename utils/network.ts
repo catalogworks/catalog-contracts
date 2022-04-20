@@ -1,4 +1,4 @@
-// config util for hardhat-deploy, helps manage enviroments
+// config util for hardhat-deploy, helps manage env
 
 import 'dotenv/config';
 
@@ -11,7 +11,7 @@ export function node_url(networkName: string): string {
         }
     }
 
-    if (networkName === 'localhost') {
+    if (networkName === 'localhost' || networkName === 'sepolia') {
         // don't use ETH_NODE_URI
         return 'http://localhost:8545';
     }
