@@ -222,3 +222,11 @@ yarn lint:fix
 ## Contract Legal
 
 [https://catalog.works/terms](http://catalog.works/terms)
+
+## Security
+
+[SECURITY.md](SECURITY.md)
+
+## Contributing
+
+[CONTRIBUTING.md](CONTRIBUTING.md)
