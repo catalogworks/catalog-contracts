@@ -37,3 +37,7 @@ metadata.json
 gasReporterOutput.json
 inputmetadata2.json
 inputmetadata2.json
+
+# codespaces
+.devcontainer
+.devcontainer/
