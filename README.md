@@ -23,8 +23,9 @@ EVM hardhat environment smart contract development project.
 ## Info
 
 Current Implementation of Catalog Shared Creator Contract (cNFT):
-[Catalog.sol](./contracts/catalog/Catalog.sol)
-[Docs](./docs/Catalog.md)
+
+- [Catalog.sol](./contracts/catalog/Catalog.sol)
+- [Docs](./docs/catalog/Catalog.md)
 
 ---
 
